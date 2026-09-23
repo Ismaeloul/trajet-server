@@ -1,0 +1,1116 @@
+{
+ "Siri": {
+  "ServiceDelivery": {
+   "ResponseTimestamp": "2026-09-23T23:33:42.577Z",
+   "ProducerRef": "IVTR_HET",
+   "ResponseMessageIdentifier": "IVTR_HET:ResponseMessage:8755ea49-2101-4c26-8b5a-7226816fe6d1:LOC:",
+   "StopMonitoringDelivery": [
+    {
+     "ResponseTimestamp": "2026-09-23T23:33:42.715Z",
+     "Version": "2.0",
+     "Status": "true",
+     "MonitoredStopVisit": [
+      {
+       "RecordedAtTime": "2026-09-23T23:23:39.533Z",
+       "ItemIdentifier": "033_KABS:Item::SIRI329201340:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:7481:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C00297:"
+        },
+        "OperatorRef": {
+         "value": "033_KABS:Operator::KABS:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "033_KABS:DataFrame::21:LOC"
+         },
+         "DatedVehicleJourneyRef": "033_KABS:VehicleJourney::6084914:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Aller"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:427944:"
+        },
+        "DestinationName": [
+         {
+          "value": "Bérionne"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [
+         {
+          "value": "L6403P18"
+         }
+        ],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare d'Argenteuil"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [],
+         "ExpectedDepartureTime": "2026-09-23T23:46:22.000Z",
+         "DepartureStatus": "noReport",
+         "Order": 1,
+         "AimedDepartureTime": "2026-09-23T23:24:00.000Z",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": []
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:23:39.533Z",
+       "ItemIdentifier": "033_KABS:Item::SIRI329200881:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:7481:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C00297:"
+        },
+        "OperatorRef": {
+         "value": "033_KABS:Operator::KABS:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "033_KABS:DataFrame::21:LOC"
+         },
+         "DatedVehicleJourneyRef": "033_KABS:VehicleJourney::6084879:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Aller"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:427944:"
+        },
+        "DestinationName": [
+         {
+          "value": "Bérionne"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [
+         {
+          "value": "L6403P18"
+         }
+        ],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare d'Argenteuil"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [],
+         "ExpectedDepartureTime": "2026-09-23T23:47:08.000Z",
+         "DepartureStatus": "noReport",
+         "Order": 1,
+         "AimedDepartureTime": "2026-09-23T08:12:00.000Z",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": []
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:23:39.533Z",
+       "ItemIdentifier": "033_KABS:Item::SIRI329200953:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:7481:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C00297:"
+        },
+        "OperatorRef": {
+         "value": "033_KABS:Operator::KABS:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "033_KABS:DataFrame::21:LOC"
+         },
+         "DatedVehicleJourneyRef": "033_KABS:VehicleJourney::6084930:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Aller"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:427944:"
+        },
+        "DestinationName": [
+         {
+          "value": "Bérionne"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [
+         {
+          "value": "L6403P18"
+         }
+        ],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare d'Argenteuil"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [],
+         "ExpectedDepartureTime": "2026-09-24T01:14:25.000Z",
+         "DepartureStatus": "noReport",
+         "Order": 1,
+         "AimedDepartureTime": "2026-09-23T11:00:00.000Z",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": []
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:23:39.533Z",
+       "ItemIdentifier": "033_KABS:Item::SIRI329200998:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:7481:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C00297:"
+        },
+        "OperatorRef": {
+         "value": "033_KABS:Operator::KABS:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "033_KABS:DataFrame::21:LOC"
+         },
+         "DatedVehicleJourneyRef": "033_KABS:VehicleJourney::6085130:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Aller"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:427944:"
+        },
+        "DestinationName": [
+         {
+          "value": "Bérionne"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [
+         {
+          "value": "L6403P18"
+         }
+        ],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare d'Argenteuil"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [],
+         "ExpectedDepartureTime": "2026-09-24T01:57:55.000Z",
+         "DepartureStatus": "noReport",
+         "Order": 1,
+         "AimedDepartureTime": "2026-09-23T12:36:00.000Z",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": []
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:28:33.000Z",
+       "ItemIdentifier": "033_KABS:Item::SIRI329201339:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:5079:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C00297:"
+        },
+        "OperatorRef": {
+         "value": "033_KABS:Operator::KABS:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "033_KABS:DataFrame::21:LOC"
+         },
+         "DatedVehicleJourneyRef": "033_KABS:VehicleJourney::6085003:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Retour"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:5079:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare d'Argenteuil"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [
+         {
+          "value": "L6403P17"
+         }
+        ],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare d'Argenteuil"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [],
+         "ExpectedArrivalTime": "2026-09-23T23:46:17.000Z",
+         "DepartureStatus": "",
+         "Order": 23,
+         "AimedArrivalTime": "2026-09-23T23:11:00.000Z",
+         "ArrivalStatus": "noReport"
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": []
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:32:39.822Z",
+       "ItemIdentifier": "033_KABS:Item::SIRI329173922:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:5079:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C00312:"
+        },
+        "OperatorRef": {
+         "value": "033_KABS:Operator::KABS:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "033_KABS:DataFrame::21:LOC"
+         },
+         "DatedVehicleJourneyRef": "033_KABS:VehicleJourney::5978318:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Retour"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:5079:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare d'Argenteuil"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [
+         {
+          "value": "L6402P9"
+         }
+        ],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare d'Argenteuil"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [],
+         "ExpectedArrivalTime": "2026-09-23T23:47:07.000Z",
+         "DepartureStatus": "",
+         "Order": 17,
+         "AimedArrivalTime": "2026-09-23T23:48:00.000Z",
+         "ArrivalStatus": "onTime"
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": []
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T10:02:39.852Z",
+       "ItemIdentifier": "SNCF_MAGENTA_PRD:Item::27031-8-91c0d6d2-ba16-4c5c-bbc1-08e86c62ce62:",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:27031:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01846:"
+        },
+        "OperatorRef": {},
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "SNCF_MAGENTA_PRD:VehicleJourney::91c0d6d2-ba16-4c5c-bbc1-08e86c62ce62:LOC"
+        },
+        "DirectionName": [],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:27031:"
+        },
+        "DestinationName": [
+         {
+          "value": "ARGENTEUIL"
+         }
+        ],
+        "VehicleJourneyName": [
+         {
+          "value": "63654929"
+         }
+        ],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Argenteuil"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Argenteuil"
+          }
+         ],
+         "ExpectedArrivalTime": "2026-09-23T23:07:00.000Z",
+         "DeparturePlatformName": {
+          "value": "ARGENTEUIL"
+         },
+         "DepartureStatus": "onTime",
+         "Order": 8,
+         "AimedArrivalTime": "2026-09-23T23:07:00.000Z",
+         "ArrivalPlatformName": {
+          "value": "ARGENTEUIL"
+         },
+         "ArrivalStatus": "onTime"
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": [
+          {
+           "value": "63654929"
+          }
+         ]
+        },
+        "VehicleFeatureRef": [
+         "longTrain"
+        ],
+        "DirectionRef": {
+         "value": ""
+        }
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T10:01:58.862Z",
+       "ItemIdentifier": "SNCF_MAGENTA_PRD:Item::27031-9-8500b1bb-296e-454e-b465-4cf536f3adfe:",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:27031:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01846:"
+        },
+        "OperatorRef": {},
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "SNCF_MAGENTA_PRD:VehicleJourney::8500b1bb-296e-454e-b465-4cf536f3adfe:LOC"
+        },
+        "DirectionName": [],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:28984:"
+        },
+        "DestinationName": [
+         {
+          "value": "PARIS SAINT-LAZARE"
+         }
+        ],
+        "VehicleJourneyName": [
+         {
+          "value": "63654943"
+         }
+        ],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Argenteuil"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Paris Saint-Lazare"
+          }
+         ],
+         "ExpectedArrivalTime": "2026-09-23T23:16:00.000Z",
+         "DeparturePlatformName": {
+          "value": "ARGENTEUIL"
+         },
+         "ExpectedDepartureTime": "2026-09-23T23:16:00.000Z",
+         "DepartureStatus": "onTime",
+         "Order": 9,
+         "AimedArrivalTime": "2026-09-23T23:16:00.000Z",
+         "ArrivalPlatformName": {
+          "value": "ARGENTEUIL"
+         },
+         "AimedDepartureTime": "2026-09-23T23:16:00.000Z",
+         "ArrivalStatus": "onTime"
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": [
+          {
+           "value": "63654943"
+          }
+         ]
+        },
+        "VehicleFeatureRef": [
+         "longTrain"
+        ],
+        "DirectionRef": {
+         "value": ""
+        }
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T10:02:40.070Z",
+       "ItemIdentifier": "SNCF_MAGENTA_PRD:Item::27031-8-2227c0f8-bfc8-40ad-8b83-c7a2ce3493da:",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:27031:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01846:"
+        },
+        "OperatorRef": {},
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "SNCF_MAGENTA_PRD:VehicleJourney::2227c0f8-bfc8-40ad-8b83-c7a2ce3493da:LOC"
+        },
+        "DirectionName": [],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:411275:"
+        },
+        "DestinationName": [
+         {
+          "value": "ERMONT EAUBONNE"
+         }
+        ],
+        "VehicleJourneyName": [
+         {
+          "value": "63654930"
+         }
+        ],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Argenteuil"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Ermont - Eaubonne"
+          }
+         ],
+         "ExpectedArrivalTime": "2026-09-23T23:23:00.000Z",
+         "DeparturePlatformName": {
+          "value": "ARGENTEUIL"
+         },
+         "ExpectedDepartureTime": "2026-09-23T23:23:00.000Z",
+         "DepartureStatus": "onTime",
+         "Order": 8,
+         "AimedArrivalTime": "2026-09-23T23:23:00.000Z",
+         "ArrivalPlatformName": {
+          "value": "ARGENTEUIL"
+         },
+         "AimedDepartureTime": "2026-09-23T23:23:00.000Z",
+         "ArrivalStatus": "onTime"
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": [
+          {
+           "value": "63654930"
+          }
+         ]
+        },
+        "VehicleFeatureRef": [
+         "longTrain"
+        ],
+        "DirectionRef": {
+         "value": ""
+        }
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T10:02:40.317Z",
+       "ItemIdentifier": "SNCF_MAGENTA_PRD:Item::27031-8-08364e21-fe57-41cd-9aa8-5de4bd29dee3:",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:27031:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01846:"
+        },
+        "OperatorRef": {},
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "SNCF_MAGENTA_PRD:VehicleJourney::08364e21-fe57-41cd-9aa8-5de4bd29dee3:LOC"
+        },
+        "DirectionName": [],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:27031:"
+        },
+        "DestinationName": [
+         {
+          "value": "ARGENTEUIL"
+         }
+        ],
+        "VehicleJourneyName": [
+         {
+          "value": "63654931"
+         }
+        ],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Argenteuil"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Argenteuil"
+          }
+         ],
+         "ExpectedArrivalTime": "2026-09-23T23:33:00.000Z",
+         "DeparturePlatformName": {
+          "value": "ARGENTEUIL"
+         },
+         "DepartureStatus": "onTime",
+         "Order": 8,
+         "AimedArrivalTime": "2026-09-23T23:33:00.000Z",
+         "ArrivalPlatformName": {
+          "value": "ARGENTEUIL"
+         },
+         "ArrivalStatus": "onTime"
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": [
+          {
+           "value": "63654931"
+          }
+         ]
+        },
+        "VehicleFeatureRef": [
+         "longTrain"
+        ],
+        "DirectionRef": {
+         "value": ""
+        }
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T10:02:40.623Z",
+       "ItemIdentifier": "SNCF_MAGENTA_PRD:Item::27031-8-05120811-f531-41de-9247-f2043da1d5d5:",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:27031:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01846:"
+        },
+        "OperatorRef": {},
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "SNCF_MAGENTA_PRD:VehicleJourney::05120811-f531-41de-9247-f2043da1d5d5:LOC"
+        },
+        "DirectionName": [],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:411275:"
+        },
+        "DestinationName": [
+         {
+          "value": "ERMONT EAUBONNE"
+         }
+        ],
+        "VehicleJourneyName": [
+         {
+          "value": "63654932"
+         }
+        ],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Argenteuil"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Ermont - Eaubonne"
+          }
+         ],
+         "ExpectedArrivalTime": "2026-09-23T23:53:00.000Z",
+         "DeparturePlatformName": {
+          "value": "ARGENTEUIL"
+         },
+         "ExpectedDepartureTime": "2026-09-23T23:53:00.000Z",
+         "DepartureStatus": "onTime",
+         "Order": 8,
+         "AimedArrivalTime": "2026-09-23T23:53:00.000Z",
+         "ArrivalPlatformName": {
+          "value": "ARGENTEUIL"
+         },
+         "AimedDepartureTime": "2026-09-23T23:53:00.000Z",
+         "ArrivalStatus": "onTime"
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": [
+          {
+           "value": "63654932"
+          }
+         ]
+        },
+        "VehicleFeatureRef": [
+         "longTrain"
+        ],
+        "DirectionRef": {
+         "value": ""
+        }
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T10:01:59.262Z",
+       "ItemIdentifier": "SNCF_MAGENTA_PRD:Item::27031-8-cb842d58-27bd-4a68-9e94-742b90146615:",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:27031:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01846:"
+        },
+        "OperatorRef": {},
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "SNCF_MAGENTA_PRD:VehicleJourney::cb842d58-27bd-4a68-9e94-742b90146615:LOC"
+        },
+        "DirectionName": [],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:422956:"
+        },
+        "DestinationName": [
+         {
+          "value": "PONTOISE"
+         }
+        ],
+        "VehicleJourneyName": [
+         {
+          "value": "63654944"
+         }
+        ],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Argenteuil"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Pontoise"
+          }
+         ],
+         "ExpectedArrivalTime": "2026-09-23T23:56:00.000Z",
+         "DeparturePlatformName": {
+          "value": "ARGENTEUIL"
+         },
+         "ExpectedDepartureTime": "2026-09-23T23:56:00.000Z",
+         "DepartureStatus": "onTime",
+         "Order": 8,
+         "AimedArrivalTime": "2026-09-23T23:56:00.000Z",
+         "ArrivalPlatformName": {
+          "value": "ARGENTEUIL"
+         },
+         "AimedDepartureTime": "2026-09-23T23:56:00.000Z",
+         "ArrivalStatus": "onTime"
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": [
+          {
+           "value": "63654944"
+          }
+         ]
+        },
+        "VehicleFeatureRef": [
+         "longTrain"
+        ],
+        "DirectionRef": {
+         "value": ""
+        }
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:19:01.184Z",
+       "ItemIdentifier": "033_KABS:Item::SIRI329175060:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:7475:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C00312:"
+        },
+        "OperatorRef": {
+         "value": "033_KABS:Operator::KABS:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "033_KABS:DataFrame::21:LOC"
+         },
+         "DatedVehicleJourneyRef": "033_KABS:VehicleJourney::5978304:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Aller"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:494541:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare d'Enghien-les-Bains"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [
+         {
+          "value": "L6402P8"
+         }
+        ],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare d'Argenteuil"
+          }
+         ],
+         "VehicleAtStop": true,
+         "DestinationDisplay": [],
+         "ExpectedDepartureTime": "2026-09-23T23:30:00.000Z",
+         "DepartureStatus": "onTime",
+         "Order": 1,
+         "AimedDepartureTime": "2026-09-23T23:30:00.000Z",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": []
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:32:42.596Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.3.PALS.IDFM.C01393.A.EXP.50146441.11371:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:420618:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01393:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::100:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.3.A.C01393:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Gare Saint-Lazare"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:28984:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare Saint-Lazare"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare d'Argenteuil"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Gare St-Lazare"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-23T23:36:51.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Aller"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Gare St-Lazare"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:08:06.126Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.4.PALS.IDFM.C01393.A.EXP.50146441.11371:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:420618:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01393:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::100:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.4.A.C01393:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Gare Saint-Lazare"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:28984:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare Saint-Lazare"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare d'Argenteuil"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Gare St-Lazare"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-24T00:05:58.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Aller"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Gare St-Lazare"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:27:24.619Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.4.PALS.IDFM.C01393.R.EXP.50146430.11359:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:420619:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01393:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::100:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.4.R.C01393:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Gare de Cormeilles-en-Parisis"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:419821:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare de Cormeilles-En-Parisis"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare d'Argenteuil"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Cormeilles Gare"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-23T23:58:04.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Retour"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Cormeilles Gare"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:29:42.507Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.5.PALS.IDFM.C01393.R.EXP.50146430.11359:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:420619:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01393:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::100:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.5.R.C01393:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Gare de Cormeilles-en-Parisis"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:419821:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare de Cormeilles-En-Parisis"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare d'Argenteuil"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Cormeilles Gare"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-24T00:39:38.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Retour"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Cormeilles Gare"
+         }
+        ]
+       }
+      }
+     ],
+     "StopLineNotice": [],
+     "ServiceException": []
+    }
+   ]
+  }
+ }
+}

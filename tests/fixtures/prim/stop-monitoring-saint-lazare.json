@@ -1,0 +1,2516 @@
+{
+ "Siri": {
+  "ServiceDelivery": {
+   "ResponseTimestamp": "2026-09-23T23:33:17.541Z",
+   "ProducerRef": "IVTR_HET",
+   "ResponseMessageIdentifier": "IVTR_HET:ResponseMessage:ace31108-c1f6-4a47-9805-a277c98d7f8f:LOC:",
+   "StopMonitoringDelivery": [
+    {
+     "ResponseTimestamp": "2026-09-23T23:33:17.837Z",
+     "Version": "2.0",
+     "Status": "true",
+     "MonitoredStopVisit": [
+      {
+       "RecordedAtTime": "2026-09-23T23:33:10.841Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.3.PALS.IDFM.C01394.R.EXP.50114161.12071:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:37512:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01394:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::100:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.3.R.C01394:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Gare d'Enghien"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:39904:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare d'Enghien-les-Bains"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Gare d'Enghien"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-23T23:35:00.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Retour"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Gare d'Enghien"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:24:12.893Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.3.PALS.IDFM.C01393.R.EXP.50114161.12513:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:37512:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01393:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::100:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.3.R.C01393:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Gare de Cormeilles-en-Parisis"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:419821:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare de Cormeilles-En-Parisis"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Cormeilles Gare"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-23T23:49:52.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Retour"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Cormeilles Gare"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:05:37.830Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.4.PALS.IDFM.C01393.R.EXP.50114161.12513:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:37512:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01393:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::100:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.4.R.C01393:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Gare de Cormeilles-en-Parisis"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:419821:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare de Cormeilles-En-Parisis"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Cormeilles Gare"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-24T00:10:00.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Retour"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Cormeilles Gare"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:01:01.451Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.4.PALS.IDFM.C01394.R.EXP.50114161.12071:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:37512:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01394:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::100:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.4.R.C01394:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Gare d'Enghien"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:39904:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare d'Enghien-les-Bains"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Gare d'Enghien"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-24T00:10:00.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Retour"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Gare d'Enghien"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:33:04.770Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.2.PALS.IDFM.C01416.A.EXP.50220452.21939:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:22718:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01416:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::1046:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.2.A.C01416:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Pont de Levallois"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:7866:"
+        },
+        "DestinationName": [
+         {
+          "value": "Pont de Levallois - Bécon"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": true,
+         "DestinationDisplay": [
+          {
+           "value": "Pt de Levallois"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-23T23:33:59.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Aller"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Pt de Levallois"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:25:34.717Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.2.PALS.IDFM.C01417.R.EXP.50236157.19115:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:22718:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01417:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::1060:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.2.R.C01417:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Asnières-Gennevilliers Gabriel Péri"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:15142:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gabriel Péri - Métro"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "G.peri METRO"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-23T23:40:32.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Retour"
+        },
+        "DestinationShortName": [
+         {
+          "value": "G.peri METRO"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:31:04.894Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.3.PALS.IDFM.C01416.A.EXP.50220452.21939:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:22718:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01416:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::1046:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.3.A.C01416:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Pont de Levallois"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:7866:"
+        },
+        "DestinationName": [
+         {
+          "value": "Pont de Levallois - Bécon"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Pt de Levallois"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-23T23:51:56.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Aller"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Pt de Levallois"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:33:04.506Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.3.PALS.IDFM.C01417.R.EXP.50236157.19115:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:22718:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01417:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::1060:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.3.R.C01417:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Asnières-Gennevilliers Gabriel Péri"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:15142:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gabriel Péri - Métro"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "G.peri METRO"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-24T00:10:47.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Retour"
+        },
+        "DestinationShortName": [
+         {
+          "value": "G.peri METRO"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:20:30.000Z",
+       "ItemIdentifier": "VEXIN:Item::VEXIN_268444585:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:480764:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01637:"
+        },
+        "OperatorRef": {
+         "value": "VEXIN:Operator::VEXIN:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "VEXIN:DataFrame::7-22:LOC"
+         },
+         "DatedVehicleJourneyRef": "VEXIN:VehicleJourney::1612:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "A"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:486447:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare Cergy L. Ht"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare St-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Cergy Le Haut Gare"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-23T23:35:00.000Z",
+         "DepartureStatus": "onTime",
+         "Order": 1,
+         "AimedDepartureTime": "2026-09-23T23:35:00.000Z",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": []
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T22:01:26.000Z",
+       "ItemIdentifier": "VEXIN:Item::VEXIN_268444786:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:480764:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01641:"
+        },
+        "OperatorRef": {
+         "value": "VEXIN:Operator::VEXIN:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "VEXIN:DataFrame::7-22:LOC"
+         },
+         "DatedVehicleJourneyRef": "VEXIN:VehicleJourney::1647:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "A"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:486447:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare Cergy L. Ht"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare St-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Cergy Le Haut Gare"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-23T23:40:00.000Z",
+         "DepartureStatus": "onTime",
+         "Order": 1,
+         "AimedDepartureTime": "2026-09-23T23:40:00.000Z",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": []
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:23:08.754Z",
+       "ItemIdentifier": "RATPCapIDF:Item::407fc62c39535524a819cc4e09c364c3ad314947:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:480764:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01635:"
+        },
+        "OperatorRef": {
+         "value": "RDMANTOIS:Operator::RDMANTOIS:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "RATPCapIDF:DataFrame::2026-09-23:LOC"
+         },
+         "DatedVehicleJourneyRef": "RDMANTOIS:VehicleJourney::7351680:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Aller"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:480764:"
+        },
+        "DestinationName": [
+         {
+          "value": "Paris-Saint-Lazare Gare"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [
+         {
+          "value": "LN151P23"
+         }
+        ],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Saint-Lazare"
+          }
+         ],
+         "ExpectedArrivalTime": "2026-09-23T23:54:10.000Z",
+         "DepartureStatus": "",
+         "Order": 15,
+         "AimedArrivalTime": "2026-09-23T23:55:00.000Z",
+         "ArrivalStatus": "onTime"
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Aller"
+        }
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T22:32:09.936Z",
+       "ItemIdentifier": "RATPCapIDF:Item::9899fb9569b5c487beb8ebe05c065acd82b358e6:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:480764:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01635:"
+        },
+        "OperatorRef": {
+         "value": "RDMANTOIS:Operator::RDMANTOIS:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "RATPCapIDF:DataFrame::2026-09-23:LOC"
+         },
+         "DatedVehicleJourneyRef": "RDMANTOIS:VehicleJourney::7351682:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Retour"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:19961:"
+        },
+        "DestinationName": [
+         {
+          "value": "Mantes-la-Jolie Gare - Quai 9"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [
+         {
+          "value": "LN151P29"
+         }
+        ],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "MLJ Gare"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-24T00:00:00.000Z",
+         "DepartureStatus": "onTime",
+         "Order": 1,
+         "AimedDepartureTime": "2026-09-24T00:00:00.000Z",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "inbound"
+        }
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:02:20.000Z",
+       "ItemIdentifier": "VEXIN:Item::VEXIN_268444455:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:480764:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01637:"
+        },
+        "OperatorRef": {
+         "value": "VEXIN:Operator::VEXIN:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "VEXIN:DataFrame::7-22:LOC"
+         },
+         "DatedVehicleJourneyRef": "VEXIN:VehicleJourney::1620:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "A"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:486447:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare Cergy L. Ht"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare St-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Cergy Le Haut Gare"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-24T00:12:00.000Z",
+         "DepartureStatus": "onTime",
+         "Order": 1,
+         "AimedDepartureTime": "2026-09-24T00:12:00.000Z",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": []
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:20:20.000Z",
+       "ItemIdentifier": "VEXIN:Item::VEXIN_268444890:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:480764:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01647:"
+        },
+        "OperatorRef": {
+         "value": "VEXIN:Operator::VEXIN:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "VEXIN:DataFrame::7-22:LOC"
+         },
+         "DatedVehicleJourneyRef": "VEXIN:VehicleJourney::1622:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "A"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:5197:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare de Montigny"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare St-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Montigny Beauchamp"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-24T00:30:00.000Z",
+         "DepartureStatus": "onTime",
+         "Order": 1,
+         "AimedDepartureTime": "2026-09-24T00:30:00.000Z",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": []
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:32:10.000Z",
+       "ItemIdentifier": "VEXIN:Item::VEXIN_268445037:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:480764:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01637:"
+        },
+        "OperatorRef": {
+         "value": "VEXIN:Operator::VEXIN:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "VEXIN:DataFrame::7-22:LOC"
+         },
+         "DatedVehicleJourneyRef": "VEXIN:VehicleJourney::1623:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "A"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:486447:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare Cergy L. Ht"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare St-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Cergy Le Haut Gare"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-24T00:42:00.000Z",
+         "DepartureStatus": "onTime",
+         "Order": 1,
+         "AimedDepartureTime": "2026-09-24T00:42:00.000Z",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": []
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:28:53.557Z",
+       "ItemIdentifier": "RATPCapIDF:Item::44498f20b869877e127414bce1c5c11ed446650c:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:480764:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01635:"
+        },
+        "OperatorRef": {
+         "value": "RDMANTOIS:Operator::RDMANTOIS:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "RATPCapIDF:DataFrame::2026-09-23:LOC"
+         },
+         "DatedVehicleJourneyRef": "RDMANTOIS:VehicleJourney::7351681:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Aller"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:480764:"
+        },
+        "DestinationName": [
+         {
+          "value": "Paris-Saint-Lazare Gare"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [
+         {
+          "value": "LN151P23"
+         }
+        ],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Saint-Lazare"
+          }
+         ],
+         "ExpectedArrivalTime": "2026-09-24T00:55:51.000Z",
+         "DepartureStatus": "",
+         "Order": 15,
+         "AimedArrivalTime": "2026-09-24T00:55:00.000Z",
+         "ArrivalStatus": "onTime"
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Aller"
+        }
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:28:53.557Z",
+       "ItemIdentifier": "RATPCapIDF:Item::ac30d731fe4a06d1e8102b77d1ff742d0797a158:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:480764:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01635:"
+        },
+        "OperatorRef": {
+         "value": "RDMANTOIS:Operator::RDMANTOIS:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "RATPCapIDF:DataFrame::2026-09-23:LOC"
+         },
+         "DatedVehicleJourneyRef": "RDMANTOIS:VehicleJourney::7351684:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Retour"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:19961:"
+        },
+        "DestinationName": [
+         {
+          "value": "Mantes-la-Jolie Gare - Quai 9"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [
+         {
+          "value": "LN151P29"
+         }
+        ],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "MLJ Gare"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-24T01:00:00.000Z",
+         "DepartureStatus": "onTime",
+         "Order": 1,
+         "AimedDepartureTime": "2026-09-24T01:00:00.000Z",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": []
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:15:02.492Z",
+       "ItemIdentifier": "RATPCapIDF:Item::dd13b669d634a61dae79a32fc8c83fa69ec4d798:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:480764:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01635:"
+        },
+        "OperatorRef": {
+         "value": "RDMANTOIS:Operator::RDMANTOIS:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "RATPCapIDF:DataFrame::2026-09-23:LOC"
+         },
+         "DatedVehicleJourneyRef": "RDMANTOIS:VehicleJourney::2026-09-24-01-13-24-719-906304:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Aller"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:480764:"
+        },
+        "DestinationName": [
+         {
+          "value": "Paris-Saint-Lazare Gare"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [
+         {
+          "value": "LN151P23"
+         }
+        ],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Saint-Lazare"
+          }
+         ],
+         "ExpectedArrivalTime": "2026-09-24T01:01:36.000Z",
+         "DepartureStatus": "",
+         "Order": 14,
+         "ArrivalStatus": "onTime"
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Aller"
+        }
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T22:55:02.861Z",
+       "ItemIdentifier": "RATPCapIDF:Item::1bd32e78f6419a8c8a991a311a14bf7a2bf12f34:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:480764:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01635:"
+        },
+        "OperatorRef": {
+         "value": "RDMANTOIS:Operator::RDMANTOIS:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "RATPCapIDF:DataFrame::2026-09-23:LOC"
+         },
+         "DatedVehicleJourneyRef": "RDMANTOIS:VehicleJourney::7351683:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Aller"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:480764:"
+        },
+        "DestinationName": [
+         {
+          "value": "Paris-Saint-Lazare Gare"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [
+         {
+          "value": "LN151P23"
+         }
+        ],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Saint-Lazare"
+          }
+         ],
+         "ExpectedArrivalTime": "2026-09-24T01:56:39.000Z",
+         "DepartureStatus": "",
+         "Order": 15,
+         "AimedArrivalTime": "2026-09-24T01:55:00.000Z",
+         "ArrivalStatus": "onTime"
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "outbound"
+        }
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:00:03.288Z",
+       "ItemIdentifier": "RATPCapIDF:Item::df96b794366bb085dae45e605097e0cef33f38d4:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:480764:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01635:"
+        },
+        "OperatorRef": {
+         "value": "RDMANTOIS:Operator::RDMANTOIS:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "RATPCapIDF:DataFrame::2026-09-23:LOC"
+         },
+         "DatedVehicleJourneyRef": "RDMANTOIS:VehicleJourney::7351686:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Retour"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:19961:"
+        },
+        "DestinationName": [
+         {
+          "value": "Mantes-la-Jolie Gare - Quai 9"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [
+         {
+          "value": "LN151P29"
+         }
+        ],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "MLJ Gare"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-24T02:00:00.000Z",
+         "DepartureStatus": "onTime",
+         "Order": 1,
+         "AimedDepartureTime": "2026-09-24T02:00:00.000Z",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": []
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:33:04.506Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.3.PALS.IDFM.C01417.A.EXP.50236974.18984:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:37510:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01417:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::1060:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.3.A.C01417:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Villejuif-Louis Aragon"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:486503:"
+        },
+        "DestinationName": [
+         {
+          "value": "Villejuif - Louis Aragon"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare - Rome"
+          }
+         ],
+         "VehicleAtStop": true,
+         "DestinationDisplay": [
+          {
+           "value": "Villejuif"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-23T23:33:29.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Aller"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Villejuif"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:21:12.855Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.2.PALS.IDFM.C01393.A.EXP.50114904.3441:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:37510:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01393:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::100:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.2.A.C01393:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Gare Saint-Lazare"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:28984:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare Saint-Lazare"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare - Rome"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Gare St-Lazare"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-23T23:46:19.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Aller"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Gare St-Lazare"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:24:04.375Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.4.PALS.IDFM.C01416.R.EXP.50221186.20492:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:37510:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01416:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::1046:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.4.R.C01416:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Mairie de Montreuil"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:35874:"
+        },
+        "DestinationName": [
+         {
+          "value": "Mairie de Montreuil"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare - Rome"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Montreuil Hdv"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-23T23:50:17.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Retour"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Montreuil Hdv"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:31:39.324Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.6.PALS.IDFM.C01414.A.EXP.50114904.457:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:37510:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01414:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::100:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.6.A.C01414:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Circulaire extérieure"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:37568:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare Montparnasse"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare - Rome"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Circulaire Ext"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-23T23:52:31.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Aller"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Circulaire Ext"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:31:12.419Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.3.PALS.IDFM.C01393.A.EXP.50114904.3441:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:37510:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01393:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::100:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.3.A.C01393:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Gare Saint-Lazare"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:28984:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare Saint-Lazare"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare - Rome"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Gare St-Lazare"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-23T23:58:31.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Aller"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Gare St-Lazare"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:31:40.183Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.7.PALS.IDFM.C01414.A.EXP.50114904.457:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:37510:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01414:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::100:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.7.A.C01414:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Circulaire extérieure"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:37568:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare Montparnasse"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare - Rome"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Circulaire Ext"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-24T00:00:04.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Aller"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Circulaire Ext"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:18:04.417Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.4.PALS.IDFM.C01417.A.EXP.50236974.18984:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:37510:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01417:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::1060:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.4.A.C01417:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Villejuif-Louis Aragon"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:486503:"
+        },
+        "DestinationName": [
+         {
+          "value": "Villejuif - Louis Aragon"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare - Rome"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Villejuif"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-24T00:01:39.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Aller"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Villejuif"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:31:10.333Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.4.PALS.IDFM.C01394.A.EXP.50114904.22032:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:37510:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01394:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::100:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.4.A.C01394:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Gare Saint-Lazare"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:28984:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare Saint-Lazare"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare - Rome"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Gare St-Lazare"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-24T00:02:20.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Aller"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Gare St-Lazare"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:32:28.464Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.5.PALS.IDFM.C01416.R.EXP.50221186.20492:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:37510:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01416:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::1046:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.5.R.C01416:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Mairie de Montreuil"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:35874:"
+        },
+        "DestinationName": [
+         {
+          "value": "Mairie de Montreuil"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare - Rome"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Montreuil Hdv"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-24T00:12:20.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Retour"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Montreuil Hdv"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:30:10.719Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.5.PALS.IDFM.C01394.A.EXP.50114904.22032:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:37510:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01394:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::100:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.5.A.C01394:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Gare Saint-Lazare"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:28984:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare Saint-Lazare"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare - Rome"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Gare St-Lazare"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-24T00:12:50.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Aller"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Gare St-Lazare"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:31:51.088Z",
+       "ItemIdentifier": "034_KSOE:Item::SIRI329069259:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:28406:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C02526:"
+        },
+        "OperatorRef": {
+         "value": "034_KSOE:Operator::KSOE:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "034_KSOE:DataFrame::24:LOC"
+         },
+         "DatedVehicleJourneyRef": "034_KSOE:VehicleJourney::6171304:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Retour"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:28406:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare de Paris Saint-Lazare"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [
+         {
+          "value": "LN155P1"
+         }
+        ],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare de Paris Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [],
+         "ExpectedArrivalTime": "2026-09-24T00:00:51.000Z",
+         "DepartureStatus": "",
+         "Order": 12,
+         "AimedArrivalTime": "2026-09-24T00:00:00.000Z",
+         "ArrivalStatus": "noReport"
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": []
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:02:15.810Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.6.PALS.IDFM.C01409.R.EXP.50141936.21063:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:28406:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01409:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::100:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.6.R.C01409:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Nanterre-Anatole France"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:423170:"
+        },
+        "DestinationName": [
+         {
+          "value": "Nanterre - Anatole France"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Nant.a.france"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-24T00:03:00.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Retour"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Nant.a.france"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:30:40.000Z",
+       "ItemIdentifier": "BCLYS:Item::BCLYS_268454565:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:28406:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01422:"
+        },
+        "OperatorRef": {
+         "value": "BCLYS:Operator::BCLYS:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "BCLYS:DataFrame::3-5:LOC"
+         },
+         "DatedVehicleJourneyRef": "BCLYS:VehicleJourney::3352:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "A"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:28406:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare Saint-Lazar"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazar"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "GARE SAINT-LAZARE"
+          }
+         ],
+         "ExpectedArrivalTime": "2026-09-24T00:19:39.000Z",
+         "DepartureStatus": "",
+         "Order": 10,
+         "AimedArrivalTime": "2026-09-24T00:10:00.000Z",
+         "ArrivalStatus": "delayed"
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": []
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:27:52.782Z",
+       "ItemIdentifier": "034_KSOE:Item::SIRI329069260:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:28406:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C02526:"
+        },
+        "OperatorRef": {
+         "value": "034_KSOE:Operator::KSOE:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "034_KSOE:DataFrame::24:LOC"
+         },
+         "DatedVehicleJourneyRef": "034_KSOE:VehicleJourney::6171300:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Aller"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:23061:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare Nord de Poissy - Quai C1"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [
+         {
+          "value": "LN155P31"
+         }
+        ],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare de Paris Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [],
+         "ExpectedDepartureTime": "2026-09-24T00:25:00.000Z",
+         "DepartureStatus": "noReport",
+         "Order": 1,
+         "AimedDepartureTime": "2026-09-24T00:25:00.000Z",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": []
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:20:31.000Z",
+       "ItemIdentifier": "BCLYS:Item::BCLYS_268454566:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:28406:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01422:"
+        },
+        "OperatorRef": {
+         "value": "BCLYS:Operator::BCLYS:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "BCLYS:DataFrame::3-5:LOC"
+         },
+         "DatedVehicleJourneyRef": "BCLYS:VehicleJourney::3359:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "R"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:39375:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare de Saint-Ge"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazar"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Gare de Saint-Germain"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-24T00:30:00.000Z",
+         "DepartureStatus": "onTime",
+         "Order": 1,
+         "AimedDepartureTime": "2026-09-24T00:30:00.000Z",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": []
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:31:59.833Z",
+       "ItemIdentifier": "MeC_Bus_PC:Item::20260923.7.PALS.IDFM.C01409.R.EXP.50141936.21063:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:28406:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01409:"
+        },
+        "OperatorRef": {
+         "value": "MeC_Bus_PC:Operator::100:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "MeC_Bus_PC:VehicleJourney::20260923.7.R.C01409:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Nanterre-Anatole France"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:423170:"
+        },
+        "DestinationName": [
+         {
+          "value": "Nanterre - Anatole France"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Nant.a.france"
+          }
+         ],
+         "ExpectedDepartureTime": "2026-09-24T00:35:00.000Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [],
+        "DirectionRef": {
+         "value": "Retour"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Nant.a.france"
+         }
+        ]
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:21:44.425Z",
+       "ItemIdentifier": "034_KSOE:Item::SIRI329072958:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:28406:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C02526:"
+        },
+        "OperatorRef": {
+         "value": "034_KSOE:Operator::KSOE:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "034_KSOE:DataFrame::24:LOC"
+         },
+         "DatedVehicleJourneyRef": "034_KSOE:VehicleJourney::6171305:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Retour"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:28406:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare de Paris Saint-Lazare"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [
+         {
+          "value": "LN155P1"
+         }
+        ],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare de Paris Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [],
+         "ExpectedArrivalTime": "2026-09-24T01:01:05.000Z",
+         "DepartureStatus": "",
+         "Order": 12,
+         "AimedArrivalTime": "2026-09-24T01:00:00.000Z",
+         "ArrivalStatus": "onTime"
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": []
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:21:44.425Z",
+       "ItemIdentifier": "034_KSOE:Item::SIRI329072959:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:28406:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C02526:"
+        },
+        "OperatorRef": {
+         "value": "034_KSOE:Operator::KSOE:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "034_KSOE:DataFrame::24:LOC"
+         },
+         "DatedVehicleJourneyRef": "034_KSOE:VehicleJourney::6171301:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Aller"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:23061:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare Nord de Poissy - Quai C1"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [
+         {
+          "value": "LN155P31"
+         }
+        ],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare de Paris Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [],
+         "ExpectedDepartureTime": "2026-09-24T01:25:00.000Z",
+         "DepartureStatus": "onTime",
+         "Order": 1,
+         "AimedDepartureTime": "2026-09-24T01:25:00.000Z",
+         "ArrivalStatus": ""
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": []
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T23:27:52.782Z",
+       "ItemIdentifier": "034_KSOE:Item::SIRI329083062:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:28406:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C02526:"
+        },
+        "OperatorRef": {
+         "value": "034_KSOE:Operator::KSOE:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "034_KSOE:DataFrame::24:LOC"
+         },
+         "DatedVehicleJourneyRef": "034_KSOE:VehicleJourney::6171306:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Retour"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:28406:"
+        },
+        "DestinationName": [
+         {
+          "value": "Gare de Paris Saint-Lazare"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [
+         {
+          "value": "LN155P1"
+         }
+        ],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Gare de Paris Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [],
+         "ExpectedArrivalTime": "2026-09-24T02:00:00.000Z",
+         "DepartureStatus": "",
+         "Order": 12,
+         "AimedArrivalTime": "2026-09-24T02:00:00.000Z",
+         "ArrivalStatus": "noReport"
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": []
+       }
+      },
+      {
+       "RecordedAtTime": "2026-09-23T22:43:18.501Z",
+       "ItemIdentifier": "RATP-SIV:Item::20260924003500.OR.PALS.IDFM.C01384.R.RATP.50026712:LOC",
+       "MonitoringRef": {
+        "value": "STIF:StopPoint:Q:21962:"
+       },
+       "MonitoredVehicleJourney": {
+        "LineRef": {
+         "value": "STIF:Line::C01384:"
+        },
+        "OperatorRef": {
+         "value": "RATP-SIV:Operator::RATP.STAEL.14.14:"
+        },
+        "FramedVehicleJourneyRef": {
+         "DataFrameRef": {
+          "value": "any"
+         },
+         "DatedVehicleJourneyRef": "RATP-SIV:VehicleJourney::20260924003500.OR:LOC"
+        },
+        "DirectionName": [
+         {
+          "value": "Saint-Denis - Pleyel"
+         }
+        ],
+        "DestinationRef": {
+         "value": "STIF:StopPoint:Q:490794:"
+        },
+        "DestinationName": [
+         {
+          "value": "Saint-Denis - Pleyel"
+         }
+        ],
+        "VehicleJourneyName": [],
+        "JourneyNote": [],
+        "MonitoredCall": {
+         "StopPointName": [
+          {
+           "value": "Saint-Lazare"
+          }
+         ],
+         "VehicleAtStop": false,
+         "DestinationDisplay": [
+          {
+           "value": "Saint-Denis - Pleyel"
+          }
+         ],
+         "ExpectedArrivalTime": "2026-09-23T23:04:40.300Z",
+         "ExpectedDepartureTime": "2026-09-23T23:04:40.300Z",
+         "DepartureStatus": "onTime",
+         "ArrivalStatus": "",
+         "CallNote": [
+          {
+           "value": "Dernier Métro"
+          }
+         ]
+        },
+        "TrainNumbers": {
+         "TrainNumberRef": []
+        },
+        "VehicleFeatureRef": [
+         "longTrain"
+        ],
+        "DirectionRef": {
+         "value": "Retour"
+        },
+        "DestinationShortName": [
+         {
+          "value": "Saint-Denis - Pleyel"
+         }
+        ]
+       }
+      }
+     ],
+     "StopLineNotice": [],
+     "ServiceException": []
+    }
+   ]
+  }
+ }
+}

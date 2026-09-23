@@ -429,7 +429,10 @@ async def build_board(route: dict) -> dict:
             # permite (con un minuto de margen), no un umbral fijo: con el TTL
             # adaptativo una estacion con el tren a 40 min se pide cada 5 min
             # y eso no es un dato viejo.
-            if (age or 0) > ttls.get(leg["from_id"], settings.ttl_stop_monitoring) + 60:
+            # (Con la cuota justa el cliente alarga el TTL: eso tampoco es viejo.)
+            ttl = prim.effective_ttl(ttls.get(leg["from_id"], settings.ttl_stop_monitoring),
+                                     "stop-monitoring")
+            if (age or 0) > ttl + 60:
                 stale = True
 
         code = line_code(leg["line_id"])
@@ -474,7 +477,7 @@ async def build_board(route: dict) -> dict:
 
     if gm_age is not None:
         ages.append(gm_age)
-        if gm_age > settings.ttl_general_message + 60:
+        if gm_age > prim.effective_ttl(settings.ttl_general_message, "general-message") + 60:
             stale = True
 
     data_age = round(max(ages), 1) if ages else 0.0

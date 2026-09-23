@@ -11,7 +11,12 @@ import hashlib
 
 from starlette.datastructures import Headers, MutableHeaders
 
+import re
+
+# Solo donde el contrato declara 304: el tablero, la lista de rutas y el mapa.
+# El resto de /api/v1 no gana nada con un ETag (buscadores, salud...).
 PREFIXES = ("/api/v1/",)
+_ETAG_PATHS = re.compile(r"^/api/v1/(board|routes|routes/\d+/map)$")
 MAX_BODY = 2 * 1024 * 1024
 
 
@@ -35,7 +40,7 @@ class ETagMiddleware:
 
     async def __call__(self, scope, receive, send):
         if (scope["type"] != "http" or scope.get("method") != "GET"
-                or not scope.get("path", "").startswith(PREFIXES)):
+                or not _ETAG_PATHS.match(scope.get("path", ""))):
             await self.app(scope, receive, send)
             return
 

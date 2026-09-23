@@ -1,0 +1,4531 @@
+{
+ "journeys": [
+  {
+   "duration": 2520,
+   "nb_transfers": 0,
+   "departure_date_time": "20260924T014000",
+   "arrival_date_time": "20260924T022200",
+   "requested_date_time": "20260924T013352",
+   "type": "best",
+   "tags": [
+    "walking",
+    "ecologic",
+    "proposal"
+   ],
+   "sections": [
+    {
+     "id": "section_0_0",
+     "from": {
+      "id": "stop_area:IDFM:71370",
+      "name": "Gare Saint-Lazare (Paris)",
+      "embedded_type": "stop_area",
+      "quality": 0,
+      "stop_area": {
+       "id": "stop_area:IDFM:71370",
+       "name": "Gare Saint-Lazare",
+       "label": "Gare Saint-Lazare (Paris)",
+       "timezone": "",
+       "coord": {
+        "lat": "48.875943",
+        "lon": "2.325352"
+       },
+       "administrative_regions": [
+        {
+         "id": "admin:osm:relation:2188825",
+         "name": "Quartier de l'Europe",
+         "label": "Quartier de l'Europe (75008)",
+         "coord": {
+          "lat": "48.878150",
+          "lon": "2.317180"
+         },
+         "insee": "",
+         "zip_code": "75008",
+         "level": 10
+        },
+        {
+         "id": "admin:osm:relation:20872",
+         "name": "Paris 8e Arrondissement",
+         "label": "Paris 8e Arrondissement (75008)",
+         "coord": {
+          "lat": "48.873728",
+          "lon": "2.310393"
+         },
+         "insee": "75108",
+         "zip_code": "75008",
+         "level": 9
+        },
+        {
+         "id": "admin:fr:75056",
+         "name": "Paris",
+         "label": "Paris (75000-75116)",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "75056",
+         "zip_code": "75000-75116",
+         "level": 8
+        },
+        {
+         "id": "admin:osm:relation:71525",
+         "name": "Paris",
+         "label": "Paris",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "75",
+         "zip_code": "",
+         "level": 6
+        },
+        {
+         "id": "admin:osm:relation:8649",
+         "name": "Île-de-France",
+         "label": "Île-de-France",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "11",
+         "zip_code": "",
+         "level": 4
+        },
+        {
+         "id": "admin:osm:relation:2202162",
+         "name": "France",
+         "label": "France",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "",
+         "zip_code": "",
+         "level": 2
+        }
+       ],
+       "codes": [
+        {
+         "type": "TN_PA",
+         "value": "204"
+        },
+        {
+         "type": "source",
+         "value": "FR::multimodalStopPlace:71370:FR1"
+        }
+       ],
+       "stop_points": [],
+       "links": [],
+       "commercial_modes": [
+        {
+         "id": "commercial_mode:Bus",
+         "name": "Bus"
+        },
+        {
+         "id": "commercial_mode:Metro",
+         "name": "Métro"
+        },
+        {
+         "id": "commercial_mode:regionalRail",
+         "name": "TER"
+        },
+        {
+         "id": "commercial_mode:LocalTrain",
+         "name": "Train Transilien"
+        }
+       ],
+       "physical_modes": [
+        {
+         "id": "physical_mode:Bus",
+         "name": "Bus"
+        },
+        {
+         "id": "physical_mode:Metro",
+         "name": "Métro"
+        },
+        {
+         "id": "physical_mode:Train",
+         "name": "TER / Intercités"
+        },
+        {
+         "id": "physical_mode:LocalTrain",
+         "name": "Train Transilien"
+        }
+       ],
+       "comment": "",
+       "lines": [
+        {
+         "id": "line:IDFM:C01373",
+         "name": "3",
+         "code": "3",
+         "color": "6E6E00",
+         "commercial_mode": {
+          "id": "commercial_mode:Metro",
+          "name": "Métro"
+         },
+         "physical_modes": [
+          {
+           "id": "physical_mode:Metro",
+           "name": "Métro"
+          }
+         ],
+         "network": {
+          "id": "network:IDFM:Operator_100",
+          "name": "RATP",
+          "links": []
+         },
+         "links": [],
+         "text_color": "FFFFFF"
+        },
+        {
+         "id": "line:IDFM:C01382",
+         "name": "12",
+         "code": "12",
+         "color": "00643C",
+         "commercial_mode": {
+          "id": "commercial_mode:Metro",
+          "name": "Métro"
+         },
+         "physical_modes": [
+          {
+           "id": "physical_mode:Metro",
+           "name": "Métro"
+          }
+         ],
+         "network": {
+          "id": "network:IDFM:Operator_100",
+          "name": "RATP",
+          "links": []
+         },
+         "links": [],
+         "text_color": "FFFFFF"
+        },
+        {
+         "id": "line:IDFM:C01383",
+         "name": "13",
+         "code": "13",
+         "color": "82C8E6",
+         "commercial_mode": {
+          "id": "commercial_mode:Metro",
+          "name": "Métro"
+         },
+         "physical_modes": [
+          {
+           "id": "physical_mode:Metro",
+           "name": "Métro"
+          }
+         ],
+         "network": {
+          "id": "network:IDFM:Operator_100",
+          "name": "RATP",
+          "links": []
+         },
+         "links": [],
+         "text_color": "000000"
+        }
+       ]
+      }
+     },
+     "to": {
+      "id": "stop_point:IDFM:37512",
+      "name": "Gare Saint-Lazare (Paris)",
+      "embedded_type": "stop_point",
+      "quality": 0,
+      "stop_point": {
+       "id": "stop_point:IDFM:37512",
+       "name": "Gare Saint-Lazare",
+       "label": "Gare Saint-Lazare (Paris)",
+       "coord": {
+        "lat": "48.874669",
+        "lon": "2.325170"
+       },
+       "administrative_regions": [
+        {
+         "id": "admin:fr:75056",
+         "name": "Paris",
+         "label": "Paris (75000-75116)",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "75056",
+         "zip_code": "75000;75001;75002;75003;75004;75005;75006;75007;75008;75009;75010;75011;75012;75013;75014;75015;75016;75017;75018;75019;75020;75116",
+         "level": 8
+        },
+        {
+         "id": "admin:fr:75108",
+         "name": "Paris 8e Arrondissement",
+         "label": "Paris 8e Arrondissement (75008)",
+         "coord": {
+          "lat": "48.877480",
+          "lon": "2.317650"
+         },
+         "insee": "75108",
+         "zip_code": "75008",
+         "level": 9
+        },
+        {
+         "id": "admin:osm:relation:2188826",
+         "name": "Quartier de la Madeleine",
+         "label": "Quartier de la Madeleine (75008)",
+         "coord": {
+          "lat": "48.871266",
+          "lon": "2.320054"
+         },
+         "insee": "",
+         "zip_code": "75008",
+         "level": 10
+        }
+       ],
+       "codes": [
+        {
+         "type": "netex_monomodal_stopplace",
+         "value": "monomodalStopPlace:473234"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "22718"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "30011"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "37512"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "39477"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "420302"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "472755"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "480764"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "monomodalStopPlace:473234"
+        },
+        {
+         "type": "source",
+         "value": "FR::Quay:37512:FR1"
+        }
+       ],
+       "stop_area": {
+        "id": "stop_area:IDFM:71370",
+        "name": "Gare Saint-Lazare",
+        "label": "Gare Saint-Lazare (Paris)",
+        "timezone": "Europe/Paris",
+        "coord": {
+         "lat": "48.875943",
+         "lon": "2.325352"
+        },
+        "codes": [
+         {
+          "type": "TN_PA",
+          "value": "204"
+         },
+         {
+          "type": "source",
+          "value": "FR::multimodalStopPlace:71370:FR1"
+         }
+        ],
+        "stop_points": [],
+        "links": [],
+        "commercial_modes": [],
+        "physical_modes": [],
+        "comment": "",
+        "lines": []
+       },
+       "equipments": [
+        "has_wheelchair_boarding"
+       ],
+       "links": [],
+       "address": {
+        "id": "2.32517;48.874669",
+        "name": "Rue de l'Isly",
+        "house_number": 11,
+        "label": "11 Rue de l'Isly (Paris)",
+        "coord": {
+         "lat": "48.874669",
+         "lon": "2.325170"
+        },
+        "administrative_regions": [
+         {
+          "id": "admin:fr:75056",
+          "name": "Paris",
+          "label": "Paris (75000-75116)",
+          "coord": {
+           "lat": "48.853495",
+           "lon": "2.348391"
+          },
+          "insee": "75056",
+          "zip_code": "75000;75001;75002;75003;75004;75005;75006;75007;75008;75009;75010;75011;75012;75013;75014;75015;75016;75017;75018;75019;75020;75116",
+          "level": 8
+         },
+         {
+          "id": "admin:fr:75108",
+          "name": "Paris 8e Arrondissement",
+          "label": "Paris 8e Arrondissement (75008)",
+          "coord": {
+           "lat": "48.877480",
+           "lon": "2.317650"
+          },
+          "insee": "75108",
+          "zip_code": "75008",
+          "level": 9
+         },
+         {
+          "id": "admin:osm:relation:2188826",
+          "name": "Quartier de la Madeleine",
+          "label": "Quartier de la Madeleine (75008)",
+          "coord": {
+           "lat": "48.871266",
+           "lon": "2.320054"
+          },
+          "insee": "",
+          "zip_code": "75008",
+          "level": 10
+         }
+        ]
+       },
+       "fare_zone": {
+        "name": "1"
+       }
+      }
+     },
+     "departure_date_time": "20260924T014000",
+     "arrival_date_time": "20260924T014000",
+     "duration": 0,
+     "type": "crow_fly",
+     "mode": "walking",
+     "co2_emission": {
+      "value": 0,
+      "unit": "g CO₂e/passenger"
+     },
+     "links": []
+    },
+    {
+     "id": "section_1_0",
+     "from": {
+      "id": "stop_point:IDFM:37512",
+      "name": "Gare Saint-Lazare (Paris)",
+      "embedded_type": "stop_point",
+      "quality": 0,
+      "stop_point": {
+       "id": "stop_point:IDFM:37512",
+       "name": "Gare Saint-Lazare",
+       "label": "Gare Saint-Lazare (Paris)",
+       "coord": {
+        "lat": "48.874669",
+        "lon": "2.325170"
+       },
+       "administrative_regions": [
+        {
+         "id": "admin:fr:75056",
+         "name": "Paris",
+         "label": "Paris (75000-75116)",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "75056",
+         "zip_code": "75000;75001;75002;75003;75004;75005;75006;75007;75008;75009;75010;75011;75012;75013;75014;75015;75016;75017;75018;75019;75020;75116",
+         "level": 8
+        },
+        {
+         "id": "admin:fr:75108",
+         "name": "Paris 8e Arrondissement",
+         "label": "Paris 8e Arrondissement (75008)",
+         "coord": {
+          "lat": "48.877480",
+          "lon": "2.317650"
+         },
+         "insee": "75108",
+         "zip_code": "75008",
+         "level": 9
+        },
+        {
+         "id": "admin:osm:relation:2188826",
+         "name": "Quartier de la Madeleine",
+         "label": "Quartier de la Madeleine (75008)",
+         "coord": {
+          "lat": "48.871266",
+          "lon": "2.320054"
+         },
+         "insee": "",
+         "zip_code": "75008",
+         "level": 10
+        }
+       ],
+       "codes": [
+        {
+         "type": "netex_monomodal_stopplace",
+         "value": "monomodalStopPlace:473234"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "22718"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "30011"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "37512"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "39477"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "420302"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "472755"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "480764"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "monomodalStopPlace:473234"
+        },
+        {
+         "type": "source",
+         "value": "FR::Quay:37512:FR1"
+        }
+       ],
+       "stop_area": {
+        "id": "stop_area:IDFM:71370",
+        "name": "Gare Saint-Lazare",
+        "label": "Gare Saint-Lazare (Paris)",
+        "timezone": "Europe/Paris",
+        "coord": {
+         "lat": "48.875943",
+         "lon": "2.325352"
+        },
+        "codes": [
+         {
+          "type": "TN_PA",
+          "value": "204"
+         },
+         {
+          "type": "source",
+          "value": "FR::multimodalStopPlace:71370:FR1"
+         }
+        ],
+        "stop_points": [],
+        "links": [],
+        "commercial_modes": [],
+        "physical_modes": [],
+        "comment": "",
+        "lines": []
+       },
+       "equipments": [
+        "has_wheelchair_boarding"
+       ],
+       "links": [],
+       "address": {
+        "id": "2.32517;48.874669",
+        "name": "Rue de l'Isly",
+        "house_number": 11,
+        "label": "11 Rue de l'Isly (Paris)",
+        "coord": {
+         "lat": "48.874669",
+         "lon": "2.325170"
+        },
+        "administrative_regions": [
+         {
+          "id": "admin:fr:75056",
+          "name": "Paris",
+          "label": "Paris (75000-75116)",
+          "coord": {
+           "lat": "48.853495",
+           "lon": "2.348391"
+          },
+          "insee": "75056",
+          "zip_code": "75000;75001;75002;75003;75004;75005;75006;75007;75008;75009;75010;75011;75012;75013;75014;75015;75016;75017;75018;75019;75020;75116",
+          "level": 8
+         },
+         {
+          "id": "admin:fr:75108",
+          "name": "Paris 8e Arrondissement",
+          "label": "Paris 8e Arrondissement (75008)",
+          "coord": {
+           "lat": "48.877480",
+           "lon": "2.317650"
+          },
+          "insee": "75108",
+          "zip_code": "75008",
+          "level": 9
+         },
+         {
+          "id": "admin:osm:relation:2188826",
+          "name": "Quartier de la Madeleine",
+          "label": "Quartier de la Madeleine (75008)",
+          "coord": {
+           "lat": "48.871266",
+           "lon": "2.320054"
+          },
+          "insee": "",
+          "zip_code": "75008",
+          "level": 10
+         }
+        ]
+       },
+       "fare_zone": {
+        "name": "1"
+       }
+      }
+     },
+     "to": {
+      "id": "stop_point:IDFM:420619",
+      "name": "Gare d'Argenteuil (Argenteuil)",
+      "embedded_type": "stop_point",
+      "quality": 0,
+      "stop_point": {
+       "id": "stop_point:IDFM:420619",
+       "name": "Gare d'Argenteuil",
+       "label": "Gare d'Argenteuil (Argenteuil)",
+       "coord": {
+        "lat": "48.948169",
+        "lon": "2.255212"
+       },
+       "administrative_regions": [
+        {
+         "id": "admin:fr:95018",
+         "name": "Argenteuil",
+         "label": "Argenteuil (95100)",
+         "coord": {
+          "lat": "48.947907",
+          "lon": "2.248180"
+         },
+         "insee": "95018",
+         "zip_code": "95100",
+         "level": 8
+        }
+       ],
+       "codes": [
+        {
+         "type": "netex_monomodal_stopplace",
+         "value": "monomodalStopPlace:488235"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "420618"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "420619"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "monomodalStopPlace:488235"
+        },
+        {
+         "type": "source",
+         "value": "FR::Quay:420619:FR1"
+        }
+       ],
+       "stop_area": {
+        "id": "stop_area:IDFM:65063",
+        "name": "Argenteuil",
+        "label": "Argenteuil (Argenteuil)",
+        "timezone": "Europe/Paris",
+        "coord": {
+         "lat": "48.947173",
+         "lon": "2.256339"
+        },
+        "codes": [
+         {
+          "type": "TN_PA",
+          "value": "272"
+         },
+         {
+          "type": "source",
+          "value": "FR::multimodalStopPlace:65063:FR1"
+         }
+        ],
+        "stop_points": [],
+        "links": [],
+        "commercial_modes": [],
+        "physical_modes": [],
+        "comment": "",
+        "lines": []
+       },
+       "equipments": [],
+       "links": [],
+       "address": {
+        "id": "2.255212;48.948169",
+        "name": "Place Paul Sémard",
+        "house_number": 0,
+        "label": "Place Paul Sémard (Argenteuil)",
+        "coord": {
+         "lat": "48.948169",
+         "lon": "2.255212"
+        },
+        "administrative_regions": [
+         {
+          "id": "admin:fr:95018",
+          "name": "Argenteuil",
+          "label": "Argenteuil (95100)",
+          "coord": {
+           "lat": "48.947907",
+           "lon": "2.248180"
+          },
+          "insee": "95018",
+          "zip_code": "95100",
+          "level": 8
+         }
+        ]
+       },
+       "fare_zone": {
+        "name": "4"
+       }
+      }
+     },
+     "departure_date_time": "20260924T014000",
+     "arrival_date_time": "20260924T022200",
+     "base_departure_date_time": "20260924T014000",
+     "base_arrival_date_time": "20260924T022200",
+     "duration": 2520,
+     "type": "public_transport",
+     "display_informations": {
+      "direction": "Gare de Cormeilles-en-Parisis (Cormeilles-en-Parisis)",
+      "code": "N52",
+      "network": "RATP",
+      "color": "D2D200",
+      "name": "N52",
+      "label": "N52",
+      "text_color": "000000",
+      "commercial_mode": "Bus",
+      "links": [
+       {
+        "id": "stop_area:IDFM:65399",
+        "rel": "terminus",
+        "type": "stop_area",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "6bb9594b-6e0c-41e5-8bfd-b8f84de7c273",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "92b57487-db14-4cfc-9caa-c03f9aecede8",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "fbd9b4b8-593f-45a5-a6f4-e48339caa51a",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "40f460e9-b81b-4423-af26-b7d1d855f173",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "c0320e04-71cb-4ff5-a680-a399d96380ba",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "f2659fe8-5b37-4964-af26-9a75c06b1a0e",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "5e10667d-1459-4678-a6df-4543a235c293",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "1047dbd1-5aba-4a53-b4ed-85ccc125846c",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "e0cec204-5e24-4d25-a199-94d1730dc479",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "475098ee-4751-4a57-b9af-408c17ca8b61",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "106dba58-9a8f-4c2f-8dd1-f5c8647e96cf",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "87a5f97b-eda2-4575-87d6-67ca9bb7b36a",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "947fb254-6979-42e9-8527-7df3b342798b",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "98bde173-5d75-48f2-936c-699fdabb8477",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "8b42d816-6c97-491b-a52f-7a83f6bcbd19",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "f7e47252-3666-4aa8-b83c-ea1410e3140f",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "356c9216-3669-4138-9b29-9fa51d7d1222",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "8eb9948b-e33f-4ff6-afbb-db80e9674b1b",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "becf10d4-70a5-4cfb-b627-6a6b86e72f17",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "3ffc2514-7ea8-4e1c-8674-357cef832bd0",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "2b979582-cc77-4def-aae0-d812feb9e0c0",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "128ce3ed-d913-4d8e-b369-7dc19a3fc69a",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "8456e603-9e76-4b4c-947b-b6b932e3974e",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "f035a730-2e5c-44f4-88af-a88249e73743",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "c5aee2f2-9e6b-4b4b-8818-e4383fca5a51",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "66dd058f-bc73-4c0e-b1e0-83d1430497c2",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "ae9c0f20-8f70-427f-b020-abd4bf155c05",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "fde1e882-ba49-4bfe-a0c6-f3e300b44d5c",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "09f4e291-62a9-49cd-b4a6-9634c8dd41e0",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       }
+      ],
+      "description": "",
+      "physical_mode": "Bus",
+      "headsign": "Gare de Cormeilles-en-Parisis",
+      "equipments": [
+       "has_wheelchair_accessibility",
+       "has_visual_announcement",
+       "has_audible_announcement"
+      ],
+      "trip_short_name": "RATP",
+      "company": "RATP"
+     },
+     "co2_emission": {
+      "value": 1085.882736298039,
+      "unit": "g CO₂e/passenger"
+     },
+     "additional_informations": [
+      "regular"
+     ],
+     "links": [
+      {
+       "id": "company:IDFM:100",
+       "type": "company"
+      },
+      {
+       "id": "vehicle_journey:IDFM:RATP:COU_RATP_753LAV26Semaine08NOC2026_53_52071340",
+       "type": "vehicle_journey"
+      },
+      {
+       "id": "line:IDFM:C01393",
+       "type": "line"
+      },
+      {
+       "id": "route:IDFM:RATP:ITI_IDFM_C01393_R_1275864785",
+       "type": "route"
+      },
+      {
+       "id": "commercial_mode:Bus",
+       "type": "commercial_mode"
+      },
+      {
+       "id": "physical_mode:Bus",
+       "type": "physical_mode"
+      },
+      {
+       "id": "network:IDFM:Operator_100",
+       "type": "network"
+      },
+      {
+       "id": "ticket_1",
+       "rel": "tickets",
+       "type": "ticket",
+       "templated": false,
+       "internal": true
+      }
+     ],
+     "data_freshness": "base_schedule",
+     "stop_date_times": [
+      {
+       "additional_informations": [
+        "pick_up_only"
+       ],
+       "arrival_date_time": "20260924T014000",
+       "departure_date_time": "20260924T014000",
+       "base_arrival_date_time": "20260924T014000",
+       "base_departure_date_time": "20260924T014000",
+       "stop_point": {
+        "id": "stop_point:IDFM:37512",
+        "name": "Gare Saint-Lazare",
+        "label": "Gare Saint-Lazare (Paris)",
+        "coord": {
+         "lat": "48.874669",
+         "lon": "2.325170"
+        },
+        "codes": [
+         {
+          "type": "netex_monomodal_stopplace",
+          "value": "monomodalStopPlace:473234"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "22718"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "30011"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "37512"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "39477"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "420302"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "472755"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "480764"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "monomodalStopPlace:473234"
+         },
+         {
+          "type": "source",
+          "value": "FR::Quay:37512:FR1"
+         }
+        ],
+        "equipments": [
+         "has_wheelchair_boarding"
+        ],
+        "links": [],
+        "address": {
+         "id": "2.32517;48.874669",
+         "name": "Rue de l'Isly",
+         "house_number": 11,
+         "label": "11 Rue de l'Isly (Paris)",
+         "coord": {
+          "lat": "48.874669",
+          "lon": "2.325170"
+         }
+        },
+        "fare_zone": {
+         "name": "1"
+        }
+       },
+       "links": []
+      },
+      {
+       "additional_informations": [],
+       "arrival_date_time": "20260924T014200",
+       "departure_date_time": "20260924T014200",
+       "base_arrival_date_time": "20260924T014200",
+       "base_departure_date_time": "20260924T014200",
+       "stop_point": {
+        "id": "stop_point:IDFM:8411",
+        "name": "Europe",
+        "label": "Europe (Paris)",
+        "coord": {
+         "lat": "48.879104",
+         "lon": "2.322154"
+        },
+        "codes": [
+         {
+          "type": "netex_monomodal_stopplace",
+          "value": "monomodalStopPlace:463906"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "37141"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "491772"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "8410"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "8411"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "8412"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "monomodalStopPlace:463906"
+         },
+         {
+          "type": "source",
+          "value": "FR::Quay:8411:FR1"
+         }
+        ],
+        "equipments": [
+         "has_wheelchair_boarding"
+        ],
+        "links": [],
+        "address": {
+         "id": "2.322154;48.879104",
+         "name": "Rue de Rome",
+         "house_number": 52,
+         "label": "52 Rue de Rome (Paris)",
+         "coord": {
+          "lat": "48.879104",
+          "lon": "2.322154"
+         }
+        },
+        "fare_zone": {
+         "name": "1"
+        }
+       },
+       "links": []
+      },
+      {
+       "additional_informations": [],
+       "arrival_date_time": "20260924T022100",
+       "departure_date_time": "20260924T022100",
+       "base_arrival_date_time": "20260924T022100",
+       "base_departure_date_time": "20260924T022100",
+       "stop_point": {
+        "id": "stop_point:IDFM:27436",
+        "name": "Labrière",
+        "label": "Labrière (Argenteuil)",
+        "coord": {
+         "lat": "48.945853",
+         "lon": "2.254481"
+        },
+        "codes": [
+         {
+          "type": "netex_monomodal_stopplace",
+          "value": "monomodalStopPlace:57715"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "25817"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "27436"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "monomodalStopPlace:57715"
+         },
+         {
+          "type": "source",
+          "value": "FR::Quay:27436:FR1"
+         }
+        ],
+        "equipments": [
+         "has_wheelchair_boarding"
+        ],
+        "links": [],
+        "address": {
+         "id": "2.254481;48.945853",
+         "name": "Rue Alfred Labrière",
+         "house_number": 0,
+         "label": "50BIS Rue Alfred Labrière (Argenteuil)",
+         "coord": {
+          "lat": "48.945853",
+          "lon": "2.254481"
+         }
+        },
+        "fare_zone": {
+         "name": "4"
+        }
+       },
+       "links": []
+      },
+      {
+       "additional_informations": [],
+       "arrival_date_time": "20260924T022200",
+       "departure_date_time": "20260924T022200",
+       "base_arrival_date_time": "20260924T022200",
+       "base_departure_date_time": "20260924T022200",
+       "stop_point": {
+        "id": "stop_point:IDFM:420619",
+        "name": "Gare d'Argenteuil",
+        "label": "Gare d'Argenteuil (Argenteuil)",
+        "coord": {
+         "lat": "48.948169",
+         "lon": "2.255212"
+        },
+        "codes": [
+         {
+          "type": "netex_monomodal_stopplace",
+          "value": "monomodalStopPlace:488235"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "420618"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "420619"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "monomodalStopPlace:488235"
+         },
+         {
+          "type": "source",
+          "value": "FR::Quay:420619:FR1"
+         }
+        ],
+        "equipments": [],
+        "links": [],
+        "address": {
+         "id": "2.255212;48.948169",
+         "name": "Place Paul Sémard",
+         "house_number": 0,
+         "label": "Place Paul Sémard (Argenteuil)",
+         "coord": {
+          "lat": "48.948169",
+          "lon": "2.255212"
+         }
+        },
+        "fare_zone": {
+         "name": "4"
+        }
+       },
+       "links": []
+      }
+     ]
+    },
+    {
+     "id": "section_2_0",
+     "from": {
+      "id": "stop_point:IDFM:420619",
+      "name": "Gare d'Argenteuil (Argenteuil)",
+      "embedded_type": "stop_point",
+      "quality": 0,
+      "stop_point": {
+       "id": "stop_point:IDFM:420619",
+       "name": "Gare d'Argenteuil",
+       "label": "Gare d'Argenteuil (Argenteuil)",
+       "coord": {
+        "lat": "48.948169",
+        "lon": "2.255212"
+       },
+       "administrative_regions": [
+        {
+         "id": "admin:fr:95018",
+         "name": "Argenteuil",
+         "label": "Argenteuil (95100)",
+         "coord": {
+          "lat": "48.947907",
+          "lon": "2.248180"
+         },
+         "insee": "95018",
+         "zip_code": "95100",
+         "level": 8
+        }
+       ],
+       "codes": [
+        {
+         "type": "netex_monomodal_stopplace",
+         "value": "monomodalStopPlace:488235"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "420618"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "420619"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "monomodalStopPlace:488235"
+        },
+        {
+         "type": "source",
+         "value": "FR::Quay:420619:FR1"
+        }
+       ],
+       "stop_area": {
+        "id": "stop_area:IDFM:65063",
+        "name": "Argenteuil",
+        "label": "Argenteuil (Argenteuil)",
+        "timezone": "Europe/Paris",
+        "coord": {
+         "lat": "48.947173",
+         "lon": "2.256339"
+        },
+        "codes": [
+         {
+          "type": "TN_PA",
+          "value": "272"
+         },
+         {
+          "type": "source",
+          "value": "FR::multimodalStopPlace:65063:FR1"
+         }
+        ],
+        "stop_points": [],
+        "links": [],
+        "commercial_modes": [],
+        "physical_modes": [],
+        "comment": "",
+        "lines": []
+       },
+       "equipments": [],
+       "links": [],
+       "address": {
+        "id": "2.255212;48.948169",
+        "name": "Place Paul Sémard",
+        "house_number": 0,
+        "label": "Place Paul Sémard (Argenteuil)",
+        "coord": {
+         "lat": "48.948169",
+         "lon": "2.255212"
+        },
+        "administrative_regions": [
+         {
+          "id": "admin:fr:95018",
+          "name": "Argenteuil",
+          "label": "Argenteuil (95100)",
+          "coord": {
+           "lat": "48.947907",
+           "lon": "2.248180"
+          },
+          "insee": "95018",
+          "zip_code": "95100",
+          "level": 8
+         }
+        ]
+       },
+       "fare_zone": {
+        "name": "4"
+       }
+      }
+     },
+     "to": {
+      "id": "stop_area:IDFM:65063",
+      "name": "Argenteuil (Argenteuil)",
+      "embedded_type": "stop_area",
+      "quality": 0,
+      "stop_area": {
+       "id": "stop_area:IDFM:65063",
+       "name": "Argenteuil",
+       "label": "Argenteuil (Argenteuil)",
+       "timezone": "",
+       "coord": {
+        "lat": "48.947173",
+        "lon": "2.256339"
+       },
+       "administrative_regions": [
+        {
+         "id": "admin:fr:95018",
+         "name": "Argenteuil",
+         "label": "Argenteuil (95100)",
+         "coord": {
+          "lat": "48.947907",
+          "lon": "2.248180"
+         },
+         "insee": "95018",
+         "zip_code": "95100",
+         "level": 8
+        },
+        {
+         "id": "admin:osm:relation:7433",
+         "name": "Val-d'Oise",
+         "label": "Val-d'Oise",
+         "coord": {
+          "lat": "49.052753",
+          "lon": "2.038874"
+         },
+         "insee": "95",
+         "zip_code": "",
+         "level": 6
+        },
+        {
+         "id": "admin:osm:relation:8649",
+         "name": "Île-de-France",
+         "label": "Île-de-France",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "11",
+         "zip_code": "",
+         "level": 4
+        },
+        {
+         "id": "admin:osm:relation:2202162",
+         "name": "France",
+         "label": "France",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "",
+         "zip_code": "",
+         "level": 2
+        }
+       ],
+       "codes": [
+        {
+         "type": "TN_PA",
+         "value": "272"
+        },
+        {
+         "type": "source",
+         "value": "FR::multimodalStopPlace:65063:FR1"
+        }
+       ],
+       "stop_points": [],
+       "links": [],
+       "commercial_modes": [
+        {
+         "id": "commercial_mode:Bus",
+         "name": "Bus"
+        },
+        {
+         "id": "commercial_mode:LocalTrain",
+         "name": "Train Transilien"
+        }
+       ],
+       "physical_modes": [
+        {
+         "id": "physical_mode:Bus",
+         "name": "Bus"
+        },
+        {
+         "id": "physical_mode:LocalTrain",
+         "name": "Train Transilien"
+        }
+       ],
+       "comment": "",
+       "lines": [
+        {
+         "id": "line:IDFM:C01166",
+         "name": "140",
+         "code": "140",
+         "color": "FF1400",
+         "commercial_mode": {
+          "id": "commercial_mode:Bus",
+          "name": "Bus"
+         },
+         "physical_modes": [
+          {
+           "id": "physical_mode:Bus",
+           "name": "Bus"
+          }
+         ],
+         "network": {
+          "id": "network:IDFM:1090",
+          "name": "Boucles Nord de Seine",
+          "links": []
+         },
+         "links": [],
+         "text_color": "FFFFFF"
+        },
+        {
+         "id": "line:IDFM:C01254",
+         "name": "272",
+         "code": "272",
+         "color": "FF5A00",
+         "commercial_mode": {
+          "id": "commercial_mode:Bus",
+          "name": "Bus"
+         },
+         "physical_modes": [
+          {
+           "id": "physical_mode:Bus",
+           "name": "Bus"
+          }
+         ],
+         "network": {
+          "id": "network:IDFM:1096",
+          "name": "La Défense - Saint Cloud",
+          "links": []
+         },
+         "links": [],
+         "text_color": "000000"
+        },
+        {
+         "id": "line:IDFM:C01292",
+         "name": "340",
+         "code": "340",
+         "color": "DC9600",
+         "commercial_mode": {
+          "id": "commercial_mode:Bus",
+          "name": "Bus"
+         },
+         "physical_modes": [
+          {
+           "id": "physical_mode:Bus",
+           "name": "Bus"
+          }
+         ],
+         "network": {
+          "id": "network:IDFM:1090",
+          "name": "Boucles Nord de Seine",
+          "links": []
+         },
+         "links": [],
+         "text_color": "000000"
+        }
+       ]
+      }
+     },
+     "departure_date_time": "20260924T022200",
+     "arrival_date_time": "20260924T022200",
+     "duration": 0,
+     "type": "crow_fly",
+     "mode": "walking",
+     "co2_emission": {
+      "value": 0,
+      "unit": "g CO₂e/passenger"
+     },
+     "links": []
+    }
+   ],
+   "status": "",
+   "durations": {
+    "total": 2520,
+    "walking": 0,
+    "bike": 0,
+    "car": 0,
+    "taxi": 0,
+    "ridesharing": 0
+   },
+   "distances": {
+    "walking": 138,
+    "bike": 0,
+    "car": 0,
+    "taxi": 0,
+    "ridesharing": 0
+   },
+   "links": [
+    {
+     "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/journeys?allowed_id%5B%5D=stop_point%3AIDFM%3A37512&allowed_id%5B%5D=stop_point%3AIDFM%3A420619&data_freshness=realtime&datetime=20260924T014000&direct_path=none&first_section_mode%5B%5D=walking&from=stop_area%3AIDFM%3A71370&is_journey_schedules=true&last_section_mode%5B%5D=walking&max_nb_journeys=5&min_nb_journeys=5&to=stop_area%3AIDFM%3A65063",
+     "rel": "same_journey_schedules",
+     "type": "journeys",
+     "templated": false
+    },
+    {
+     "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/journeys?allowed_id%5B%5D=stop_point%3AIDFM%3A37512&allowed_id%5B%5D=stop_point%3AIDFM%3A420619&count=1&data_freshness=realtime&datetime=20260924T014000&direct_path=none&first_section_mode%5B%5D=walking&from=stop_area%3AIDFM%3A71370&is_journey_schedules=true&last_section_mode%5B%5D=walking&max_nb_journeys=5&min_nb_journeys=1&to=stop_area%3AIDFM%3A65063",
+     "rel": "this_journey",
+     "type": "journeys",
+     "templated": false
+    }
+   ],
+   "fare": {
+    "found": true,
+    "links": [
+     {
+      "id": "ticket_1",
+      "rel": "tickets",
+      "type": "ticket",
+      "templated": false,
+      "internal": true
+     }
+    ],
+    "total": {
+     "currency": "centime",
+     "value": "205.0"
+    }
+   },
+   "air_pollutants": {
+    "values": {
+     "nox": 0,
+     "pm": 0
+    },
+    "unit": "g"
+   },
+   "co2_emission": {
+    "value": 1085.882736298039,
+    "unit": "g CO₂e/passenger"
+   },
+   "calendars": [
+    {
+     "active_periods": [
+      {
+       "begin": "20260923",
+       "end": "20261022"
+      }
+     ],
+     "week_pattern": {
+      "monday": true,
+      "tuesday": true,
+      "wednesday": true,
+      "thursday": true,
+      "friday": false,
+      "saturday": false,
+      "sunday": true
+     }
+    }
+   ],
+   "criteria_ranker": {
+    "asap": 1,
+    "less_transfers": 1,
+    "less_walking": 1,
+    "reliability": 1
+   }
+  },
+  {
+   "duration": 2520,
+   "nb_transfers": 0,
+   "departure_date_time": "20260924T021000",
+   "arrival_date_time": "20260924T025200",
+   "requested_date_time": "20260924T013352",
+   "type": "comfort",
+   "tags": [
+    "walking",
+    "ecologic"
+   ],
+   "sections": [
+    {
+     "id": "section_0_1",
+     "from": {
+      "id": "stop_area:IDFM:71370",
+      "name": "Gare Saint-Lazare (Paris)",
+      "embedded_type": "stop_area",
+      "quality": 0,
+      "stop_area": {
+       "id": "stop_area:IDFM:71370",
+       "name": "Gare Saint-Lazare",
+       "label": "Gare Saint-Lazare (Paris)",
+       "timezone": "",
+       "coord": {
+        "lat": "48.875943",
+        "lon": "2.325352"
+       },
+       "administrative_regions": [
+        {
+         "id": "admin:osm:relation:2188825",
+         "name": "Quartier de l'Europe",
+         "label": "Quartier de l'Europe (75008)",
+         "coord": {
+          "lat": "48.878150",
+          "lon": "2.317180"
+         },
+         "insee": "",
+         "zip_code": "75008",
+         "level": 10
+        },
+        {
+         "id": "admin:osm:relation:20872",
+         "name": "Paris 8e Arrondissement",
+         "label": "Paris 8e Arrondissement (75008)",
+         "coord": {
+          "lat": "48.873728",
+          "lon": "2.310393"
+         },
+         "insee": "75108",
+         "zip_code": "75008",
+         "level": 9
+        },
+        {
+         "id": "admin:fr:75056",
+         "name": "Paris",
+         "label": "Paris (75000-75116)",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "75056",
+         "zip_code": "75000-75116",
+         "level": 8
+        },
+        {
+         "id": "admin:osm:relation:71525",
+         "name": "Paris",
+         "label": "Paris",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "75",
+         "zip_code": "",
+         "level": 6
+        },
+        {
+         "id": "admin:osm:relation:8649",
+         "name": "Île-de-France",
+         "label": "Île-de-France",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "11",
+         "zip_code": "",
+         "level": 4
+        },
+        {
+         "id": "admin:osm:relation:2202162",
+         "name": "France",
+         "label": "France",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "",
+         "zip_code": "",
+         "level": 2
+        }
+       ],
+       "codes": [
+        {
+         "type": "TN_PA",
+         "value": "204"
+        },
+        {
+         "type": "source",
+         "value": "FR::multimodalStopPlace:71370:FR1"
+        }
+       ],
+       "stop_points": [],
+       "links": [],
+       "commercial_modes": [
+        {
+         "id": "commercial_mode:Bus",
+         "name": "Bus"
+        },
+        {
+         "id": "commercial_mode:Metro",
+         "name": "Métro"
+        },
+        {
+         "id": "commercial_mode:regionalRail",
+         "name": "TER"
+        },
+        {
+         "id": "commercial_mode:LocalTrain",
+         "name": "Train Transilien"
+        }
+       ],
+       "physical_modes": [
+        {
+         "id": "physical_mode:Bus",
+         "name": "Bus"
+        },
+        {
+         "id": "physical_mode:Metro",
+         "name": "Métro"
+        },
+        {
+         "id": "physical_mode:Train",
+         "name": "TER / Intercités"
+        },
+        {
+         "id": "physical_mode:LocalTrain",
+         "name": "Train Transilien"
+        }
+       ],
+       "comment": "",
+       "lines": [
+        {
+         "id": "line:IDFM:C01373",
+         "name": "3",
+         "code": "3",
+         "color": "6E6E00",
+         "commercial_mode": {
+          "id": "commercial_mode:Metro",
+          "name": "Métro"
+         },
+         "physical_modes": [
+          {
+           "id": "physical_mode:Metro",
+           "name": "Métro"
+          }
+         ],
+         "network": {
+          "id": "network:IDFM:Operator_100",
+          "name": "RATP",
+          "links": []
+         },
+         "links": [],
+         "text_color": "FFFFFF"
+        },
+        {
+         "id": "line:IDFM:C01382",
+         "name": "12",
+         "code": "12",
+         "color": "00643C",
+         "commercial_mode": {
+          "id": "commercial_mode:Metro",
+          "name": "Métro"
+         },
+         "physical_modes": [
+          {
+           "id": "physical_mode:Metro",
+           "name": "Métro"
+          }
+         ],
+         "network": {
+          "id": "network:IDFM:Operator_100",
+          "name": "RATP",
+          "links": []
+         },
+         "links": [],
+         "text_color": "FFFFFF"
+        },
+        {
+         "id": "line:IDFM:C01383",
+         "name": "13",
+         "code": "13",
+         "color": "82C8E6",
+         "commercial_mode": {
+          "id": "commercial_mode:Metro",
+          "name": "Métro"
+         },
+         "physical_modes": [
+          {
+           "id": "physical_mode:Metro",
+           "name": "Métro"
+          }
+         ],
+         "network": {
+          "id": "network:IDFM:Operator_100",
+          "name": "RATP",
+          "links": []
+         },
+         "links": [],
+         "text_color": "000000"
+        }
+       ]
+      }
+     },
+     "to": {
+      "id": "stop_point:IDFM:37512",
+      "name": "Gare Saint-Lazare (Paris)",
+      "embedded_type": "stop_point",
+      "quality": 0,
+      "stop_point": {
+       "id": "stop_point:IDFM:37512",
+       "name": "Gare Saint-Lazare",
+       "label": "Gare Saint-Lazare (Paris)",
+       "coord": {
+        "lat": "48.874669",
+        "lon": "2.325170"
+       },
+       "administrative_regions": [
+        {
+         "id": "admin:fr:75056",
+         "name": "Paris",
+         "label": "Paris (75000-75116)",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "75056",
+         "zip_code": "75000;75001;75002;75003;75004;75005;75006;75007;75008;75009;75010;75011;75012;75013;75014;75015;75016;75017;75018;75019;75020;75116",
+         "level": 8
+        },
+        {
+         "id": "admin:fr:75108",
+         "name": "Paris 8e Arrondissement",
+         "label": "Paris 8e Arrondissement (75008)",
+         "coord": {
+          "lat": "48.877480",
+          "lon": "2.317650"
+         },
+         "insee": "75108",
+         "zip_code": "75008",
+         "level": 9
+        },
+        {
+         "id": "admin:osm:relation:2188826",
+         "name": "Quartier de la Madeleine",
+         "label": "Quartier de la Madeleine (75008)",
+         "coord": {
+          "lat": "48.871266",
+          "lon": "2.320054"
+         },
+         "insee": "",
+         "zip_code": "75008",
+         "level": 10
+        }
+       ],
+       "codes": [
+        {
+         "type": "netex_monomodal_stopplace",
+         "value": "monomodalStopPlace:473234"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "22718"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "30011"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "37512"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "39477"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "420302"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "472755"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "480764"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "monomodalStopPlace:473234"
+        },
+        {
+         "type": "source",
+         "value": "FR::Quay:37512:FR1"
+        }
+       ],
+       "stop_area": {
+        "id": "stop_area:IDFM:71370",
+        "name": "Gare Saint-Lazare",
+        "label": "Gare Saint-Lazare (Paris)",
+        "timezone": "Europe/Paris",
+        "coord": {
+         "lat": "48.875943",
+         "lon": "2.325352"
+        },
+        "codes": [
+         {
+          "type": "TN_PA",
+          "value": "204"
+         },
+         {
+          "type": "source",
+          "value": "FR::multimodalStopPlace:71370:FR1"
+         }
+        ],
+        "stop_points": [],
+        "links": [],
+        "commercial_modes": [],
+        "physical_modes": [],
+        "comment": "",
+        "lines": []
+       },
+       "equipments": [
+        "has_wheelchair_boarding"
+       ],
+       "links": [],
+       "address": {
+        "id": "2.32517;48.874669",
+        "name": "Rue de l'Isly",
+        "house_number": 11,
+        "label": "11 Rue de l'Isly (Paris)",
+        "coord": {
+         "lat": "48.874669",
+         "lon": "2.325170"
+        },
+        "administrative_regions": [
+         {
+          "id": "admin:fr:75056",
+          "name": "Paris",
+          "label": "Paris (75000-75116)",
+          "coord": {
+           "lat": "48.853495",
+           "lon": "2.348391"
+          },
+          "insee": "75056",
+          "zip_code": "75000;75001;75002;75003;75004;75005;75006;75007;75008;75009;75010;75011;75012;75013;75014;75015;75016;75017;75018;75019;75020;75116",
+          "level": 8
+         },
+         {
+          "id": "admin:fr:75108",
+          "name": "Paris 8e Arrondissement",
+          "label": "Paris 8e Arrondissement (75008)",
+          "coord": {
+           "lat": "48.877480",
+           "lon": "2.317650"
+          },
+          "insee": "75108",
+          "zip_code": "75008",
+          "level": 9
+         },
+         {
+          "id": "admin:osm:relation:2188826",
+          "name": "Quartier de la Madeleine",
+          "label": "Quartier de la Madeleine (75008)",
+          "coord": {
+           "lat": "48.871266",
+           "lon": "2.320054"
+          },
+          "insee": "",
+          "zip_code": "75008",
+          "level": 10
+         }
+        ]
+       },
+       "fare_zone": {
+        "name": "1"
+       }
+      }
+     },
+     "departure_date_time": "20260924T021000",
+     "arrival_date_time": "20260924T021000",
+     "duration": 0,
+     "type": "crow_fly",
+     "mode": "walking",
+     "co2_emission": {
+      "value": 0,
+      "unit": "g CO₂e/passenger"
+     },
+     "links": []
+    },
+    {
+     "id": "section_1_1",
+     "from": {
+      "id": "stop_point:IDFM:37512",
+      "name": "Gare Saint-Lazare (Paris)",
+      "embedded_type": "stop_point",
+      "quality": 0,
+      "stop_point": {
+       "id": "stop_point:IDFM:37512",
+       "name": "Gare Saint-Lazare",
+       "label": "Gare Saint-Lazare (Paris)",
+       "coord": {
+        "lat": "48.874669",
+        "lon": "2.325170"
+       },
+       "administrative_regions": [
+        {
+         "id": "admin:fr:75056",
+         "name": "Paris",
+         "label": "Paris (75000-75116)",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "75056",
+         "zip_code": "75000;75001;75002;75003;75004;75005;75006;75007;75008;75009;75010;75011;75012;75013;75014;75015;75016;75017;75018;75019;75020;75116",
+         "level": 8
+        },
+        {
+         "id": "admin:fr:75108",
+         "name": "Paris 8e Arrondissement",
+         "label": "Paris 8e Arrondissement (75008)",
+         "coord": {
+          "lat": "48.877480",
+          "lon": "2.317650"
+         },
+         "insee": "75108",
+         "zip_code": "75008",
+         "level": 9
+        },
+        {
+         "id": "admin:osm:relation:2188826",
+         "name": "Quartier de la Madeleine",
+         "label": "Quartier de la Madeleine (75008)",
+         "coord": {
+          "lat": "48.871266",
+          "lon": "2.320054"
+         },
+         "insee": "",
+         "zip_code": "75008",
+         "level": 10
+        }
+       ],
+       "codes": [
+        {
+         "type": "netex_monomodal_stopplace",
+         "value": "monomodalStopPlace:473234"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "22718"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "30011"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "37512"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "39477"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "420302"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "472755"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "480764"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "monomodalStopPlace:473234"
+        },
+        {
+         "type": "source",
+         "value": "FR::Quay:37512:FR1"
+        }
+       ],
+       "stop_area": {
+        "id": "stop_area:IDFM:71370",
+        "name": "Gare Saint-Lazare",
+        "label": "Gare Saint-Lazare (Paris)",
+        "timezone": "Europe/Paris",
+        "coord": {
+         "lat": "48.875943",
+         "lon": "2.325352"
+        },
+        "codes": [
+         {
+          "type": "TN_PA",
+          "value": "204"
+         },
+         {
+          "type": "source",
+          "value": "FR::multimodalStopPlace:71370:FR1"
+         }
+        ],
+        "stop_points": [],
+        "links": [],
+        "commercial_modes": [],
+        "physical_modes": [],
+        "comment": "",
+        "lines": []
+       },
+       "equipments": [
+        "has_wheelchair_boarding"
+       ],
+       "links": [],
+       "address": {
+        "id": "2.32517;48.874669",
+        "name": "Rue de l'Isly",
+        "house_number": 11,
+        "label": "11 Rue de l'Isly (Paris)",
+        "coord": {
+         "lat": "48.874669",
+         "lon": "2.325170"
+        },
+        "administrative_regions": [
+         {
+          "id": "admin:fr:75056",
+          "name": "Paris",
+          "label": "Paris (75000-75116)",
+          "coord": {
+           "lat": "48.853495",
+           "lon": "2.348391"
+          },
+          "insee": "75056",
+          "zip_code": "75000;75001;75002;75003;75004;75005;75006;75007;75008;75009;75010;75011;75012;75013;75014;75015;75016;75017;75018;75019;75020;75116",
+          "level": 8
+         },
+         {
+          "id": "admin:fr:75108",
+          "name": "Paris 8e Arrondissement",
+          "label": "Paris 8e Arrondissement (75008)",
+          "coord": {
+           "lat": "48.877480",
+           "lon": "2.317650"
+          },
+          "insee": "75108",
+          "zip_code": "75008",
+          "level": 9
+         },
+         {
+          "id": "admin:osm:relation:2188826",
+          "name": "Quartier de la Madeleine",
+          "label": "Quartier de la Madeleine (75008)",
+          "coord": {
+           "lat": "48.871266",
+           "lon": "2.320054"
+          },
+          "insee": "",
+          "zip_code": "75008",
+          "level": 10
+         }
+        ]
+       },
+       "fare_zone": {
+        "name": "1"
+       }
+      }
+     },
+     "to": {
+      "id": "stop_point:IDFM:420619",
+      "name": "Gare d'Argenteuil (Argenteuil)",
+      "embedded_type": "stop_point",
+      "quality": 0,
+      "stop_point": {
+       "id": "stop_point:IDFM:420619",
+       "name": "Gare d'Argenteuil",
+       "label": "Gare d'Argenteuil (Argenteuil)",
+       "coord": {
+        "lat": "48.948169",
+        "lon": "2.255212"
+       },
+       "administrative_regions": [
+        {
+         "id": "admin:fr:95018",
+         "name": "Argenteuil",
+         "label": "Argenteuil (95100)",
+         "coord": {
+          "lat": "48.947907",
+          "lon": "2.248180"
+         },
+         "insee": "95018",
+         "zip_code": "95100",
+         "level": 8
+        }
+       ],
+       "codes": [
+        {
+         "type": "netex_monomodal_stopplace",
+         "value": "monomodalStopPlace:488235"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "420618"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "420619"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "monomodalStopPlace:488235"
+        },
+        {
+         "type": "source",
+         "value": "FR::Quay:420619:FR1"
+        }
+       ],
+       "stop_area": {
+        "id": "stop_area:IDFM:65063",
+        "name": "Argenteuil",
+        "label": "Argenteuil (Argenteuil)",
+        "timezone": "Europe/Paris",
+        "coord": {
+         "lat": "48.947173",
+         "lon": "2.256339"
+        },
+        "codes": [
+         {
+          "type": "TN_PA",
+          "value": "272"
+         },
+         {
+          "type": "source",
+          "value": "FR::multimodalStopPlace:65063:FR1"
+         }
+        ],
+        "stop_points": [],
+        "links": [],
+        "commercial_modes": [],
+        "physical_modes": [],
+        "comment": "",
+        "lines": []
+       },
+       "equipments": [],
+       "links": [],
+       "address": {
+        "id": "2.255212;48.948169",
+        "name": "Place Paul Sémard",
+        "house_number": 0,
+        "label": "Place Paul Sémard (Argenteuil)",
+        "coord": {
+         "lat": "48.948169",
+         "lon": "2.255212"
+        },
+        "administrative_regions": [
+         {
+          "id": "admin:fr:95018",
+          "name": "Argenteuil",
+          "label": "Argenteuil (95100)",
+          "coord": {
+           "lat": "48.947907",
+           "lon": "2.248180"
+          },
+          "insee": "95018",
+          "zip_code": "95100",
+          "level": 8
+         }
+        ]
+       },
+       "fare_zone": {
+        "name": "4"
+       }
+      }
+     },
+     "departure_date_time": "20260924T021000",
+     "arrival_date_time": "20260924T025200",
+     "base_departure_date_time": "20260924T021000",
+     "base_arrival_date_time": "20260924T025200",
+     "duration": 2520,
+     "type": "public_transport",
+     "display_informations": {
+      "direction": "Gare de Cormeilles-en-Parisis (Cormeilles-en-Parisis)",
+      "code": "N52",
+      "network": "RATP",
+      "color": "D2D200",
+      "name": "N52",
+      "label": "N52",
+      "text_color": "000000",
+      "commercial_mode": "Bus",
+      "links": [
+       {
+        "id": "stop_area:IDFM:65399",
+        "rel": "terminus",
+        "type": "stop_area",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "1047dbd1-5aba-4a53-b4ed-85ccc125846c",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "356c9216-3669-4138-9b29-9fa51d7d1222",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "6bb9594b-6e0c-41e5-8bfd-b8f84de7c273",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "f2659fe8-5b37-4964-af26-9a75c06b1a0e",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "66dd058f-bc73-4c0e-b1e0-83d1430497c2",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "128ce3ed-d913-4d8e-b369-7dc19a3fc69a",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "e0cec204-5e24-4d25-a199-94d1730dc479",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "8b42d816-6c97-491b-a52f-7a83f6bcbd19",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "475098ee-4751-4a57-b9af-408c17ca8b61",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "fbd9b4b8-593f-45a5-a6f4-e48339caa51a",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "5e10667d-1459-4678-a6df-4543a235c293",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "becf10d4-70a5-4cfb-b627-6a6b86e72f17",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "f7e47252-3666-4aa8-b83c-ea1410e3140f",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "106dba58-9a8f-4c2f-8dd1-f5c8647e96cf",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "ae9c0f20-8f70-427f-b020-abd4bf155c05",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "09f4e291-62a9-49cd-b4a6-9634c8dd41e0",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "8456e603-9e76-4b4c-947b-b6b932e3974e",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "fde1e882-ba49-4bfe-a0c6-f3e300b44d5c",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "c0320e04-71cb-4ff5-a680-a399d96380ba",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "f035a730-2e5c-44f4-88af-a88249e73743",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "947fb254-6979-42e9-8527-7df3b342798b",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "98bde173-5d75-48f2-936c-699fdabb8477",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "2b979582-cc77-4def-aae0-d812feb9e0c0",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "3ffc2514-7ea8-4e1c-8674-357cef832bd0",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "40f460e9-b81b-4423-af26-b7d1d855f173",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "c5aee2f2-9e6b-4b4b-8818-e4383fca5a51",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "8eb9948b-e33f-4ff6-afbb-db80e9674b1b",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "92b57487-db14-4cfc-9caa-c03f9aecede8",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       },
+       {
+        "id": "87a5f97b-eda2-4575-87d6-67ca9bb7b36a",
+        "rel": "disruptions",
+        "type": "disruption",
+        "templated": false,
+        "internal": true
+       }
+      ],
+      "description": "",
+      "physical_mode": "Bus",
+      "headsign": "Gare de Cormeilles-en-Parisis",
+      "equipments": [
+       "has_wheelchair_accessibility",
+       "has_visual_announcement",
+       "has_audible_announcement"
+      ],
+      "trip_short_name": "RATP",
+      "company": "RATP"
+     },
+     "co2_emission": {
+      "value": 1085.882736298039,
+      "unit": "g CO₂e/passenger"
+     },
+     "additional_informations": [
+      "regular"
+     ],
+     "links": [
+      {
+       "id": "company:IDFM:100",
+       "type": "company"
+      },
+      {
+       "id": "vehicle_journey:IDFM:RATP:COU_RATP_753LAV26Semaine08NOC2026_53_52071342",
+       "type": "vehicle_journey"
+      },
+      {
+       "id": "line:IDFM:C01393",
+       "type": "line"
+      },
+      {
+       "id": "route:IDFM:RATP:ITI_IDFM_C01393_R_1275864785",
+       "type": "route"
+      },
+      {
+       "id": "commercial_mode:Bus",
+       "type": "commercial_mode"
+      },
+      {
+       "id": "physical_mode:Bus",
+       "type": "physical_mode"
+      },
+      {
+       "id": "network:IDFM:Operator_100",
+       "type": "network"
+      },
+      {
+       "id": "ticket_2",
+       "rel": "tickets",
+       "type": "ticket",
+       "templated": false,
+       "internal": true
+      }
+     ],
+     "data_freshness": "base_schedule",
+     "stop_date_times": [
+      {
+       "additional_informations": [
+        "pick_up_only"
+       ],
+       "arrival_date_time": "20260924T021000",
+       "departure_date_time": "20260924T021000",
+       "base_arrival_date_time": "20260924T021000",
+       "base_departure_date_time": "20260924T021000",
+       "stop_point": {
+        "id": "stop_point:IDFM:37512",
+        "name": "Gare Saint-Lazare",
+        "label": "Gare Saint-Lazare (Paris)",
+        "coord": {
+         "lat": "48.874669",
+         "lon": "2.325170"
+        },
+        "codes": [
+         {
+          "type": "netex_monomodal_stopplace",
+          "value": "monomodalStopPlace:473234"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "22718"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "30011"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "37512"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "39477"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "420302"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "472755"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "480764"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "monomodalStopPlace:473234"
+         },
+         {
+          "type": "source",
+          "value": "FR::Quay:37512:FR1"
+         }
+        ],
+        "equipments": [
+         "has_wheelchair_boarding"
+        ],
+        "links": [],
+        "address": {
+         "id": "2.32517;48.874669",
+         "name": "Rue de l'Isly",
+         "house_number": 11,
+         "label": "11 Rue de l'Isly (Paris)",
+         "coord": {
+          "lat": "48.874669",
+          "lon": "2.325170"
+         }
+        },
+        "fare_zone": {
+         "name": "1"
+        }
+       },
+       "links": []
+      },
+      {
+       "additional_informations": [],
+       "arrival_date_time": "20260924T021200",
+       "departure_date_time": "20260924T021200",
+       "base_arrival_date_time": "20260924T021200",
+       "base_departure_date_time": "20260924T021200",
+       "stop_point": {
+        "id": "stop_point:IDFM:8411",
+        "name": "Europe",
+        "label": "Europe (Paris)",
+        "coord": {
+         "lat": "48.879104",
+         "lon": "2.322154"
+        },
+        "codes": [
+         {
+          "type": "netex_monomodal_stopplace",
+          "value": "monomodalStopPlace:463906"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "37141"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "491772"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "8410"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "8411"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "8412"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "monomodalStopPlace:463906"
+         },
+         {
+          "type": "source",
+          "value": "FR::Quay:8411:FR1"
+         }
+        ],
+        "equipments": [
+         "has_wheelchair_boarding"
+        ],
+        "links": [],
+        "address": {
+         "id": "2.322154;48.879104",
+         "name": "Rue de Rome",
+         "house_number": 52,
+         "label": "52 Rue de Rome (Paris)",
+         "coord": {
+          "lat": "48.879104",
+          "lon": "2.322154"
+         }
+        },
+        "fare_zone": {
+         "name": "1"
+        }
+       },
+       "links": []
+      },
+      {
+       "additional_informations": [],
+       "arrival_date_time": "20260924T025100",
+       "departure_date_time": "20260924T025100",
+       "base_arrival_date_time": "20260924T025100",
+       "base_departure_date_time": "20260924T025100",
+       "stop_point": {
+        "id": "stop_point:IDFM:27436",
+        "name": "Labrière",
+        "label": "Labrière (Argenteuil)",
+        "coord": {
+         "lat": "48.945853",
+         "lon": "2.254481"
+        },
+        "codes": [
+         {
+          "type": "netex_monomodal_stopplace",
+          "value": "monomodalStopPlace:57715"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "25817"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "27436"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "monomodalStopPlace:57715"
+         },
+         {
+          "type": "source",
+          "value": "FR::Quay:27436:FR1"
+         }
+        ],
+        "equipments": [
+         "has_wheelchair_boarding"
+        ],
+        "links": [],
+        "address": {
+         "id": "2.254481;48.945853",
+         "name": "Rue Alfred Labrière",
+         "house_number": 0,
+         "label": "50BIS Rue Alfred Labrière (Argenteuil)",
+         "coord": {
+          "lat": "48.945853",
+          "lon": "2.254481"
+         }
+        },
+        "fare_zone": {
+         "name": "4"
+        }
+       },
+       "links": []
+      },
+      {
+       "additional_informations": [],
+       "arrival_date_time": "20260924T025200",
+       "departure_date_time": "20260924T025200",
+       "base_arrival_date_time": "20260924T025200",
+       "base_departure_date_time": "20260924T025200",
+       "stop_point": {
+        "id": "stop_point:IDFM:420619",
+        "name": "Gare d'Argenteuil",
+        "label": "Gare d'Argenteuil (Argenteuil)",
+        "coord": {
+         "lat": "48.948169",
+         "lon": "2.255212"
+        },
+        "codes": [
+         {
+          "type": "netex_monomodal_stopplace",
+          "value": "monomodalStopPlace:488235"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "420618"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "420619"
+         },
+         {
+          "type": "netex_zder_quay",
+          "value": "monomodalStopPlace:488235"
+         },
+         {
+          "type": "source",
+          "value": "FR::Quay:420619:FR1"
+         }
+        ],
+        "equipments": [],
+        "links": [],
+        "address": {
+         "id": "2.255212;48.948169",
+         "name": "Place Paul Sémard",
+         "house_number": 0,
+         "label": "Place Paul Sémard (Argenteuil)",
+         "coord": {
+          "lat": "48.948169",
+          "lon": "2.255212"
+         }
+        },
+        "fare_zone": {
+         "name": "4"
+        }
+       },
+       "links": []
+      }
+     ]
+    },
+    {
+     "id": "section_2_1",
+     "from": {
+      "id": "stop_point:IDFM:420619",
+      "name": "Gare d'Argenteuil (Argenteuil)",
+      "embedded_type": "stop_point",
+      "quality": 0,
+      "stop_point": {
+       "id": "stop_point:IDFM:420619",
+       "name": "Gare d'Argenteuil",
+       "label": "Gare d'Argenteuil (Argenteuil)",
+       "coord": {
+        "lat": "48.948169",
+        "lon": "2.255212"
+       },
+       "administrative_regions": [
+        {
+         "id": "admin:fr:95018",
+         "name": "Argenteuil",
+         "label": "Argenteuil (95100)",
+         "coord": {
+          "lat": "48.947907",
+          "lon": "2.248180"
+         },
+         "insee": "95018",
+         "zip_code": "95100",
+         "level": 8
+        }
+       ],
+       "codes": [
+        {
+         "type": "netex_monomodal_stopplace",
+         "value": "monomodalStopPlace:488235"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "420618"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "420619"
+        },
+        {
+         "type": "netex_zder_quay",
+         "value": "monomodalStopPlace:488235"
+        },
+        {
+         "type": "source",
+         "value": "FR::Quay:420619:FR1"
+        }
+       ],
+       "stop_area": {
+        "id": "stop_area:IDFM:65063",
+        "name": "Argenteuil",
+        "label": "Argenteuil (Argenteuil)",
+        "timezone": "Europe/Paris",
+        "coord": {
+         "lat": "48.947173",
+         "lon": "2.256339"
+        },
+        "codes": [
+         {
+          "type": "TN_PA",
+          "value": "272"
+         },
+         {
+          "type": "source",
+          "value": "FR::multimodalStopPlace:65063:FR1"
+         }
+        ],
+        "stop_points": [],
+        "links": [],
+        "commercial_modes": [],
+        "physical_modes": [],
+        "comment": "",
+        "lines": []
+       },
+       "equipments": [],
+       "links": [],
+       "address": {
+        "id": "2.255212;48.948169",
+        "name": "Place Paul Sémard",
+        "house_number": 0,
+        "label": "Place Paul Sémard (Argenteuil)",
+        "coord": {
+         "lat": "48.948169",
+         "lon": "2.255212"
+        },
+        "administrative_regions": [
+         {
+          "id": "admin:fr:95018",
+          "name": "Argenteuil",
+          "label": "Argenteuil (95100)",
+          "coord": {
+           "lat": "48.947907",
+           "lon": "2.248180"
+          },
+          "insee": "95018",
+          "zip_code": "95100",
+          "level": 8
+         }
+        ]
+       },
+       "fare_zone": {
+        "name": "4"
+       }
+      }
+     },
+     "to": {
+      "id": "stop_area:IDFM:65063",
+      "name": "Argenteuil (Argenteuil)",
+      "embedded_type": "stop_area",
+      "quality": 0,
+      "stop_area": {
+       "id": "stop_area:IDFM:65063",
+       "name": "Argenteuil",
+       "label": "Argenteuil (Argenteuil)",
+       "timezone": "",
+       "coord": {
+        "lat": "48.947173",
+        "lon": "2.256339"
+       },
+       "administrative_regions": [
+        {
+         "id": "admin:fr:95018",
+         "name": "Argenteuil",
+         "label": "Argenteuil (95100)",
+         "coord": {
+          "lat": "48.947907",
+          "lon": "2.248180"
+         },
+         "insee": "95018",
+         "zip_code": "95100",
+         "level": 8
+        },
+        {
+         "id": "admin:osm:relation:7433",
+         "name": "Val-d'Oise",
+         "label": "Val-d'Oise",
+         "coord": {
+          "lat": "49.052753",
+          "lon": "2.038874"
+         },
+         "insee": "95",
+         "zip_code": "",
+         "level": 6
+        },
+        {
+         "id": "admin:osm:relation:8649",
+         "name": "Île-de-France",
+         "label": "Île-de-France",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "11",
+         "zip_code": "",
+         "level": 4
+        },
+        {
+         "id": "admin:osm:relation:2202162",
+         "name": "France",
+         "label": "France",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "",
+         "zip_code": "",
+         "level": 2
+        }
+       ],
+       "codes": [
+        {
+         "type": "TN_PA",
+         "value": "272"
+        },
+        {
+         "type": "source",
+         "value": "FR::multimodalStopPlace:65063:FR1"
+        }
+       ],
+       "stop_points": [],
+       "links": [],
+       "commercial_modes": [
+        {
+         "id": "commercial_mode:Bus",
+         "name": "Bus"
+        },
+        {
+         "id": "commercial_mode:LocalTrain",
+         "name": "Train Transilien"
+        }
+       ],
+       "physical_modes": [
+        {
+         "id": "physical_mode:Bus",
+         "name": "Bus"
+        },
+        {
+         "id": "physical_mode:LocalTrain",
+         "name": "Train Transilien"
+        }
+       ],
+       "comment": "",
+       "lines": [
+        {
+         "id": "line:IDFM:C01166",
+         "name": "140",
+         "code": "140",
+         "color": "FF1400",
+         "commercial_mode": {
+          "id": "commercial_mode:Bus",
+          "name": "Bus"
+         },
+         "physical_modes": [
+          {
+           "id": "physical_mode:Bus",
+           "name": "Bus"
+          }
+         ],
+         "network": {
+          "id": "network:IDFM:1090",
+          "name": "Boucles Nord de Seine",
+          "links": []
+         },
+         "links": [],
+         "text_color": "FFFFFF"
+        },
+        {
+         "id": "line:IDFM:C01254",
+         "name": "272",
+         "code": "272",
+         "color": "FF5A00",
+         "commercial_mode": {
+          "id": "commercial_mode:Bus",
+          "name": "Bus"
+         },
+         "physical_modes": [
+          {
+           "id": "physical_mode:Bus",
+           "name": "Bus"
+          }
+         ],
+         "network": {
+          "id": "network:IDFM:1096",
+          "name": "La Défense - Saint Cloud",
+          "links": []
+         },
+         "links": [],
+         "text_color": "000000"
+        },
+        {
+         "id": "line:IDFM:C01292",
+         "name": "340",
+         "code": "340",
+         "color": "DC9600",
+         "commercial_mode": {
+          "id": "commercial_mode:Bus",
+          "name": "Bus"
+         },
+         "physical_modes": [
+          {
+           "id": "physical_mode:Bus",
+           "name": "Bus"
+          }
+         ],
+         "network": {
+          "id": "network:IDFM:1090",
+          "name": "Boucles Nord de Seine",
+          "links": []
+         },
+         "links": [],
+         "text_color": "000000"
+        }
+       ]
+      }
+     },
+     "departure_date_time": "20260924T025200",
+     "arrival_date_time": "20260924T025200",
+     "duration": 0,
+     "type": "crow_fly",
+     "mode": "walking",
+     "co2_emission": {
+      "value": 0,
+      "unit": "g CO₂e/passenger"
+     },
+     "links": []
+    }
+   ],
+   "status": "",
+   "durations": {
+    "total": 2520,
+    "walking": 0,
+    "bike": 0,
+    "car": 0,
+    "taxi": 0,
+    "ridesharing": 0
+   },
+   "distances": {
+    "walking": 138,
+    "bike": 0,
+    "car": 0,
+    "taxi": 0,
+    "ridesharing": 0
+   },
+   "links": [
+    {
+     "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/journeys?allowed_id%5B%5D=stop_point%3AIDFM%3A37512&allowed_id%5B%5D=stop_point%3AIDFM%3A420619&data_freshness=realtime&datetime=20260924T021000&direct_path=none&first_section_mode%5B%5D=walking&from=stop_area%3AIDFM%3A71370&is_journey_schedules=true&last_section_mode%5B%5D=walking&max_nb_journeys=5&min_nb_journeys=5&to=stop_area%3AIDFM%3A65063",
+     "rel": "same_journey_schedules",
+     "type": "journeys",
+     "templated": false
+    },
+    {
+     "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/journeys?allowed_id%5B%5D=stop_point%3AIDFM%3A37512&allowed_id%5B%5D=stop_point%3AIDFM%3A420619&count=1&data_freshness=realtime&datetime=20260924T021000&direct_path=none&first_section_mode%5B%5D=walking&from=stop_area%3AIDFM%3A71370&is_journey_schedules=true&last_section_mode%5B%5D=walking&max_nb_journeys=5&min_nb_journeys=1&to=stop_area%3AIDFM%3A65063",
+     "rel": "this_journey",
+     "type": "journeys",
+     "templated": false
+    }
+   ],
+   "fare": {
+    "found": true,
+    "links": [
+     {
+      "id": "ticket_2",
+      "rel": "tickets",
+      "type": "ticket",
+      "templated": false,
+      "internal": true
+     }
+    ],
+    "total": {
+     "currency": "centime",
+     "value": "205.0"
+    }
+   },
+   "air_pollutants": {
+    "values": {
+     "nox": 0,
+     "pm": 0
+    },
+    "unit": "g"
+   },
+   "co2_emission": {
+    "value": 1085.882736298039,
+    "unit": "g CO₂e/passenger"
+   },
+   "calendars": [
+    {
+     "active_periods": [
+      {
+       "begin": "20260923",
+       "end": "20261022"
+      }
+     ],
+     "week_pattern": {
+      "monday": true,
+      "tuesday": true,
+      "wednesday": true,
+      "thursday": true,
+      "friday": false,
+      "saturday": false,
+      "sunday": true
+     }
+    }
+   ],
+   "criteria_ranker": {
+    "asap": 2,
+    "less_transfers": 1,
+    "less_walking": 1,
+    "reliability": 1
+   }
+  },
+  {
+   "duration": 9381,
+   "nb_transfers": 0,
+   "departure_date_time": "20260924T013352",
+   "arrival_date_time": "20260924T041013",
+   "requested_date_time": "20260924T013352",
+   "type": "non_pt_walk",
+   "tags": [
+    "non_pt",
+    "non_pt_walking",
+    "walking",
+    "ecologic"
+   ],
+   "sections": [
+    {
+     "id": "section_0_3",
+     "from": {
+      "id": "stop_area:IDFM:71370",
+      "name": "Gare Saint-Lazare (Paris)",
+      "embedded_type": "stop_area",
+      "quality": 0,
+      "stop_area": {
+       "id": "stop_area:IDFM:71370",
+       "name": "Gare Saint-Lazare",
+       "label": "Gare Saint-Lazare (Paris)",
+       "timezone": "",
+       "coord": {
+        "lat": "48.875943",
+        "lon": "2.325352"
+       },
+       "administrative_regions": [
+        {
+         "id": "admin:osm:relation:2188825",
+         "name": "Quartier de l'Europe",
+         "label": "Quartier de l'Europe (75008)",
+         "coord": {
+          "lat": "48.878150",
+          "lon": "2.317180"
+         },
+         "insee": "",
+         "zip_code": "75008",
+         "level": 10
+        },
+        {
+         "id": "admin:osm:relation:20872",
+         "name": "Paris 8e Arrondissement",
+         "label": "Paris 8e Arrondissement (75008)",
+         "coord": {
+          "lat": "48.873728",
+          "lon": "2.310393"
+         },
+         "insee": "75108",
+         "zip_code": "75008",
+         "level": 9
+        },
+        {
+         "id": "admin:fr:75056",
+         "name": "Paris",
+         "label": "Paris (75000-75116)",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "75056",
+         "zip_code": "75000-75116",
+         "level": 8
+        },
+        {
+         "id": "admin:osm:relation:71525",
+         "name": "Paris",
+         "label": "Paris",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "75",
+         "zip_code": "",
+         "level": 6
+        },
+        {
+         "id": "admin:osm:relation:8649",
+         "name": "Île-de-France",
+         "label": "Île-de-France",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "11",
+         "zip_code": "",
+         "level": 4
+        },
+        {
+         "id": "admin:osm:relation:2202162",
+         "name": "France",
+         "label": "France",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "",
+         "zip_code": "",
+         "level": 2
+        }
+       ],
+       "codes": [
+        {
+         "type": "TN_PA",
+         "value": "204"
+        },
+        {
+         "type": "source",
+         "value": "FR::multimodalStopPlace:71370:FR1"
+        }
+       ],
+       "stop_points": [],
+       "links": [],
+       "commercial_modes": [
+        {
+         "id": "commercial_mode:Bus",
+         "name": "Bus"
+        },
+        {
+         "id": "commercial_mode:Metro",
+         "name": "Métro"
+        },
+        {
+         "id": "commercial_mode:regionalRail",
+         "name": "TER"
+        },
+        {
+         "id": "commercial_mode:LocalTrain",
+         "name": "Train Transilien"
+        }
+       ],
+       "physical_modes": [
+        {
+         "id": "physical_mode:Bus",
+         "name": "Bus"
+        },
+        {
+         "id": "physical_mode:Metro",
+         "name": "Métro"
+        },
+        {
+         "id": "physical_mode:Train",
+         "name": "TER / Intercités"
+        },
+        {
+         "id": "physical_mode:LocalTrain",
+         "name": "Train Transilien"
+        }
+       ],
+       "comment": "",
+       "lines": [
+        {
+         "id": "line:IDFM:C01373",
+         "name": "3",
+         "code": "3",
+         "color": "6E6E00",
+         "commercial_mode": {
+          "id": "commercial_mode:Metro",
+          "name": "Métro"
+         },
+         "physical_modes": [
+          {
+           "id": "physical_mode:Metro",
+           "name": "Métro"
+          }
+         ],
+         "network": {
+          "id": "network:IDFM:Operator_100",
+          "name": "RATP",
+          "links": []
+         },
+         "links": [],
+         "text_color": "FFFFFF"
+        },
+        {
+         "id": "line:IDFM:C01382",
+         "name": "12",
+         "code": "12",
+         "color": "00643C",
+         "commercial_mode": {
+          "id": "commercial_mode:Metro",
+          "name": "Métro"
+         },
+         "physical_modes": [
+          {
+           "id": "physical_mode:Metro",
+           "name": "Métro"
+          }
+         ],
+         "network": {
+          "id": "network:IDFM:Operator_100",
+          "name": "RATP",
+          "links": []
+         },
+         "links": [],
+         "text_color": "FFFFFF"
+        },
+        {
+         "id": "line:IDFM:C01383",
+         "name": "13",
+         "code": "13",
+         "color": "82C8E6",
+         "commercial_mode": {
+          "id": "commercial_mode:Metro",
+          "name": "Métro"
+         },
+         "physical_modes": [
+          {
+           "id": "physical_mode:Metro",
+           "name": "Métro"
+          }
+         ],
+         "network": {
+          "id": "network:IDFM:Operator_100",
+          "name": "RATP",
+          "links": []
+         },
+         "links": [],
+         "text_color": "000000"
+        }
+       ]
+      }
+     },
+     "to": {
+      "id": "stop_area:IDFM:65063",
+      "name": "Argenteuil (Argenteuil)",
+      "embedded_type": "stop_area",
+      "quality": 0,
+      "stop_area": {
+       "id": "stop_area:IDFM:65063",
+       "name": "Argenteuil",
+       "label": "Argenteuil (Argenteuil)",
+       "timezone": "",
+       "coord": {
+        "lat": "48.947173",
+        "lon": "2.256339"
+       },
+       "administrative_regions": [
+        {
+         "id": "admin:fr:95018",
+         "name": "Argenteuil",
+         "label": "Argenteuil (95100)",
+         "coord": {
+          "lat": "48.947907",
+          "lon": "2.248180"
+         },
+         "insee": "95018",
+         "zip_code": "95100",
+         "level": 8
+        },
+        {
+         "id": "admin:osm:relation:7433",
+         "name": "Val-d'Oise",
+         "label": "Val-d'Oise",
+         "coord": {
+          "lat": "49.052753",
+          "lon": "2.038874"
+         },
+         "insee": "95",
+         "zip_code": "",
+         "level": 6
+        },
+        {
+         "id": "admin:osm:relation:8649",
+         "name": "Île-de-France",
+         "label": "Île-de-France",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "11",
+         "zip_code": "",
+         "level": 4
+        },
+        {
+         "id": "admin:osm:relation:2202162",
+         "name": "France",
+         "label": "France",
+         "coord": {
+          "lat": "48.853495",
+          "lon": "2.348391"
+         },
+         "insee": "",
+         "zip_code": "",
+         "level": 2
+        }
+       ],
+       "codes": [
+        {
+         "type": "TN_PA",
+         "value": "272"
+        },
+        {
+         "type": "source",
+         "value": "FR::multimodalStopPlace:65063:FR1"
+        }
+       ],
+       "stop_points": [],
+       "links": [],
+       "commercial_modes": [
+        {
+         "id": "commercial_mode:Bus",
+         "name": "Bus"
+        },
+        {
+         "id": "commercial_mode:LocalTrain",
+         "name": "Train Transilien"
+        }
+       ],
+       "physical_modes": [
+        {
+         "id": "physical_mode:Bus",
+         "name": "Bus"
+        },
+        {
+         "id": "physical_mode:LocalTrain",
+         "name": "Train Transilien"
+        }
+       ],
+       "comment": "",
+       "lines": [
+        {
+         "id": "line:IDFM:C01166",
+         "name": "140",
+         "code": "140",
+         "color": "FF1400",
+         "commercial_mode": {
+          "id": "commercial_mode:Bus",
+          "name": "Bus"
+         },
+         "physical_modes": [
+          {
+           "id": "physical_mode:Bus",
+           "name": "Bus"
+          }
+         ],
+         "network": {
+          "id": "network:IDFM:1090",
+          "name": "Boucles Nord de Seine",
+          "links": []
+         },
+         "links": [],
+         "text_color": "FFFFFF"
+        },
+        {
+         "id": "line:IDFM:C01254",
+         "name": "272",
+         "code": "272",
+         "color": "FF5A00",
+         "commercial_mode": {
+          "id": "commercial_mode:Bus",
+          "name": "Bus"
+         },
+         "physical_modes": [
+          {
+           "id": "physical_mode:Bus",
+           "name": "Bus"
+          }
+         ],
+         "network": {
+          "id": "network:IDFM:1096",
+          "name": "La Défense - Saint Cloud",
+          "links": []
+         },
+         "links": [],
+         "text_color": "000000"
+        },
+        {
+         "id": "line:IDFM:C01292",
+         "name": "340",
+         "code": "340",
+         "color": "DC9600",
+         "commercial_mode": {
+          "id": "commercial_mode:Bus",
+          "name": "Bus"
+         },
+         "physical_modes": [
+          {
+           "id": "physical_mode:Bus",
+           "name": "Bus"
+          }
+         ],
+         "network": {
+          "id": "network:IDFM:1090",
+          "name": "Boucles Nord de Seine",
+          "links": []
+         },
+         "links": [],
+         "text_color": "000000"
+        }
+       ]
+      }
+     },
+     "departure_date_time": "20260924T013352",
+     "arrival_date_time": "20260924T041013",
+     "duration": 9381,
+     "type": "street_network",
+     "mode": "walking",
+     "co2_emission": {
+      "value": 0,
+      "unit": "g CO₂e/passenger"
+     },
+     "links": [
+      {
+       "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/elevations?polyline=mycf%7CAou%7ClCmE~J%3F%3FVfEHbAyCj%40YFLlB~%40%60OiCl%40%40pA%60%40~GJhBWDPjC%7B%40P%5CpGVjED%7CAd%40tHx%40zCLlADf%40%5E%7CCyD~A%7DDjBiq%40jYyEvB_A%60%40WJkCnAgHvC_%5DdOwHfDeGjCy%5E%60PkAf%40cAd%40wB%7C%40mPlHsM%60GmH%60DuD~O%7DK%7Ce%40wDjOcDfOiI%7C%5DSz%40oJfa%40oBxIqAtFqM~j%40g%40vBcNhl%40%7BIp_%40Kf%40Ol%40q%40xCq%40rCk%40~BeDdLsDrGwAfCw%40%60GgAfI_%40tC_%40~CcBtMoCtSUdBKt%40cAlVwApKaD%5CoAJ%7DAnAcDpEwO~UgBlCqAlB%7Bs%40jgAm%40~%40mDnFgBjCa%40p%40wYlc%40cBdCmg%40ji%40kUpVoHnJuAtAeBbBkTjTyKzOcAzAmAhB%7BLjQwB%60D_DxEwMrRaXn%60%40y%40lAmI~LsAlBeFrHkYfb%40oC~DqC%60EyAtBgCrD%7D%40tAiDfFiCxDg%40t%40yUp%5DkAjBmeBpfCcDfFlBrEwCz%40s%40%7C%40cBxCeCfH_%40bAg%40tAoEtHiP%60WsD%7CFeC%7CDuJ~NoDhFgCrDwKdOgL%7COgFdH%5Bd%40Y%5CyBnCkBl%40oCbAo%40Xg%40Xo%40h%40qPlUiE%60Fq%40z%40qErE_BzBcIjLkAdBw%40jAsSdZ_Yva%40%7B%40lAy%40nAiAxB%7BAlCgF~HqRtWkIxNol%40j%7B%40_AtAaJtM%7BR%60XeBlBeBlBuMtLo%40r%40qDfEoBlBwAnAgl%40ng%40gB~AaDvCg%40%60%40%7De%40va%40gBbBuf%40db%40qCzCeIzGuNxLub%40p_%40_B%60Aah%40rc%40aFxBoBx%40wAd%40aA%5CwATkAJk%5Bp%40wANiANsAj%40_AbAkCxF%7BM~X%7DDzIeItP%7DBxEwAbCeB%7CB_BxAks%40%7Cm%40%7DLfLsIjJqFhGkApAi%40n%40i%40l%40WZaE%7CE%60%40lBFxBStBk%40dB_AhAkAb%40iAAgAe%40%7B%40eAMc%40sBrCW%5CgAvAy%40%60AspA%7C%7DAi%40p%40kAzD%7D%40vCmCdFiAlA%7BAjA%7DAbAmEJiBxBc%40f%40eLpOkZl%60%40wCpDyCjDuOzQq%40x%40MN_%40b%40cAnAwBbCcAlA%5Dd%40YZuE~FqBjB_%40%5Ee%40Xm%40Ve%40Di%40Bm%40AYEgBm%40cAi%40oFuC%7DHcDcCeAYKQGss%40iWuj%40mU_IqA_HjD%7DNzHi%40XsGtDmDdBuAr%40%7BKvF%7BItEs%40%60%40%7DAv%40%7BBpAe%40X%7DKpFio%40p%5Bw%40%5EqCvAeHfDyHxEa%5BtSaIdFaAn%40c%40X%7D%40j%40c%40ZaKfHyAlAqIrFe%40Xs%40j%40gCnB_RdLug%40v%5BkCfAwh%40%60TaK%60E%7BCrA_PhHcJhD%7BBz%40oKfEcVpJcA%60%40_E%7CA_Bl%40iAd%40__A%60%5E%7BXxLc%7B%40%60%5DmAt%40OJKFKBKBO%40KAMAMEMEKGiAq%40yEuCqAw%40iAbFS%7C%40y%40rDuAfGoCxLc%40jBWr%40%5Bf%40%5D%5EqLvLoDjAsRfSwKnLyB%60CoG%60H%7DChD_DjDeHnHmOrPaMvNuCxCmAlA_%40%60%40sGvGyDdEaCzCc%40j%40kEpFeExF%7BIbLcJlL_JjLwBrCmEjGwIfLqEbGkJfMoEzFiL%7CNkA%7CAaAbAw%40x%40oArAg%5DpU%7DV%7CPkOdKkl%40%7C%60%40c%5DxUaPjKqCfB_EnCuFxDoSnNgPhKe%40ZgHxDwFhDkIfGg%40%5CqA%60AcHvHmBzBqCbFkDjKyJ%7Cb%40oBfIgEbRiFrTqHn%5CeFtT%7D%40nDsNxo%40gF~QcCzGcCvGgAnBoJbMmHjIaCxCeGrHaD%60DsCnCmDjC%7DYnN_FbCkn%40vZsb%40~SaGrCaAd%40gDbCqB%7CAeChD%5B%60%40aIjK_W%60%5EyExGsAjBi%40HwARqGxJeMfQiHhKiDpFu%40dAcH%7CGgC~C_C~DuG~Ka%40p%40gIjNoQr%5DqF%7CJgC~EaDjGsDrHkAbCqHzOwErJaJbPyGvM%7DK%60TcAfByAhCwMdWkApDoD%60H_KrPgDdGu%40tAog%40n~%40%7DI~NuB%7CCuB%7CCuB%7CC%7BDnFoJrMq%40%7C%40aExFoGtIaIhKam%40tw%40qf%40fn%40uDjEuAtAkBhBsq%40bu%40_dAlgAm_%40t%60%40iEbBiC%7C%40aFJsBQ%7BBg%40gCgAmDiBqOe%60%40iCpCoE%7DLgHsPeFmLuIaR_CiFqCfB_DNaC%7B%40qByBoAgDoAp%40sBhA%7D%40r%40sGfFmCbBiEnAaLjAoLtDyAf%40cJnCqEmE%7D%40_AcX_Xu%5Bs%5BqBqBeLwLyA%7DAwAyAmPeQuUiVgBqBoC%60By%40d%40qJtFuMvHOHdBtJ",
+       "rel": "elevations",
+       "type": "elevations",
+       "templated": false
+      }
+     ],
+     "path": [
+      {
+       "direction": 0,
+       "duration": 6,
+       "length": 7,
+       "name": "",
+       "id": 0,
+       "instruction": "Prenez les escaliers jusqu'au niveau Level 0. Continuez sur 7 m.",
+       "instruction_start_coordinate": {
+        "lat": "48.876046",
+        "lon": "2.325160"
+       }
+      },
+      {
+       "direction": -3,
+       "duration": 2,
+       "length": 3,
+       "name": "",
+       "id": 1,
+       "instruction": "Continuez sur l'allée. Continuez sur 3 m.",
+       "instruction_start_coordinate": {
+        "lat": "48.876034",
+        "lon": "2.325060"
+       }
+      },
+      {
+       "direction": 92,
+       "duration": 9,
+       "length": 10,
+       "name": "",
+       "id": 2,
+       "instruction": "Tournez à droite dans l'allée. Continuez sur 10 m.",
+       "instruction_start_coordinate": {
+        "lat": "48.876029",
+        "lon": "2.325026"
+       }
+      },
+      {
+       "direction": -90,
+       "duration": 19,
+       "length": 23,
+       "name": "",
+       "id": 3,
+       "instruction": "Tournez à gauche dans l'allée. Continuez sur 23 m.",
+       "instruction_start_coordinate": {
+        "lat": "48.876119",
+        "lon": "2.325000"
+       }
+      },
+      {
+       "direction": 89,
+       "duration": 7,
+       "length": 8,
+       "name": "",
+       "id": 4,
+       "instruction": "Tournez à droite dans l'allée. Continuez sur 8 m.",
+       "instruction_start_coordinate": {
+        "lat": "48.876080",
+        "lon": "2.324688"
+       }
+      }
+     ]
+    }
+   ],
+   "status": "",
+   "durations": {
+    "total": 9381,
+    "walking": 9381,
+    "bike": 0,
+    "car": 0,
+    "taxi": 0,
+    "ridesharing": 0
+   },
+   "distances": {
+    "walking": 10180,
+    "bike": 0,
+    "car": 0,
+    "taxi": 0,
+    "ridesharing": 0
+   },
+   "fare": {
+    "found": true,
+    "links": [],
+    "total": {
+     "currency": "",
+     "value": "0.0"
+    }
+   },
+   "air_pollutants": {
+    "values": {
+     "nox": 0,
+     "pm": 0
+    },
+    "unit": "g"
+   },
+   "co2_emission": {
+    "value": 0,
+    "unit": "g CO₂e/passenger"
+   }
+  }
+ ],
+ "links": [
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/journeys?data_freshness=realtime&datetime=20260924T000000&datetime_represents=departure&from=stop_area%3AIDFM%3A71370&max_nb_journeys=5&min_nb_journeys=3&to=stop_area%3AIDFM%3A65063",
+   "rel": "first",
+   "type": "first",
+   "templated": false
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/journeys?data_freshness=realtime&datetime=20260924T235959&datetime_represents=arrival&from=stop_area%3AIDFM%3A71370&max_nb_journeys=5&min_nb_journeys=3&to=stop_area%3AIDFM%3A65063",
+   "rel": "last",
+   "type": "last",
+   "templated": false
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/journeys?data_freshness=realtime&datetime=20260924T014010&datetime_represents=departure&from=stop_area%3AIDFM%3A71370&max_nb_journeys=5&min_nb_journeys=3&to=stop_area%3AIDFM%3A65063",
+   "rel": "next",
+   "type": "next",
+   "templated": false
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/journeys?data_freshness=realtime&datetime=20260924T022150&datetime_represents=arrival&from=stop_area%3AIDFM%3A71370&max_nb_journeys=5&min_nb_journeys=3&to=stop_area%3AIDFM%3A65063",
+   "rel": "prev",
+   "type": "prev",
+   "templated": false
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/commercial_modes/{commercial_modes.id}",
+   "rel": "commercial_modes",
+   "type": "commercial_modes",
+   "templated": true
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/commercial_mode/{commercial_mode.id}",
+   "rel": "commercial_mode",
+   "type": "commercial_mode",
+   "templated": true
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/disruptions/{disruption.id}",
+   "rel": "disruptions",
+   "type": "disruption",
+   "templated": true
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/stop_points/{stop_point.id}",
+   "rel": "stop_points",
+   "type": "stop_point",
+   "templated": true
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/physical_modes/{physical_modes.id}",
+   "rel": "physical_modes",
+   "type": "physical_modes",
+   "templated": true
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/companies/{company.id}",
+   "rel": "companies",
+   "type": "company",
+   "templated": true
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/lines/{lines.id}",
+   "rel": "lines",
+   "type": "lines",
+   "templated": true
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/networks/{network.id}",
+   "rel": "networks",
+   "type": "network",
+   "templated": true
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/vehicle_journeys/{vehicle_journey.id}",
+   "rel": "vehicle_journeys",
+   "type": "vehicle_journey",
+   "templated": true
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/physical_mode/{physical_mode.id}",
+   "rel": "physical_mode",
+   "type": "physical_mode",
+   "templated": true
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/stop_areas/{stop_area.id}",
+   "rel": "stop_areas",
+   "type": "stop_area",
+   "templated": true
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/lines/{line.id}",
+   "rel": "lines",
+   "type": "line",
+   "templated": true
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/addresses/{address.id}",
+   "rel": "addresses",
+   "type": "address",
+   "templated": true
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/routes/{route.id}",
+   "rel": "routes",
+   "type": "route",
+   "templated": true
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/coord/{coord.id}",
+   "rel": "coord",
+   "type": "coord",
+   "templated": true
+  }
+ ],
+ "context": {
+  "car_direct_path": {
+   "air_pollutants": {
+    "values": {
+     "nox": 4.1325,
+     "pm": 0.526
+    },
+    "unit": "g"
+   },
+   "co2_emission": {
+    "unit": "g CO₂e/passenger",
+    "value": 2332.9728
+   }
+  },
+  "current_datetime": "20260924T013352",
+  "timezone": "Europe/Paris",
+  "mobility_scenarios": {}
+ },
+ "feed_publishers": [
+  {
+   "id": "IDFM:idfm_netex",
+   "name": "idfm_netex",
+   "url": "",
+   "license": "private"
+  },
+  {
+   "id": "IDFM:transilien_netex",
+   "name": "transilien_netex",
+   "url": "",
+   "license": "private"
+  },
+  {
+   "id": "osm",
+   "name": "openstreetmap",
+   "url": "https://www.openstreetmap.org/copyright",
+   "license": "ODbL"
+  }
+ ],
+ "terminus": [
+  {
+   "id": "stop_area:IDFM:65399",
+   "name": "Cormeilles-en-Parisis",
+   "label": "Cormeilles-en-Parisis (Cormeilles-en-Parisis)",
+   "timezone": "Europe/Paris",
+   "coord": {
+    "lat": "48.968261",
+    "lon": "2.193638"
+   },
+   "codes": [
+    {
+     "type": "TN_PA",
+     "value": "95"
+    },
+    {
+     "type": "source",
+     "value": "FR::multimodalStopPlace:65399:FR1"
+    }
+   ],
+   "stop_points": [],
+   "links": [],
+   "commercial_modes": [],
+   "physical_modes": [],
+   "comment": "",
+   "lines": []
+  }
+ ],
+ "disruptions": [
+  {
+   "id": "f2659fe8-5b37-4964-af26-9a75c06b1a0e",
+   "uri": "f2659fe8-5b37-4964-af26-9a75c06b1a0e",
+   "disruption_uri": "b441728e-39bc-47de-900f-cac8fef0f8aa",
+   "impact_id": "f2659fe8-5b37-4964-af26-9a75c06b1a0e",
+   "disruption_id": "b441728e-39bc-47de-900f-cac8fef0f8aa",
+   "contributor": "shortterm.tr_idfm",
+   "category": "Incidents",
+   "cause": "perturbation",
+   "status": "active",
+   "tags": [
+    "Ascenseur"
+   ],
+   "updated_at": "20260917T200726",
+   "severity": {
+    "name": "perturbée",
+    "effect": "SIGNIFICANT_DELAYS",
+    "color": "#EF662F",
+    "priority": 30
+   },
+   "application_periods": [
+    {
+     "begin": "20260917T200716",
+     "end": "20270917T200716"
+    }
+   ],
+   "messages": [
+    {
+     "text": "GARE D'ARGENTEUIL Panne ascenseur situé Quai 23 Voie 1, dir. Province",
+     "channel": {
+      "id": "ea77b9e2-7a06-11e8-ab20-005056a47b86",
+      "name": "sms ascenseurs",
+      "content_type": "text/plain",
+      "types": [
+       "sms"
+      ]
+     }
+    },
+    {
+     "text": "GARE D'ARGENTEUIL Panne de l'ascenseur situé Quai 23 Voie 1, direction Province",
+     "channel": {
+      "id": "0c0c032e-7a07-11e8-ab20-005056a47b86",
+      "name": "email ascenseur",
+      "content_type": "text/html",
+      "types": [
+       "email"
+      ]
+     }
+    },
+    {
+     "text": "GARE D'ARGENTEUIL Panne de l'ascenseur situé Quai 23 Voie 1, direction Province",
+     "channel": {
+      "id": "3ae8df3e-7488-11e8-ac3b-005056a47b86",
+      "name": "moteur",
+      "content_type": "text/html",
+      "types": [
+       "web"
+      ]
+     }
+    },
+    {
+     "text": "Panne d'un ascenseur",
+     "channel": {
+      "id": "d9dbc5a6-7a06-11e8-8b8c-005056a44da2",
+      "name": "titre",
+      "content_type": "text/plain",
+      "types": [
+       "title"
+      ]
+     }
+    }
+   ],
+   "impacted_objects": [
+    {
+     "pt_object": {
+      "id": "stop_area:IDFM:65063",
+      "name": "Argenteuil (Argenteuil)",
+      "embedded_type": "stop_area",
+      "quality": 0,
+      "stop_area": {
+       "id": "stop_area:IDFM:65063",
+       "name": "Argenteuil",
+       "label": "Argenteuil (Argenteuil)",
+       "timezone": "Europe/Paris",
+       "coord": {
+        "lat": "48.947173",
+        "lon": "2.256339"
+       },
+       "codes": [
+        {
+         "type": "TN_PA",
+         "value": "272"
+        },
+        {
+         "type": "source",
+         "value": "FR::multimodalStopPlace:65063:FR1"
+        }
+       ],
+       "stop_points": [],
+       "links": [],
+       "commercial_modes": [],
+       "physical_modes": [],
+       "comment": "",
+       "lines": []
+      }
+     }
+    }
+   ],
+   "publication_period": {
+    "begin": "20260917T200716",
+    "end": "20270917T200716"
+   }
+  },
+  {
+   "id": "947fb254-6979-42e9-8527-7df3b342798b",
+   "uri": "947fb254-6979-42e9-8527-7df3b342798b",
+   "disruption_uri": "d9be9336-4e79-47d9-98aa-7a2bd68bccc5",
+   "impact_id": "947fb254-6979-42e9-8527-7df3b342798b",
+   "disruption_id": "d9be9336-4e79-47d9-98aa-7a2bd68bccc5",
+   "contributor": "shortterm.tr_idfm",
+   "category": "Incidents",
+   "cause": "perturbation",
+   "status": "active",
+   "tags": [
+    "Ascenseur"
+   ],
+   "updated_at": "20260803T070010",
+   "severity": {
+    "name": "perturbée",
+    "effect": "SIGNIFICANT_DELAYS",
+    "color": "#EF662F",
+    "priority": 30
+   },
+   "application_periods": [
+    {
+     "begin": "20260803T070001",
+     "end": "20270803T070001"
+    }
+   ],
+   "messages": [
+    {
+     "text": "GARE D'ARGENTEUIL Panne de l'ascenseur situé Quai 25 Voies 2/E, direction Paris",
+     "channel": {
+      "id": "3ae8df3e-7488-11e8-ac3b-005056a47b86",
+      "name": "moteur",
+      "content_type": "text/html",
+      "types": [
+       "web"
+      ]
+     }
+    },
+    {
+     "text": "GARE D'ARGENTEUIL Panne ascenseur situé Quai 25 Voies 2/E, dir. Paris",
+     "channel": {
+      "id": "ea77b9e2-7a06-11e8-ab20-005056a47b86",
+      "name": "sms ascenseurs",
+      "content_type": "text/plain",
+      "types": [
+       "sms"
+      ]
+     }
+    },
+    {
+     "text": "GARE D'ARGENTEUIL Panne de l'ascenseur situé Quai 25 Voies 2/E, direction Paris",
+     "channel": {
+      "id": "0c0c032e-7a07-11e8-ab20-005056a47b86",
+      "name": "email ascenseur",
+      "content_type": "text/html",
+      "types": [
+       "email"
+      ]
+     }
+    },
+    {
+     "text": "Panne d'un ascenseur",
+     "channel": {
+      "id": "d9dbc5a6-7a06-11e8-8b8c-005056a44da2",
+      "name": "titre",
+      "content_type": "text/plain",
+      "types": [
+       "title"
+      ]
+     }
+    }
+   ],
+   "impacted_objects": [
+    {
+     "pt_object": {
+      "id": "stop_area:IDFM:65063",
+      "name": "Argenteuil (Argenteuil)",
+      "embedded_type": "stop_area",
+      "quality": 0,
+      "stop_area": {
+       "id": "stop_area:IDFM:65063",
+       "name": "Argenteuil",
+       "label": "Argenteuil (Argenteuil)",
+       "timezone": "Europe/Paris",
+       "coord": {
+        "lat": "48.947173",
+        "lon": "2.256339"
+       },
+       "codes": [
+        {
+         "type": "TN_PA",
+         "value": "272"
+        },
+        {
+         "type": "source",
+         "value": "FR::multimodalStopPlace:65063:FR1"
+        }
+       ],
+       "stop_points": [],
+       "links": [],
+       "commercial_modes": [],
+       "physical_modes": [],
+       "comment": "",
+       "lines": []
+      }
+     }
+    }
+   ],
+   "publication_period": {
+    "begin": "20260803T070001",
+    "end": "20270803T070001"
+   }
+  },
+  {
+   "id": "98bde173-5d75-48f2-936c-699fdabb8477",
+   "uri": "98bde173-5d75-48f2-936c-699fdabb8477",
+   "disruption_uri": "cf70c620-eba0-4ee1-820d-a17ead0204f4",
+   "impact_id": "98bde173-5d75-48f2-936c-699fdabb8477",
+   "disruption_id": "cf70c620-eba0-4ee1-820d-a17ead0204f4",
+   "contributor": "shortterm.tr_idfm",
+   "category": "Incidents",
+   "cause": "perturbation",
+   "status": "active",
+   "tags": [
+    "Ascenseur"
+   ],
+   "updated_at": "20260920T121620",
+   "severity": {
+    "name": "perturbée",
+    "effect": "SIGNIFICANT_DELAYS",
+    "color": "#EF662F",
+    "priority": 30
+   },
+   "application_periods": [
+    {
+     "begin": "20260920T121611",
+     "end": "20270920T121611"
+    }
+   ],
+   "messages": [
+    {
+     "text": "Panne d'un ascenseur",
+     "channel": {
+      "id": "d9dbc5a6-7a06-11e8-8b8c-005056a44da2",
+      "name": "titre",
+      "content_type": "text/plain",
+      "types": [
+       "title"
+      ]
+     }
+    },
+    {
+     "text": "GARE D'ARGENTEUIL Panne de l'ascenseur situé Quais 21/22 Voies 1bis/2, direction Paris",
+     "channel": {
+      "id": "3ae8df3e-7488-11e8-ac3b-005056a47b86",
+      "name": "moteur",
+      "content_type": "text/html",
+      "types": [
+       "web"
+      ]
+     }
+    },
+    {
+     "text": "GARE D'ARGENTEUIL Panne ascenseur situé Quais 21/22 Voies 1bis/2, dir. Paris",
+     "channel": {
+      "id": "ea77b9e2-7a06-11e8-ab20-005056a47b86",
+      "name": "sms ascenseurs",
+      "content_type": "text/plain",
+      "types": [
+       "sms"
+      ]
+     }
+    },
+    {
+     "text": "GARE D'ARGENTEUIL Panne de l'ascenseur situé Quais 21/22 Voies 1bis/2, direction Paris",
+     "channel": {
+      "id": "0c0c032e-7a07-11e8-ab20-005056a47b86",
+      "name": "email ascenseur",
+      "content_type": "text/html",
+      "types": [
+       "email"
+      ]
+     }
+    }
+   ],
+   "impacted_objects": [
+    {
+     "pt_object": {
+      "id": "stop_area:IDFM:65063",
+      "name": "Argenteuil (Argenteuil)",
+      "embedded_type": "stop_area",
+      "quality": 0,
+      "stop_area": {
+       "id": "stop_area:IDFM:65063",
+       "name": "Argenteuil",
+       "label": "Argenteuil (Argenteuil)",
+       "timezone": "Europe/Paris",
+       "coord": {
+        "lat": "48.947173",
+        "lon": "2.256339"
+       },
+       "codes": [
+        {
+         "type": "TN_PA",
+         "value": "272"
+        },
+        {
+         "type": "source",
+         "value": "FR::multimodalStopPlace:65063:FR1"
+        }
+       ],
+       "stop_points": [],
+       "links": [],
+       "commercial_modes": [],
+       "physical_modes": [],
+       "comment": "",
+       "lines": []
+      }
+     }
+    }
+   ],
+   "publication_period": {
+    "begin": "20260920T121611",
+    "end": "20270920T121611"
+   }
+  },
+  {
+   "id": "fbd9b4b8-593f-45a5-a6f4-e48339caa51a",
+   "uri": "fbd9b4b8-593f-45a5-a6f4-e48339caa51a",
+   "disruption_uri": "1f996d03-243c-4332-9c00-54fe82e049d2",
+   "impact_id": "fbd9b4b8-593f-45a5-a6f4-e48339caa51a",
+   "disruption_id": "1f996d03-243c-4332-9c00-54fe82e049d2",
+   "contributor": "shortterm.tr_idfm",
+   "category": "Incidents",
+   "cause": "perturbation",
+   "status": "active",
+   "tags": [
+    "Ascenseur"
+   ],
+   "updated_at": "20260914T070636",
+   "severity": {
+    "name": "perturbée",
+    "effect": "SIGNIFICANT_DELAYS",
+    "color": "#EF662F",
+    "priority": 30
+   },
+   "application_periods": [
+    {
+     "begin": "20260914T070627",
+     "end": "20270914T070627"
+    }
+   ],
+   "messages": [
+    {
+     "text": "GARE D'ARGENTEUIL Panne de l'ascenseur situé Quai 24 Voies C/E, direction Paris",
+     "channel": {
+      "id": "3ae8df3e-7488-11e8-ac3b-005056a47b86",
+      "name": "moteur",
+      "content_type": "text/html",
+      "types": [
+       "web"
+      ]
+     }
+    },
+    {
+     "text": "GARE D'ARGENTEUIL Panne de l'ascenseur situé Quai 24 Voies C/E, direction Paris",
+     "channel": {
+      "id": "0c0c032e-7a07-11e8-ab20-005056a47b86",
+      "name": "email ascenseur",
+      "content_type": "text/html",
+      "types": [
+       "email"
+      ]
+     }
+    },
+    {
+     "text": "Panne d'un ascenseur",
+     "channel": {
+      "id": "d9dbc5a6-7a06-11e8-8b8c-005056a44da2",
+      "name": "titre",
+      "content_type": "text/plain",
+      "types": [
+       "title"
+      ]
+     }
+    },
+    {
+     "text": "GARE D'ARGENTEUIL Panne ascenseur situé Quai 24 Voies C/E, dir. Paris",
+     "channel": {
+      "id": "ea77b9e2-7a06-11e8-ab20-005056a47b86",
+      "name": "sms ascenseurs",
+      "content_type": "text/plain",
+      "types": [
+       "sms"
+      ]
+     }
+    }
+   ],
+   "impacted_objects": [
+    {
+     "pt_object": {
+      "id": "stop_area:IDFM:65063",
+      "name": "Argenteuil (Argenteuil)",
+      "embedded_type": "stop_area",
+      "quality": 0,
+      "stop_area": {
+       "id": "stop_area:IDFM:65063",
+       "name": "Argenteuil",
+       "label": "Argenteuil (Argenteuil)",
+       "timezone": "Europe/Paris",
+       "coord": {
+        "lat": "48.947173",
+        "lon": "2.256339"
+       },
+       "codes": [
+        {
+         "type": "TN_PA",
+         "value": "272"
+        },
+        {
+         "type": "source",
+         "value": "FR::multimodalStopPlace:65063:FR1"
+        }
+       ],
+       "stop_points": [],
+       "links": [],
+       "commercial_modes": [],
+       "physical_modes": [],
+       "comment": "",
+       "lines": []
+      }
+     }
+    }
+   ],
+   "publication_period": {
+    "begin": "20260914T070627",
+    "end": "20270914T070627"
+   }
+  },
+  {
+   "id": "8eb9948b-e33f-4ff6-afbb-db80e9674b1b",
+   "uri": "8eb9948b-e33f-4ff6-afbb-db80e9674b1b",
+   "disruption_uri": "71baec5a-c9e9-4150-ac49-71aed7b04848",
+   "impact_id": "8eb9948b-e33f-4ff6-afbb-db80e9674b1b",
+   "disruption_id": "71baec5a-c9e9-4150-ac49-71aed7b04848",
+   "contributor": "shortterm.tr_idfm",
+   "category": "Incidents",
+   "cause": "perturbation",
+   "status": "active",
+   "tags": [
+    "Ascenseur"
+   ],
+   "updated_at": "20260726T102045",
+   "severity": {
+    "name": "perturbée",
+    "effect": "SIGNIFICANT_DELAYS",
+    "color": "#EF662F",
+    "priority": 30
+   },
+   "application_periods": [
+    {
+     "begin": "20260726T102036",
+     "end": "20270726T102036"
+    }
+   ],
+   "messages": [
+    {
+     "text": "GARE D'ARGENTEUIL Panne de l'ascenseur situé Quai 23 Voie 1, direction Province",
+     "channel": {
+      "id": "0c0c032e-7a07-11e8-ab20-005056a47b86",
+      "name": "email ascenseur",
+      "content_type": "text/html",
+      "types": [
+       "email"
+      ]
+     }
+    },
+    {
+     "text": "GARE D'ARGENTEUIL Panne de l'ascenseur situé Quai 23 Voie 1, direction Province",
+     "channel": {
+      "id": "3ae8df3e-7488-11e8-ac3b-005056a47b86",
+      "name": "moteur",
+      "content_type": "text/html",
+      "types": [
+       "web"
+      ]
+     }
+    },
+    {
+     "text": "GARE D'ARGENTEUIL Panne ascenseur situé Quai 23 Voie 1, dir. Province",
+     "channel": {
+      "id": "ea77b9e2-7a06-11e8-ab20-005056a47b86",
+      "name": "sms ascenseurs",
+      "content_type": "text/plain",
+      "types": [
+       "sms"
+      ]
+     }
+    },
+    {
+     "text": "Panne d'un ascenseur",
+     "channel": {
+      "id": "d9dbc5a6-7a06-11e8-8b8c-005056a44da2",
+      "name": "titre",
+      "content_type": "text/plain",
+      "types": [
+       "title"
+      ]
+     }
+    }
+   ],
+   "impacted_objects": [
+    {
+     "pt_object": {
+      "id": "stop_area:IDFM:65063",
+      "name": "Argenteuil (Argenteuil)",
+      "embedded_type": "stop_area",
+      "quality": 0,
+      "stop_area": {
+       "id": "stop_area:IDFM:65063",
+       "name": "Argenteuil",
+       "label": "Argenteuil (Argenteuil)",
+       "timezone": "Europe/Paris",
+       "coord": {
+        "lat": "48.947173",
+        "lon": "2.256339"
+       },
+       "codes": [
+        {
+         "type": "TN_PA",
+         "value": "272"
+        },
+        {
+         "type": "source",
+         "value": "FR::multimodalStopPlace:65063:FR1"
+        }
+       ],
+       "stop_points": [],
+       "links": [],
+       "commercial_modes": [],
+       "physical_modes": [],
+       "comment": "",
+       "lines": []
+      }
+     }
+    }
+   ],
+   "publication_period": {
+    "begin": "20260726T102036",
+    "end": "20270726T102036"
+   }
+  }
+ ],
+ "tickets": [
+  {
+   "id": "ticket_1",
+   "name": "Ticket Bus Tram",
+   "source_id": "tickett",
+   "links": [
+    {
+     "id": "section_0_0",
+     "rel": "section",
+     "type": "section",
+     "templated": false,
+     "internal": true
+    }
+   ],
+   "cost": {
+    "currency": "centime",
+    "value": "205.0"
+   },
+   "comment": "",
+   "found": true
+  },
+  {
+   "id": "ticket_2",
+   "name": "Ticket Bus Tram",
+   "source_id": "tickett",
+   "links": [
+    {
+     "id": "section_1_0",
+     "rel": "section",
+     "type": "section",
+     "templated": false,
+     "internal": true
+    }
+   ],
+   "cost": {
+    "currency": "centime",
+    "value": "205.0"
+   },
+   "comment": "",
+   "found": true
+  }
+ ],
+ "notes": [],
+ "exceptions": []
+}

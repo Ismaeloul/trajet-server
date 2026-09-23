@@ -13,7 +13,7 @@ import time
 from fastapi.concurrency import run_in_threadpool
 
 from .. import board as B
-from .. import db, planner, prim
+from .. import db, mapdata, planner, prim
 from .. import platform as P
 from .. import translate as T
 from ..collector import collector
@@ -117,6 +117,7 @@ def list_routes() -> dict:
 def create_route(payload) -> dict:
     data = validate_route(payload)
     rid = db.save_route(data)
+    mapdata.schedule_route(rid)          # el mapa se calcula en segundo plano
     return {"id": rid, "route": db.get_route(rid)}
 
 
@@ -126,6 +127,7 @@ def update_route(route_id: int, payload) -> dict:
     data = validate_route(payload)
     db.save_route(data, route_id)
     _baseline.pop(route_id, None)
+    mapdata.schedule_route(route_id)
     return {"id": route_id, "route": db.get_route(route_id)}
 
 
@@ -424,11 +426,12 @@ async def route_from_plan(payload) -> dict:
     data = await planner.route_from_option(option, meta)
     data = validate_route(data)
     route_id = await run_in_threadpool(db.save_route, data)
+    mapdata.schedule_route(route_id)
 
     # Si algun tramo se queda sin direccion es que el texto de Navitia no
     # casaba con el del tiempo real: se avisa en vez de dejarlo en silencio.
     sin_dir = [l["line_code"] for l in data["legs"] if not l["directions"]]
-    return {"id": route_id, "route": db.get_route(route_id),
+    return {"id": route_id, "route": await run_in_threadpool(db.get_route, route_id),
             "without_direction": sin_dir}
 
 

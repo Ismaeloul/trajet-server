@@ -1,0 +1,974 @@
+{
+ "Siri": {
+  "ServiceDelivery": {
+   "ResponseTimestamp": "2026-09-23T23:33:43.134Z",
+   "ProducerRef": "IVTR_HET",
+   "ResponseMessageIdentifier": "IVTR_HET:ResponseMessage:640b67c2-abcb-4bce-a1c1-c11df6d7d8e2:LOC:",
+   "GeneralMessageDelivery": [
+    {
+     "ResponseTimestamp": "2026-09-23T23:33:51.272Z",
+     "Version": "2.0",
+     "Status": "true",
+     "InfoMessage": [
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-08-22T13:52:40.963Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.IVC.7256229024646601745.1:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.IVC.7256229024646601745:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-09-24T02:45:00.000Z",
+       "Content": {
+        "LineRef": [
+         {
+          "value": "STIF:Line::C01383:"
+         }
+        ],
+        "Message": [
+         {
+          "MessageType": "SHORT_MESSAGE",
+          "MessageText": {
+           "value": "Du 24 septembre au 27 septembre inclus, l'arrêt ne sera pas desservi à Porte de Saint-Ouen (travaux de modernisation)",
+           "lang": "fr"
+          }
+         },
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "Du 24 septembre au 27 septembre inclus, l'arrêt ne sera pas desservi à Porte de Saint-Ouen en raison de travaux de modernisation",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-21T07:26:06.214Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.IVC.3987235466719650109.9:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.IVC.3987235466719650109:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-09-24T02:30:00.000Z",
+       "Content": {
+        "LineRef": [
+         {
+          "value": "STIF:Line::C01743:"
+         }
+        ],
+        "Message": [
+         {
+          "MessageType": "SHORT_MESSAGE",
+          "MessageText": {
+           "value": "Jusqu'au 24 septembre inclus, du lundi au vendredi dès 22:45, le trafic est interrompu entre Châtelet – Les Halles et Mitry – Claye • Aéroport Charles de Gaulle 2 – TGV (travaux). Bus de remplacement.",
+           "lang": "fr"
+          }
+         },
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "Jusqu'au 24 septembre inclus, du lundi au vendredi dès 22:45, le trafic est interrompu entre Châtelet – Les Halles et Mitry – Claye • Aéroport Charles de Gaulle 2 – TGV en raison de travaux. \nBus de remplacement. Plus d'infos sur maligneb.fr",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-21T18:05:07.653Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01319.before.394-29.20260921200432:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01319.before.394-29:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-10-11T01:59:59.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 394 sera déviée : les arrêts situés entre Division Leclerc - Brosselette et Hébert ne seront plus desservis en direction de Issy – Val de Seine <RER>. Quand : dimanche 11 octobre 2026, de 04h00 à 14h00. Raison : manifestation.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-23T10:34:08.625Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01245.1788789600-1790825700.253-15.20260923123401:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01245.1788789600-1790825700.253-15:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-10-01T01:35:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 253 est déviée : les arrêts situés entre Saint-Denis - Université et Nelson Mandela ne sont plus desservis en direction de Stains – Moulin Neuf. Reprise estimée : jeudi 1 octobre 2026, à partir de 03h35. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-23T16:48:10.991Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01276.before.306-1.20260923184802:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01276.before.306-1:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-10-04T05:29:59.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 306 sera déviée : les arrêts situés entre Les Marronniers et Libération - Condé ne seront plus desservis en direction de St-Maur – Créteil <RER>. Quand : dimanche 4 octobre 2026, de 07h30 à 13h00. Raison : manifestation.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-11T21:01:12.182Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01125.1789143480-1791689400.94-26.20260911230022:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01125.1789143480-1791689400.94-26:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-10-11T01:30:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 94 est déviée : les arrêts situés entre Assemblée Nationale et Gare Saint-Lazare ne sont plus desservis en direction de Pont de Levallois – Bécon. Reprise estimée : dimanche 11 octobre 2026 à 03h30. Raison : manifestation.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-13T10:09:13.270Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01203.1788030000-1811557800.182-1.20260913120828:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01203.1788030000-1811557800.182-1:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2027-05-29T00:30:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 182 est déviée : les arrêts situés entre Général Malleret Joinville et Paul Froment ne sont plus desservis en direction de Mairie d’Ivry. Reprise estimée : samedi 29 mai 2027, à partir de 02h30. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-15T06:05:09.452Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01237.1789488000-1798777800.238-4.20260915080441:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01237.1789488000-1798777800.238-4:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2027-01-01T03:30:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 238 est déviée : les arrêts situés entre Gros Buisson et Gilbert Bonnemaison ne sont plus desservis en direction de Pont de Levallois. Reprise estimée : vendredi 1 janvier 2027, à partir de 04h30. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-08-10T13:44:12.694Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01072.1786549380-1790393400.20-19.20260810154402:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01072.1786549380-1790393400.20-19:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-09-26T01:30:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "L’arrêt Curnonsky de la ligne 20 n'est pas desservi en direction de Louison Bobet. Reprise estimée : samedi 26 septembre 2026, à partir de 03h30. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-23T12:16:09.635Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01090.1789246800-1793937540.52-1.20260923141513:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01090.1789246800-1793937540.52-1:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-11-06T02:59:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 52 est déviée : les arrêts situés entre Lycée Janson de Sailly et Les Vignes - Boulainvilliers RER ne sont plus desservis en direction de Parc de Saint-Cloud. Reprise estimée : vendredi 6 novembre 2026, à partir de 03h59. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-08-21T05:51:07.262Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C02744.1787976000-1798774200.277-0.20260821075048:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C02744.1787976000-1798774200.277-0:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2027-01-01T02:30:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 277 est déviée : les arrêts situés entre Nanterre - Université RER et Nanterre-La-Folie RER ne sont plus desservis en direction de Asnières – Bords de Seine. Reprise estimée : vendredi 1 janvier 2027, à partir de 03h30. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-19T14:32:14.407Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01121.DURING_INACTIVE.89-29.20260919163139:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01121.DURING_INACTIVE.89-29:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-09-27T05:59:59.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "L’arrêt Carrefour Albert Legris de la ligne 89 n'est pas desservi en direction de Porte de France. Quand : à partir du dimanche 20 septembre 2026, jusqu'au dimanche 27 septembre 2026, les dimanches de 08h00 à 19h00. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-23T06:33:10.945Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01121.1789484460-1794801600.89-1.20260923083231:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01121.1789484460-1794801600.89-1:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-11-16T03:00:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 89 est déviée : les arrêts situés entre Panthéon et Rennes - Raspail ne sont plus desservis en direction de Gare de Vanves – Malakoff. Reprise estimée : lundi 16 novembre 2026, à partir de 04h00. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-22T03:06:12.891Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01125.before.94-4.20260922050603:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01125.before.94-4:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-10-19T19:59:59.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 94 sera déviée : les arrêts situés entre Solférino - Bellechasse et Concorde - Royale ne seront plus desservis en direction de Pont de Levallois – Bécon. Quand : à partir du lundi 19 octobre 2026, jusqu'au vendredi 23 octobre 2026, les lundis, mardis, mercredis et jeudis de 22h00 à 02h45. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-15T16:17:13.963Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01115.1789063560-1791167400.83-3.20260915181656:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01115.1789063560-1791167400.83-3:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-10-05T00:30:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "L’arrêt Assemblée Nationale de la ligne 83 n'est pas desservi en direction de Porte d'Ivry. Reprise estimée : lundi 5 octobre 2026, à partir de 02h30. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-23T11:10:12.349Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01095.before.58-23.20260923130920:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01095.before.58-23:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-09-24T01:59:59.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 58 sera déviée : les arrêts situés entre Châtelet et Musée du Luxembourg ne seront plus desservis en direction de Vanves – Lycée Michelet. Quand : à partir du jeudi 24 septembre 2026, jusqu'au mardi 22 décembre 2026. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-08-03T07:18:04.762Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01369.1787205600-1798761540.595-1.20260803091709:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01369.1787205600-1798761540.595-1:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-12-31T22:59:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 595 est déviée : les arrêts situés entre Noveos et La Boursidière ne sont plus desservis en direction de La Boursidière. Reprise estimée : jeudi 31 décembre 2026, à partir de 23h59. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-23T15:11:07.306Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01212.1789704000-1790218800.191-0.20260923171025:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01212.1789704000-1790218800.191-0:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-09-24T01:00:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "L’arrêt Hoche de la ligne 191 n'est pas desservi en direction de Meudon – Gare de Val Fleury. Reprise estimée : jeudi 24 septembre 2026, à partir de 03h00. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-08-22T09:31:09.170Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01245.1787407200-1790812620.253-32.20260822113026:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01245.1787407200-1790812620.253-32:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-09-30T21:57:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 253 est déviée : les arrêts situés entre Marcel Pointet et Toussaint Louverture ne sont plus desservis en direction de La Courneuve – Aubervilliers <RER>. Reprise estimée : mercredi 30 septembre 2026, à partir de 23h57. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-19T09:16:13.911Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01121.DURING_INACTIVE.89-28.20260919111551:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01121.DURING_INACTIVE.89-28:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-09-27T05:59:59.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 89 est déviée : les arrêts situés entre Théâtre de la Plaine - Général Guillaumat et Gare de Vanves - Malakoff ne sont plus desservis en direction de Gare de Vanves – Malakoff. Quand : à partir du dimanche 20 septembre 2026, jusqu'au dimanche 27 septembre 2026, les dimanches de 08h00 à 19h00. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-22T05:10:11.193Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01176.DURING_INACTIVE.152-0.20260922070919:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01176.DURING_INACTIVE.152-0:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-09-24T22:00:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "L’arrêt Rue Râteau de la ligne 152 n'est pas desservi en direction de Gonesse – ZAC des Tulipes Nord. Quand : à partir du mardi 22 septembre 2026, jusqu'au mardi 20 octobre 2026, les mardis, vendredis et dimanches de 06h30 à 09h00.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-22T11:26:08.037Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01156.before.127-24.20260922132543:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01156.before.127-24:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-09-26T04:59:59.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 127 sera déviée : les arrêts situés entre Dauphiné et Simone Bigot ne seront plus desservis en direction de Croix de Chavaux. Quand : samedi 26 septembre 2026, de 07h00 à 20h00. Raison : manifestation.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-19T15:08:07.123Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01108.1789360200-1791775800.73-14.20260919170731:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01108.1789360200-1791775800.73-14:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-10-12T01:30:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "L’arrêt Concorde - Cours la Reine de la ligne 73 n'est pas desservi en direction de Musée d’Orsay. Reprise estimée : lundi 12 octobre 2026 à 03h30. Raison : manifestation.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-14T14:07:05.887Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01085.1789401960-1791777600.42-30.20260914160631:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01085.1789401960-1791777600.42-30:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-10-12T02:00:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 42 est déviée : les arrêts situés entre Rond-Point des Champs-Élysées et Madeleine ne sont plus desservis en direction de Gare Saint-Lazare. Reprise estimée : lundi 12 octobre 2026 à 04h00. Raison : manifestation.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-19T11:34:13.036Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C02714.1789594200-1798772640.202-30.20260919133348:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C02714.1789594200-1798772640.202-30:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2027-01-01T02:04:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 202 est déviée : les arrêts situés entre Lycée Jean Jaurès et Montreuil - Boissière - Acacia ne sont plus desservis en direction de Montreuil – Boissière – Acacia. Reprise estimée : vendredi 1 janvier 2027, à partir de 03h04. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-20T16:18:12.249Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01150.1789594200-1798774200.121-29.20260920181713:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01150.1789594200-1798774200.121-29:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2027-01-01T02:30:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 121 est déviée : les arrêts situés entre Lycée Jean Jaurès et Grand Verger ne sont plus desservis en direction de Château de Villemomble. Reprise estimée : vendredi 1 janvier 2027, à partir de 03h30. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-23T17:13:09.664Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01108.1789899660-1791775800.73-13.20260923191302:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01108.1789899660-1791775800.73-13:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-10-12T01:30:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 73 est déviée : les arrêts situés entre Assemblée Nationale et Champs-Élysées - Clemenceau ne sont plus desservis en direction de La Garenne-Colombes – Charlebourg. Reprise estimée : lundi 12 octobre 2026 à 03h30. Raison : manifestation.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-07T07:13:07.668Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01408.1788653220-1796112000.N63-13.20260907091254:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01408.1788653220-1796112000.N63-13:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-12-01T07:00:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne N63 est déviée : les arrêts situés entre Ferme de la Vauve et Hôpital Paris-Saclay ne sont plus desservis en direction de Moulon. Reprise estimée : mardi 1 décembre 2026, à partir de 08h00. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-04T11:00:09.214Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01199.before.178-18.20260904125906:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01199.before.178-18:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-09-26T15:59:59.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 178 sera déviée : les arrêts situés entre Europe et Faubourg de l'Arche ne seront plus desservis en direction de La Défense. Quand : samedi 26 septembre 2026, de 18h00 à 03h00. Raison : évènement sportif.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-23T09:17:12.050Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01073.1789969620-1790650800.21-11.20260923111632:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01073.1789969620-1790650800.21-11:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-09-29T01:00:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 21 est déviée : les arrêts situés entre Pont Neuf - Quai du Louvre et Saint-Michel - Saint-Germain ne sont plus desservis en direction de Stade Charléty – Porte de Gentilly. Reprise estimée : mardi 29 septembre 2026, à partir de 03h00. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-14T12:57:14.896Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01072.1789408800-1792812600.20-21.20260914145629:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01072.1789408800-1792812600.20-21:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-10-24T01:30:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 20 est déviée : les arrêts situés entre Saint-Maur - Jean Aicard et Pelleport - Belleville ne sont plus desservis en direction de Porte des Lilas. Reprise estimée : samedi 24 octobre 2026, à partir de 03h30. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-20T02:36:17.179Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01415.1789974000-1792828800.N11-29.20260920043556:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01415.1789974000-1792828800.N11-29:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-10-24T06:00:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne N11 est déviée : les arrêts situés entre Château de Vincennes et Porte de Vincennes ne sont plus desservis en direction de Pont de Neuilly. Reprise estimée : samedi 24 octobre 2026, à partir de 08h00. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-08-25T17:05:08.338Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01195.1787679900-1790740800.174-4.20260825190419:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01195.1787679900-1790740800.174-4:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-09-30T02:00:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 174 est déviée : les arrêts situés entre Inkermann - Bineau et Marjolin ne sont plus desservis en direction de Saint-Ouen <RER>. Reprise estimée : mercredi 30 septembre 2026, à partir de 04h00. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-22T17:08:08.200Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01756.1777966560-1793676960.337-1.20260922190725:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01756.1777966560-1793676960.337-1:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-11-03T02:36:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 337 est déviée : les arrêts situés entre Maréchal Foch et Abel Fauveau ne sont plus desservis en direction de Deuil-la-Barre – ZA du Moutier. Reprise estimée : mardi 3 novembre 2026, à partir de 03h36. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-03T14:51:08.796Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.IVC.8851529440680870885.2:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.IVC.8851529440680870885:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-10-02T03:00:00.000Z",
+       "Content": {
+        "LineRef": [
+         {
+          "value": "STIF:Line::C01376:"
+         }
+        ],
+        "Message": [
+         {
+          "MessageType": "SHORT_MESSAGE",
+          "MessageText": {
+           "value": "Le 11 octobre, le trafic sera interrompu sur toute la ligne (travaux de modernisation). Bus de remplacement.",
+           "lang": "fr"
+          }
+         },
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "Le 11 octobre, le trafic sera interrompu sur toute la ligne en raison de travaux de modernisation.\nBus de remplacement.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-17T13:37:07.655Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01148.before.119-11.20260917153621:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01148.before.119-11:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-10-17T01:59:59.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 119 sera déviée : les arrêts situés entre Bouton d'Or et Gymnase ne seront plus desservis en direction de Les Baconnets <RER>. Quand : samedi 17 octobre 2026, de 04h00 à 21h00. Raison : manifestation.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-15T12:37:12.581Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01073.1789506000-1790652600.21-11.20260915143634:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01073.1789506000-1790652600.21-11:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-09-29T01:30:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 21 est déviée : les arrêts situés entre Pont Neuf - Quai du Louvre et Saint-Michel - Saint-Germain ne sont plus desservis en direction de Stade Charléty – Porte de Gentilly. Reprise estimée : mardi 29 septembre 2026, à partir de 03h30. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-23T18:03:08.259Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01244.before.252-21.20260923200250:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01244.before.252-21:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-09-28T02:59:59.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 252 sera déviée : les arrêts situés entre Garges - Sarcelles RER et Plein Midi ne seront plus desservis en direction de Porte de la Chapelle. Quand : à partir du lundi 28 septembre 2026, jusqu'au vendredi 9 octobre 2026, les lundis, mardis, mercredis, jeudis, vendredis, samedis et dimanches de 05h00 à 07h00. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-22T06:42:07.250Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01307.1788326940-1797571740.367-12.20260922084204:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01307.1788326940-1797571740.367-12:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-12-18T04:29:00.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne 367 est déviée : les arrêts situés entre François Hanriot et Les Pâquerettes ne sont plus desservis en direction de Pont de Bezons. Reprise estimée : vendredi 18 décembre 2026, à partir de 05h29. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "FormatRef": "STIF-IDF",
+       "RecordedAtTime": "2026-09-20T21:59:16.108Z",
+       "ItemIdentifier": "RATP-SIV:Item::MSG.SAE-BUS.IDFM.C01405.before.N45-12.20260920235853:LOC",
+       "InfoMessageIdentifier": {
+        "value": "RATP-SIV:InfoMessage::MSG.SAE-BUS.IDFM.C01405.before.N45-12:LOC"
+       },
+       "InfoChannelRef": {
+        "value": "Perturbation"
+       },
+       "ValidUntilTime": "2026-09-29T20:29:59.000Z",
+       "Content": {
+        "Message": [
+         {
+          "MessageType": "TEXT_ONLY",
+          "MessageText": {
+           "value": "La ligne N45 sera déviée : les arrêts situés entre La Lorette et Centre Sportif - Piscine ne seront plus desservis en direction de Gare de l'Est. Quand : à partir du mardi 29 septembre 2026, jusqu'au jeudi 1 octobre 2026. Raison : travaux.",
+           "lang": "fr"
+          }
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

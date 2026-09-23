@@ -1,0 +1,1860 @@
+{
+ "places": [
+  {
+   "id": "stop_area:IDFM:65063",
+   "name": "Argenteuil (Argenteuil)",
+   "quality": 0,
+   "embedded_type": "stop_area",
+   "stop_area": {
+    "id": "stop_area:IDFM:65063",
+    "coord": {
+     "lat": "48.94717330735724",
+     "lon": "2.2563394250081927"
+    },
+    "label": "Argenteuil (Argenteuil)",
+    "name": "Argenteuil",
+    "administrative_regions": [
+     {
+      "id": "admin:fr:95018",
+      "insee": "95018",
+      "name": "Argenteuil",
+      "label": "Argenteuil (95100)",
+      "level": 8,
+      "coord": {
+       "lon": "2.2481797",
+       "lat": "48.9479069"
+      },
+      "zip_code": "95100"
+     },
+     {
+      "id": "admin:osm:relation:7433",
+      "insee": "95",
+      "name": "Val-d'Oise",
+      "label": "Val-d'Oise",
+      "level": 6,
+      "coord": {
+       "lon": "2.0388736",
+       "lat": "49.0527528"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:8649",
+      "insee": "11",
+      "name": "Île-de-France",
+      "label": "Île-de-France",
+      "level": 4,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:2202162",
+      "insee": "",
+      "name": "France",
+      "label": "France",
+      "level": 2,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     }
+    ],
+    "timezone": "",
+    "commercial_modes": [
+     {
+      "id": "commercial_mode:Bus",
+      "name": "Bus"
+     },
+     {
+      "id": "commercial_mode:LocalTrain",
+      "name": "Train Transilien"
+     }
+    ],
+    "physical_modes": [
+     {
+      "id": "physical_mode:Bus",
+      "name": "Bus"
+     },
+     {
+      "id": "physical_mode:LocalTrain",
+      "name": "Train Transilien"
+     }
+    ],
+    "comment": null,
+    "codes": [
+     {
+      "type": "TN_PA",
+      "value": "272"
+     },
+     {
+      "type": "source",
+      "value": "FR::multimodalStopPlace:65063:FR1"
+     }
+    ],
+    "lines": [
+     {
+      "id": "line:IDFM:C01166",
+      "name": "140",
+      "code": "140",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1090",
+       "name": "Boucles Nord de Seine"
+      },
+      "color": "FF1400",
+      "text_color": "FFFFFF"
+     },
+     {
+      "id": "line:IDFM:C01254",
+      "name": "272",
+      "code": "272",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1096",
+       "name": "La Défense - Saint Cloud"
+      },
+      "color": "FF5A00",
+      "text_color": "000000"
+     },
+     {
+      "id": "line:IDFM:C01292",
+      "name": "340",
+      "code": "340",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1090",
+       "name": "Boucles Nord de Seine"
+      },
+      "color": "DC9600",
+      "text_color": "000000"
+     }
+    ]
+   }
+  },
+  {
+   "id": "stop_area:IDFM:65110",
+   "name": "Val d'Argenteuil (Argenteuil)",
+   "quality": 0,
+   "embedded_type": "stop_area",
+   "stop_area": {
+    "id": "stop_area:IDFM:65110",
+    "coord": {
+     "lat": "48.95048891267196",
+     "lon": "2.2316588256042893"
+    },
+    "label": "Val d'Argenteuil (Argenteuil)",
+    "name": "Val d'Argenteuil",
+    "administrative_regions": [
+     {
+      "id": "admin:fr:95018",
+      "insee": "95018",
+      "name": "Argenteuil",
+      "label": "Argenteuil (95100)",
+      "level": 8,
+      "coord": {
+       "lon": "2.2481797",
+       "lat": "48.9479069"
+      },
+      "zip_code": "95100"
+     },
+     {
+      "id": "admin:osm:relation:7433",
+      "insee": "95",
+      "name": "Val-d'Oise",
+      "label": "Val-d'Oise",
+      "level": 6,
+      "coord": {
+       "lon": "2.0388736",
+       "lat": "49.0527528"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:8649",
+      "insee": "11",
+      "name": "Île-de-France",
+      "label": "Île-de-France",
+      "level": 4,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:2202162",
+      "insee": "",
+      "name": "France",
+      "label": "France",
+      "level": 2,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     }
+    ],
+    "timezone": "",
+    "commercial_modes": [
+     {
+      "id": "commercial_mode:Bus",
+      "name": "Bus"
+     },
+     {
+      "id": "commercial_mode:LocalTrain",
+      "name": "Train Transilien"
+     }
+    ],
+    "physical_modes": [
+     {
+      "id": "physical_mode:Bus",
+      "name": "Bus"
+     },
+     {
+      "id": "physical_mode:LocalTrain",
+      "name": "Train Transilien"
+     }
+    ],
+    "comment": null,
+    "codes": [
+     {
+      "type": "TN_PA",
+      "value": "269"
+     },
+     {
+      "type": "source",
+      "value": "FR::multimodalStopPlace:65110:FR1"
+     }
+    ],
+    "lines": [
+     {
+      "id": "line:IDFM:C01186",
+      "name": "164",
+      "code": "164",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1096",
+       "name": "La Défense - Saint Cloud"
+      },
+      "color": "A0006E",
+      "text_color": "FFFFFF"
+     },
+     {
+      "id": "line:IDFM:C02847",
+      "name": "1430",
+      "code": "1430",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1086",
+       "name": "Val Parisis"
+      },
+      "color": "006DB8",
+      "text_color": "FFFFFF"
+     },
+     {
+      "id": "line:IDFM:C00297",
+      "name": "6403",
+      "code": "6403",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1054",
+       "name": "Argenteuil - Boucles de Seine"
+      },
+      "color": "6E491E",
+      "text_color": "FFFFFF"
+     }
+    ]
+   }
+  },
+  {
+   "id": "stop_area:IDFM:69446",
+   "name": "Petit Argenteuil (Survilliers)",
+   "quality": 0,
+   "embedded_type": "stop_area",
+   "stop_area": {
+    "id": "stop_area:IDFM:69446",
+    "coord": {
+     "lat": "49.09928756716213",
+     "lon": "2.5325922598242645"
+    },
+    "label": "Petit Argenteuil (Survilliers)",
+    "name": "Petit Argenteuil",
+    "administrative_regions": [
+     {
+      "id": "admin:fr:95604",
+      "insee": "95604",
+      "name": "Survilliers",
+      "label": "Survilliers (95470)",
+      "level": 8,
+      "coord": {
+       "lon": "2.5434395",
+       "lat": "49.1025201"
+      },
+      "zip_code": "95470"
+     },
+     {
+      "id": "admin:osm:relation:7433",
+      "insee": "95",
+      "name": "Val-d'Oise",
+      "label": "Val-d'Oise",
+      "level": 6,
+      "coord": {
+       "lon": "2.0388736",
+       "lat": "49.0527528"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:8649",
+      "insee": "11",
+      "name": "Île-de-France",
+      "label": "Île-de-France",
+      "level": 4,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:2202162",
+      "insee": "",
+      "name": "France",
+      "label": "France",
+      "level": 2,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     }
+    ],
+    "timezone": "",
+    "commercial_modes": [
+     {
+      "id": "commercial_mode:Bus",
+      "name": "Bus"
+     }
+    ],
+    "physical_modes": [
+     {
+      "id": "physical_mode:Bus",
+      "name": "Bus"
+     }
+    ],
+    "comment": null,
+    "codes": [
+     {
+      "type": "source",
+      "value": "FR::multimodalStopPlace:69446:FR1"
+     }
+    ],
+    "lines": [
+     {
+      "id": "line:IDFM:C00264",
+      "name": "1601 (ex 9501)",
+      "code": "1601",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1071",
+       "name": "Roissy Ouest"
+      },
+      "color": "3C91DC",
+      "text_color": "FFFFFF"
+     },
+     {
+      "id": "line:IDFM:C02604",
+      "name": "1619 (ex R9)",
+      "code": "1619",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1071",
+       "name": "Roissy Ouest"
+      },
+      "color": "640082",
+      "text_color": "FFFFFF"
+     },
+     {
+      "id": "line:IDFM:C00239",
+      "name": "1664 (ex R104)",
+      "code": "1664",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1071",
+       "name": "Roissy Ouest"
+      },
+      "color": "3C91DC",
+      "text_color": "FFFFFF"
+     }
+    ]
+   }
+  },
+  {
+   "id": "stop_area:IDFM:421238",
+   "name": "Rue d'Argenteuil (Herblay-sur-Seine)",
+   "quality": 0,
+   "embedded_type": "stop_area",
+   "stop_area": {
+    "id": "stop_area:IDFM:421238",
+    "coord": {
+     "lat": "48.98843600433482",
+     "lon": "2.169917846319225"
+    },
+    "label": "Rue d'Argenteuil (Herblay-sur-Seine)",
+    "name": "Rue d'Argenteuil",
+    "administrative_regions": [
+     {
+      "id": "admin:fr:95306",
+      "insee": "95306",
+      "name": "Herblay-sur-Seine",
+      "label": "Herblay-sur-Seine (95220)",
+      "level": 8,
+      "coord": {
+       "lon": "2.166162",
+       "lat": "48.9898588"
+      },
+      "zip_code": "95220"
+     },
+     {
+      "id": "admin:osm:relation:7433",
+      "insee": "95",
+      "name": "Val-d'Oise",
+      "label": "Val-d'Oise",
+      "level": 6,
+      "coord": {
+       "lon": "2.0388736",
+       "lat": "49.0527528"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:8649",
+      "insee": "11",
+      "name": "Île-de-France",
+      "label": "Île-de-France",
+      "level": 4,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:2202162",
+      "insee": "",
+      "name": "France",
+      "label": "France",
+      "level": 2,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     }
+    ],
+    "timezone": "",
+    "commercial_modes": [
+     {
+      "id": "commercial_mode:Bus",
+      "name": "Bus"
+     }
+    ],
+    "physical_modes": [
+     {
+      "id": "physical_mode:Bus",
+      "name": "Bus"
+     }
+    ],
+    "comment": null,
+    "codes": [
+     {
+      "type": "source",
+      "value": "FR::multimodalStopPlace:421238:FR1"
+     }
+    ],
+    "lines": [
+     {
+      "id": "line:IDFM:C00480",
+      "name": "1435",
+      "code": "1435",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1086",
+       "name": "Val Parisis"
+      },
+      "color": "F59EB3",
+      "text_color": "000000"
+     }
+    ]
+   }
+  },
+  {
+   "id": "stop_area:IDFM:72239",
+   "name": "Gramme (Avenue d'Argenteuil) (Bois-Colombes)",
+   "quality": 0,
+   "embedded_type": "stop_area",
+   "stop_area": {
+    "id": "stop_area:IDFM:72239",
+    "coord": {
+     "lat": "48.923429877027814",
+     "lon": "2.275832260891005"
+    },
+    "label": "Gramme (Avenue d'Argenteuil) (Bois-Colombes)",
+    "name": "Gramme (Avenue d'Argenteuil)",
+    "administrative_regions": [
+     {
+      "id": "admin:fr:92009",
+      "insee": "92009",
+      "name": "Bois-Colombes",
+      "label": "Bois-Colombes (92270)",
+      "level": 8,
+      "coord": {
+       "lon": "2.2674892",
+       "lat": "48.9148269"
+      },
+      "zip_code": "92270"
+     },
+     {
+      "id": "admin:osm:relation:7449",
+      "insee": "92",
+      "name": "Hauts-de-Seine",
+      "label": "Hauts-de-Seine",
+      "level": 6,
+      "coord": {
+       "lon": "2.2071267",
+       "lat": "48.892427299999994"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:8649",
+      "insee": "11",
+      "name": "Île-de-France",
+      "label": "Île-de-France",
+      "level": 4,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:2202162",
+      "insee": "",
+      "name": "France",
+      "label": "France",
+      "level": 2,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     }
+    ],
+    "timezone": "",
+    "commercial_modes": [
+     {
+      "id": "commercial_mode:Bus",
+      "name": "Bus"
+     }
+    ],
+    "physical_modes": [
+     {
+      "id": "physical_mode:Bus",
+      "name": "Bus"
+     }
+    ],
+    "comment": null,
+    "codes": [
+     {
+      "type": "source",
+      "value": "FR::multimodalStopPlace:72239:FR1"
+     }
+    ],
+    "lines": [
+     {
+      "id": "line:IDFM:C01166",
+      "name": "140",
+      "code": "140",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1090",
+       "name": "Boucles Nord de Seine"
+      },
+      "color": "FF1400",
+      "text_color": "FFFFFF"
+     },
+     {
+      "id": "line:IDFM:C01187",
+      "name": "165",
+      "code": "165",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1096",
+       "name": "La Défense - Saint Cloud"
+      },
+      "color": "FF5A00",
+      "text_color": "000000"
+     },
+     {
+      "id": "line:IDFM:C01393",
+      "name": "N52",
+      "code": "N52",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:Operator_100",
+       "name": "RATP"
+      },
+      "color": "D2D200",
+      "text_color": "000000"
+     }
+    ]
+   }
+  },
+  {
+   "id": "stop_area:IDFM:64984",
+   "name": "Borderel - Héloïse / Gobelins (Argenteuil)",
+   "quality": 0,
+   "embedded_type": "stop_area",
+   "stop_area": {
+    "id": "stop_area:IDFM:64984",
+    "coord": {
+     "lat": "48.94286859408039",
+     "lon": "2.2531859112297745"
+    },
+    "label": "Borderel - Héloïse / Gobelins (Argenteuil)",
+    "name": "Borderel - Héloïse / Gobelins",
+    "administrative_regions": [
+     {
+      "id": "admin:fr:95018",
+      "insee": "95018",
+      "name": "Argenteuil",
+      "label": "Argenteuil (95100)",
+      "level": 8,
+      "coord": {
+       "lon": "2.2481797",
+       "lat": "48.9479069"
+      },
+      "zip_code": "95100"
+     },
+     {
+      "id": "admin:osm:relation:7433",
+      "insee": "95",
+      "name": "Val-d'Oise",
+      "label": "Val-d'Oise",
+      "level": 6,
+      "coord": {
+       "lon": "2.0388736",
+       "lat": "49.0527528"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:8649",
+      "insee": "11",
+      "name": "Île-de-France",
+      "label": "Île-de-France",
+      "level": 4,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:2202162",
+      "insee": "",
+      "name": "France",
+      "label": "France",
+      "level": 2,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     }
+    ],
+    "timezone": "",
+    "commercial_modes": [
+     {
+      "id": "commercial_mode:Bus",
+      "name": "Bus"
+     }
+    ],
+    "physical_modes": [
+     {
+      "id": "physical_mode:Bus",
+      "name": "Bus"
+     }
+    ],
+    "comment": null,
+    "codes": [
+     {
+      "type": "source",
+      "value": "FR::multimodalStopPlace:64984:FR1"
+     }
+    ],
+    "lines": [
+     {
+      "id": "line:IDFM:C01166",
+      "name": "140",
+      "code": "140",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1090",
+       "name": "Boucles Nord de Seine"
+      },
+      "color": "FF1400",
+      "text_color": "FFFFFF"
+     },
+     {
+      "id": "line:IDFM:C01254",
+      "name": "272",
+      "code": "272",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1096",
+       "name": "La Défense - Saint Cloud"
+      },
+      "color": "FF5A00",
+      "text_color": "000000"
+     },
+     {
+      "id": "line:IDFM:C01292",
+      "name": "340",
+      "code": "340",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1090",
+       "name": "Boucles Nord de Seine"
+      },
+      "color": "DC9600",
+      "text_color": "000000"
+     }
+    ]
+   }
+  },
+  {
+   "id": "stop_area:IDFM:422804",
+   "name": "Val Notre-Dame (Argenteuil)",
+   "quality": 0,
+   "embedded_type": "stop_area",
+   "stop_area": {
+    "id": "stop_area:IDFM:422804",
+    "coord": {
+     "lat": "48.94170063351314",
+     "lon": "2.206472569331252"
+    },
+    "label": "Val Notre-Dame (Argenteuil)",
+    "name": "Val Notre-Dame",
+    "administrative_regions": [
+     {
+      "id": "admin:fr:95018",
+      "insee": "95018",
+      "name": "Argenteuil",
+      "label": "Argenteuil (95100)",
+      "level": 8,
+      "coord": {
+       "lon": "2.2481797",
+       "lat": "48.9479069"
+      },
+      "zip_code": "95100"
+     },
+     {
+      "id": "admin:osm:relation:7433",
+      "insee": "95",
+      "name": "Val-d'Oise",
+      "label": "Val-d'Oise",
+      "level": 6,
+      "coord": {
+       "lon": "2.0388736",
+       "lat": "49.0527528"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:8649",
+      "insee": "11",
+      "name": "Île-de-France",
+      "label": "Île-de-France",
+      "level": 4,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:2202162",
+      "insee": "",
+      "name": "France",
+      "label": "France",
+      "level": 2,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     }
+    ],
+    "timezone": "",
+    "commercial_modes": [
+     {
+      "id": "commercial_mode:Bus",
+      "name": "Bus"
+     }
+    ],
+    "physical_modes": [
+     {
+      "id": "physical_mode:Bus",
+      "name": "Bus"
+     }
+    ],
+    "comment": null,
+    "codes": [
+     {
+      "type": "source",
+      "value": "FR::multimodalStopPlace:422804:FR1"
+     }
+    ],
+    "lines": [
+     {
+      "id": "line:IDFM:C01254",
+      "name": "272",
+      "code": "272",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1096",
+       "name": "La Défense - Saint Cloud"
+      },
+      "color": "FF5A00",
+      "text_color": "000000"
+     },
+     {
+      "id": "line:IDFM:C00298",
+      "name": "6401",
+      "code": "6401",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1054",
+       "name": "Argenteuil - Boucles de Seine"
+      },
+      "color": "FF1400",
+      "text_color": "FFFFFF"
+     },
+     {
+      "id": "line:IDFM:C01681",
+      "name": "6413",
+      "code": "6413",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1054",
+       "name": "Argenteuil - Boucles de Seine"
+      },
+      "color": "00643C",
+      "text_color": "FFFFFF"
+     }
+    ]
+   }
+  },
+  {
+   "id": "stop_area:IDFM:65170",
+   "name": "Marceau Guillot (Argenteuil)",
+   "quality": 0,
+   "embedded_type": "stop_area",
+   "stop_area": {
+    "id": "stop_area:IDFM:65170",
+    "coord": {
+     "lat": "48.9549555632572",
+     "lon": "2.241815016246506"
+    },
+    "label": "Marceau Guillot (Argenteuil)",
+    "name": "Marceau Guillot",
+    "administrative_regions": [
+     {
+      "id": "admin:fr:95018",
+      "insee": "95018",
+      "name": "Argenteuil",
+      "label": "Argenteuil (95100)",
+      "level": 8,
+      "coord": {
+       "lon": "2.2481797",
+       "lat": "48.9479069"
+      },
+      "zip_code": "95100"
+     },
+     {
+      "id": "admin:osm:relation:7433",
+      "insee": "95",
+      "name": "Val-d'Oise",
+      "label": "Val-d'Oise",
+      "level": 6,
+      "coord": {
+       "lon": "2.0388736",
+       "lat": "49.0527528"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:8649",
+      "insee": "11",
+      "name": "Île-de-France",
+      "label": "Île-de-France",
+      "level": 4,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:2202162",
+      "insee": "",
+      "name": "France",
+      "label": "France",
+      "level": 2,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     }
+    ],
+    "timezone": "",
+    "commercial_modes": [
+     {
+      "id": "commercial_mode:Bus",
+      "name": "Bus"
+     }
+    ],
+    "physical_modes": [
+     {
+      "id": "physical_mode:Bus",
+      "name": "Bus"
+     }
+    ],
+    "comment": null,
+    "codes": [
+     {
+      "type": "source",
+      "value": "FR::multimodalStopPlace:65170:FR1"
+     }
+    ],
+    "lines": [
+     {
+      "id": "line:IDFM:C00292",
+      "name": "6411",
+      "code": "6411",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1054",
+       "name": "Argenteuil - Boucles de Seine"
+      },
+      "color": "0055C8",
+      "text_color": "FFFFFF"
+     },
+     {
+      "id": "line:IDFM:C00294",
+      "name": "6422",
+      "code": "6422",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1054",
+       "name": "Argenteuil - Boucles de Seine"
+      },
+      "color": "FF5A00",
+      "text_color": "000000"
+     },
+     {
+      "id": "line:IDFM:C02831",
+      "name": "9513",
+      "code": "9513",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1048",
+       "name": "Vexin"
+      },
+      "color": "3C91DC",
+      "text_color": "FFFFFF"
+     }
+    ]
+   }
+  },
+  {
+   "id": "stop_area:IDFM:65052",
+   "name": "Bretagne / Place François Rabelais (Argenteuil)",
+   "quality": 0,
+   "embedded_type": "stop_area",
+   "stop_area": {
+    "id": "stop_area:IDFM:65052",
+    "coord": {
+     "lat": "48.94602709597603",
+     "lon": "2.2335554541469285"
+    },
+    "label": "Bretagne / Place François Rabelais (Argenteuil)",
+    "name": "Bretagne / Place François Rabelais",
+    "administrative_regions": [
+     {
+      "id": "admin:fr:95018",
+      "insee": "95018",
+      "name": "Argenteuil",
+      "label": "Argenteuil (95100)",
+      "level": 8,
+      "coord": {
+       "lon": "2.2481797",
+       "lat": "48.9479069"
+      },
+      "zip_code": "95100"
+     },
+     {
+      "id": "admin:osm:relation:7433",
+      "insee": "95",
+      "name": "Val-d'Oise",
+      "label": "Val-d'Oise",
+      "level": 6,
+      "coord": {
+       "lon": "2.0388736",
+       "lat": "49.0527528"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:8649",
+      "insee": "11",
+      "name": "Île-de-France",
+      "label": "Île-de-France",
+      "level": 4,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:2202162",
+      "insee": "",
+      "name": "France",
+      "label": "France",
+      "level": 2,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     }
+    ],
+    "timezone": "",
+    "commercial_modes": [
+     {
+      "id": "commercial_mode:Bus",
+      "name": "Bus"
+     }
+    ],
+    "physical_modes": [
+     {
+      "id": "physical_mode:Bus",
+      "name": "Bus"
+     }
+    ],
+    "comment": null,
+    "codes": [
+     {
+      "type": "source",
+      "value": "FR::multimodalStopPlace:65052:FR1"
+     }
+    ],
+    "lines": [
+     {
+      "id": "line:IDFM:C01186",
+      "name": "164",
+      "code": "164",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1096",
+       "name": "La Défense - Saint Cloud"
+      },
+      "color": "A0006E",
+      "text_color": "FFFFFF"
+     },
+     {
+      "id": "line:IDFM:C02847",
+      "name": "1430",
+      "code": "1430",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1086",
+       "name": "Val Parisis"
+      },
+      "color": "006DB8",
+      "text_color": "FFFFFF"
+     },
+     {
+      "id": "line:IDFM:C00297",
+      "name": "6403",
+      "code": "6403",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1054",
+       "name": "Argenteuil - Boucles de Seine"
+      },
+      "color": "6E491E",
+      "text_color": "FFFFFF"
+     }
+    ]
+   }
+  },
+  {
+   "id": "stop_area:IDFM:65050",
+   "name": "Charcot Hôpital / Hôpital Victor Dupouy (Argenteuil)",
+   "quality": 0,
+   "embedded_type": "stop_area",
+   "stop_area": {
+    "id": "stop_area:IDFM:65050",
+    "coord": {
+     "lat": "48.9465277674933",
+     "lon": "2.238033105009793"
+    },
+    "label": "Charcot Hôpital / Hôpital Victor Dupouy (Argenteuil)",
+    "name": "Charcot Hôpital / Hôpital Victor Dupouy",
+    "administrative_regions": [
+     {
+      "id": "admin:fr:95018",
+      "insee": "95018",
+      "name": "Argenteuil",
+      "label": "Argenteuil (95100)",
+      "level": 8,
+      "coord": {
+       "lon": "2.2481797",
+       "lat": "48.9479069"
+      },
+      "zip_code": "95100"
+     },
+     {
+      "id": "admin:osm:relation:7433",
+      "insee": "95",
+      "name": "Val-d'Oise",
+      "label": "Val-d'Oise",
+      "level": 6,
+      "coord": {
+       "lon": "2.0388736",
+       "lat": "49.0527528"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:8649",
+      "insee": "11",
+      "name": "Île-de-France",
+      "label": "Île-de-France",
+      "level": 4,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:2202162",
+      "insee": "",
+      "name": "France",
+      "label": "France",
+      "level": 2,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     }
+    ],
+    "timezone": "",
+    "commercial_modes": [
+     {
+      "id": "commercial_mode:Bus",
+      "name": "Bus"
+     }
+    ],
+    "physical_modes": [
+     {
+      "id": "physical_mode:Bus",
+      "name": "Bus"
+     }
+    ],
+    "comment": null,
+    "codes": [
+     {
+      "type": "source",
+      "value": "FR::multimodalStopPlace:65050:FR1"
+     }
+    ],
+    "lines": [
+     {
+      "id": "line:IDFM:C02847",
+      "name": "1430",
+      "code": "1430",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1086",
+       "name": "Val Parisis"
+      },
+      "color": "006DB8",
+      "text_color": "FFFFFF"
+     },
+     {
+      "id": "line:IDFM:C00297",
+      "name": "6403",
+      "code": "6403",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1054",
+       "name": "Argenteuil - Boucles de Seine"
+      },
+      "color": "6E491E",
+      "text_color": "FFFFFF"
+     },
+     {
+      "id": "line:IDFM:C00295",
+      "name": "6414",
+      "code": "6414",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1054",
+       "name": "Argenteuil - Boucles de Seine"
+      },
+      "color": "82DC73",
+      "text_color": "000000"
+     }
+    ]
+   }
+  },
+  {
+   "id": "stop_area:IDFM:65054",
+   "name": "Hôtel de Ville (Argenteuil)",
+   "quality": 0,
+   "embedded_type": "stop_area",
+   "stop_area": {
+    "id": "stop_area:IDFM:65054",
+    "coord": {
+     "lat": "48.9465054785062",
+     "lon": "2.249467850682473"
+    },
+    "label": "Hôtel de Ville (Argenteuil)",
+    "name": "Hôtel de Ville",
+    "administrative_regions": [
+     {
+      "id": "admin:fr:95018",
+      "insee": "95018",
+      "name": "Argenteuil",
+      "label": "Argenteuil (95100)",
+      "level": 8,
+      "coord": {
+       "lon": "2.2481797",
+       "lat": "48.9479069"
+      },
+      "zip_code": "95100"
+     },
+     {
+      "id": "admin:osm:relation:7433",
+      "insee": "95",
+      "name": "Val-d'Oise",
+      "label": "Val-d'Oise",
+      "level": 6,
+      "coord": {
+       "lon": "2.0388736",
+       "lat": "49.0527528"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:8649",
+      "insee": "11",
+      "name": "Île-de-France",
+      "label": "Île-de-France",
+      "level": 4,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:2202162",
+      "insee": "",
+      "name": "France",
+      "label": "France",
+      "level": 2,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     }
+    ],
+    "timezone": "",
+    "commercial_modes": [
+     {
+      "id": "commercial_mode:Bus",
+      "name": "Bus"
+     }
+    ],
+    "physical_modes": [
+     {
+      "id": "physical_mode:Bus",
+      "name": "Bus"
+     }
+    ],
+    "comment": null,
+    "codes": [
+     {
+      "type": "source",
+      "value": "FR::multimodalStopPlace:65054:FR1"
+     }
+    ],
+    "lines": [
+     {
+      "id": "line:IDFM:C01166",
+      "name": "140",
+      "code": "140",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1090",
+       "name": "Boucles Nord de Seine"
+      },
+      "color": "FF1400",
+      "text_color": "FFFFFF"
+     },
+     {
+      "id": "line:IDFM:C01254",
+      "name": "272",
+      "code": "272",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1096",
+       "name": "La Défense - Saint Cloud"
+      },
+      "color": "FF5A00",
+      "text_color": "000000"
+     },
+     {
+      "id": "line:IDFM:C01292",
+      "name": "340",
+      "code": "340",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1090",
+       "name": "Boucles Nord de Seine"
+      },
+      "color": "DC9600",
+      "text_color": "000000"
+     }
+    ]
+   }
+  },
+  {
+   "id": "stop_area:IDFM:65046",
+   "name": "Antonin-Georges Belin (Argenteuil)",
+   "quality": 0,
+   "embedded_type": "stop_area",
+   "stop_area": {
+    "id": "stop_area:IDFM:65046",
+    "coord": {
+     "lat": "48.946136125230765",
+     "lon": "2.2472136202815203"
+    },
+    "label": "Antonin-Georges Belin (Argenteuil)",
+    "name": "Antonin-Georges Belin",
+    "administrative_regions": [
+     {
+      "id": "admin:fr:95018",
+      "insee": "95018",
+      "name": "Argenteuil",
+      "label": "Argenteuil (95100)",
+      "level": 8,
+      "coord": {
+       "lon": "2.2481797",
+       "lat": "48.9479069"
+      },
+      "zip_code": "95100"
+     },
+     {
+      "id": "admin:osm:relation:7433",
+      "insee": "95",
+      "name": "Val-d'Oise",
+      "label": "Val-d'Oise",
+      "level": 6,
+      "coord": {
+       "lon": "2.0388736",
+       "lat": "49.0527528"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:8649",
+      "insee": "11",
+      "name": "Île-de-France",
+      "label": "Île-de-France",
+      "level": 4,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     },
+     {
+      "id": "admin:osm:relation:2202162",
+      "insee": "",
+      "name": "France",
+      "label": "France",
+      "level": 2,
+      "coord": {
+       "lon": "2.3483915",
+       "lat": "48.8534951"
+      },
+      "zip_code": null
+     }
+    ],
+    "timezone": "",
+    "commercial_modes": [
+     {
+      "id": "commercial_mode:Bus",
+      "name": "Bus"
+     }
+    ],
+    "physical_modes": [
+     {
+      "id": "physical_mode:Bus",
+      "name": "Bus"
+     }
+    ],
+    "comment": null,
+    "codes": [
+     {
+      "type": "source",
+      "value": "FR::multimodalStopPlace:65046:FR1"
+     }
+    ],
+    "lines": [
+     {
+      "id": "line:IDFM:C01254",
+      "name": "272",
+      "code": "272",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1096",
+       "name": "La Défense - Saint Cloud"
+      },
+      "color": "FF5A00",
+      "text_color": "000000"
+     },
+     {
+      "id": "line:IDFM:C00298",
+      "name": "6401",
+      "code": "6401",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1054",
+       "name": "Argenteuil - Boucles de Seine"
+      },
+      "color": "FF1400",
+      "text_color": "FFFFFF"
+     },
+     {
+      "id": "line:IDFM:C00295",
+      "name": "6414",
+      "code": "6414",
+      "commercial_mode": {
+       "id": "commercial_mode:Bus",
+       "name": "Bus"
+      },
+      "physical_modes": [
+       {
+        "id": "physical_mode:Bus",
+        "name": "Bus"
+       }
+      ],
+      "network": {
+       "id": "network:IDFM:1054",
+       "name": "Argenteuil - Boucles de Seine"
+      },
+      "color": "82DC73",
+      "text_color": "000000"
+     }
+    ]
+   }
+  }
+ ],
+ "warnings": [
+  {
+   "id": "beta_endpoint",
+   "message": "This service is under construction. You can help through github.com/hove-io/navitia"
+  }
+ ],
+ "feed_publishers": [
+  {
+   "id": "IDFM:idfm_netex",
+   "license": "private",
+   "name": "idfm_netex",
+   "url": ""
+  },
+  {
+   "id": "IDFM:transilien_netex",
+   "license": "private",
+   "name": "transilien_netex",
+   "url": ""
+  },
+  {
+   "id": "bano",
+   "name": "Base d'Adresses Nationale Ouverte",
+   "license": "ODbL",
+   "url": "http://bano.openstreetmap.fr/data/lisezmoi-bano.txt"
+  },
+  {
+   "id": "osm",
+   "license": "ODbL",
+   "name": "openstreetmap",
+   "url": "https://www.openstreetmap.org/copyright"
+  }
+ ],
+ "context": {
+  "current_datetime": "20260924T013351",
+  "timezone": "Europe/Paris"
+ },
+ "links": [
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/commercial_modes/{commercial_mode.id}",
+   "templated": true,
+   "rel": "commercial_modes",
+   "type": "commercial_mode"
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/networks/{network.id}",
+   "templated": true,
+   "rel": "networks",
+   "type": "network"
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/commercial_modes/{commercial_modes.id}",
+   "templated": true,
+   "rel": "commercial_modes",
+   "type": "commercial_modes"
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/stop_areas/{stop_area.id}",
+   "templated": true,
+   "rel": "stop_areas",
+   "type": "stop_area"
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/lines/{lines.id}",
+   "templated": true,
+   "rel": "lines",
+   "type": "lines"
+  },
+  {
+   "href": "https://api-idfm.go.navitia.io/v1/coverage/idfm/physical_modes/{physical_modes.id}",
+   "templated": true,
+   "rel": "physical_modes",
+   "type": "physical_modes"
+  }
+ ]
+}

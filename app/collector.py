@@ -165,7 +165,12 @@ async def sample_once(now: datetime | None = None) -> dict:
     priority = any(_in_window(r, now) for r in routes)
 
     client = prim.get_client()
-    remaining = client.quota.get("stop-monitoring")
+    # Lo que queda HOY segun el contador de cuota (dia UTC). Antes era la
+    # ultima cabecera de PRIM, que solo se renueva al llamar: si ayer quedo
+    # por debajo de la reserva, tras la medianoche no se volvia a llamar
+    # nunca y no se aprendia hasta que alguien abria la app (fallo 18.3.8 de
+    # docs/servidor.md). El contador empieza el dia solo.
+    remaining = client.quota_counter.remaining("stop-monitoring")
     interval, motivo = plan_interval(remaining, len(plan), now, priority)
 
     base = {"stations": len(plan), "recorded": 0, "reason": motivo,

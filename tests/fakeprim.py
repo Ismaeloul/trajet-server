@@ -3,7 +3,8 @@ y Navitia.
 
 Se monta con `prim.transport_override = fake.transport` (lo hace conftest.py).
 Cuenta las llamadas por endpoint, pone la cabecera de cuota y puede fallar a
-demanda (401, 403, 429, 5xx, timeout) por endpoint.
+demanda (401, 403, 429, 5xx, timeout) por endpoint o por estacion, y tardar
+lo que se le diga (para probar peticiones simultaneas).
 
 Los escenarios de `scenarios.py` reproducen los casos de PreviewData de la app
 (sin via, via probable, via que aparece, bus a 106 min, linea cortada, aviso
@@ -11,6 +12,7 @@ en frances, tren en el anden, destinos mezclados, tramo vacio).
 """
 from __future__ import annotations
 
+import asyncio
 import json
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
@@ -66,6 +68,12 @@ class FakePrim:
     fail: dict[str, int | str] = field(default_factory=dict)
     seen_keys: list[str] = field(default_factory=list)
     now: datetime | None = None
+    # zdc -> estado HTTP o "timeout"/"connect": falla SOLO esa estacion
+    fail_stations: dict[str, int | str] = field(default_factory=dict)
+    # Segundos que tarda cada respuesta (0 = al momento)
+    delay: float = 0.0
+    # Ruta de cada peticion (sin parametros), en orden
+    paths: list[str] = field(default_factory=list)
 
     # ---------------- construir el mundo ----------------
 
@@ -79,7 +87,18 @@ class FakePrim:
 
     @property
     def transport(self) -> httpx.MockTransport:
-        return httpx.MockTransport(self._handle)
+        return httpx.MockTransport(self._dispatch)
+
+    def _dispatch(self, request: httpx.Request):
+        # MockTransport admite que el manejador devuelva una corrutina: asi el
+        # retraso se decide en cada peticion y no al montar el transporte.
+        if self.delay:
+            return self._handle_later(request)
+        return self._handle(request)
+
+    async def _handle_later(self, request: httpx.Request) -> httpx.Response:
+        await asyncio.sleep(self.delay)
+        return self._handle(request)
 
     def total_calls(self) -> int:
         return sum(self.calls.values())
@@ -103,8 +122,14 @@ class FakePrim:
         bucket = self._bucket(path)
         self.calls[bucket] = self.calls.get(bucket, 0) + 1
         self.seen_keys.append(request.headers.get("apikey", ""))
+        self.paths.append(path)
 
+        q = parse_qs(request.url.query.decode() if isinstance(request.url.query, bytes)
+                     else str(request.url.query))
         f = self.fail.get(bucket) or self.fail.get("*")
+        if not f and bucket == "stop-monitoring" and self.fail_stations:
+            ref = (q.get("MonitoringRef") or [""])[0]
+            f = self.fail_stations.get(ref.rstrip(":").rsplit(":", 1)[-1])
         if f == "timeout":
             raise httpx.ReadTimeout("tiempo de espera agotado", request=request)
         if f == "connect":
@@ -119,8 +144,6 @@ class FakePrim:
                                 429: "API rate limit exceeded"}.get(f, "error")}
             return httpx.Response(f, json=body, headers=headers)
 
-        q = parse_qs(request.url.query.decode() if isinstance(request.url.query, bytes)
-                     else str(request.url.query))
         if bucket == "stop-monitoring":
             ref = (q.get("MonitoringRef") or [""])[0]
             return httpx.Response(200, json=self._stop_monitoring(ref), headers=headers)

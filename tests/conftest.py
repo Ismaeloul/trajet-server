@@ -46,6 +46,12 @@ def _reset_module_state():
         translate._available_cache = None
     except Exception:
         pass
+    # Limites de emparejamiento, errores en cola, clave y cuota en memoria.
+    from app import auth, keystore, logs, quota
+    auth.reset_state()
+    logs.reset_state()
+    keystore.reset_store()
+    quota.reset_quota()
 
 
 @pytest.fixture

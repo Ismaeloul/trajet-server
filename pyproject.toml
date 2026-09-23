@@ -1,0 +1,35 @@
+[project]
+name = "trajet-server"
+version = "0.4.0"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+# Las pruebas contra la API real de PRIM van aparte: scripts/test-real.sh
+addopts = "-q --ignore=tests/real"
+markers = [
+    "real: usa la API real de PRIM (gasta cuota; solo con scripts/test-real.sh)",
+]
+filterwarnings = ["ignore::DeprecationWarning:httpx"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+extend-exclude = ["probe", "tools"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "S"]
+ignore = [
+    "E501",   # lineas largas: mandan los comentarios en espanol
+    "S101",   # assert en tests
+    "S608",   # SQL con nombres de tabla fijos (no hay entrada de usuario)
+    "B008",   # Depends() en argumentos por defecto es el estilo de FastAPI
+    "S311",   # random no criptografico solo en tests
+    "E741",   # `l` de linea/leg es el estilo del codigo de siempre
+    "B905",   # zip() de listas que se construyen juntas
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S105", "S106", "S107", "S110"]

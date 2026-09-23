@@ -20,7 +20,7 @@ mediana; la prevision existe justo para cubrir el rato de antes.
 """
 from __future__ import annotations
 
-from datetime import date, datetime
+from datetime import datetime
 
 from . import db
 from .config import settings

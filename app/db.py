@@ -6,110 +6,12 @@ from contextlib import contextmanager
 
 from .config import settings
 
-SCHEMA = """
-PRAGMA journal_mode = WAL;
-PRAGMA foreign_keys = ON;
+# El esquema vive en app/migrations (versionado con PRAGMA user_version).
+# Aqui solo quedan la conexion y el acceso a datos.
 
-CREATE TABLE IF NOT EXISTS routes (
-    id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    name        TEXT    NOT NULL,
-    origin_id   TEXT    NOT NULL,
-    origin_name TEXT    NOT NULL,
-    dest_id     TEXT    NOT NULL,
-    dest_name   TEXT    NOT NULL,
-    -- Dias de la semana en que uso la ruta: 0=lunes .. 6=domingo
-    days        TEXT    NOT NULL DEFAULT '0,1,2,3,4',
-    -- Franja horaria habitual, hora local de Paris. Se calcula sola cuando
-    -- la ruta se define por hora de salida o de llegada.
-    time_from   TEXT    NOT NULL DEFAULT '07:00',
-    time_to     TEXT    NOT NULL DEFAULT '10:00',
-    -- Como quiero pensar el horario: 'window' (de X a Y), 'departure'
-    -- (salgo a las X) o 'arrival' (quiero llegar a las X).
-    time_mode   TEXT    NOT NULL DEFAULT 'window',
-    time_at     TEXT    NOT NULL DEFAULT '',
-    -- Duracion del trayecto en minutos, si la sabemos por el planificador.
-    duration_min INTEGER NOT NULL DEFAULT 0,
-    position    INTEGER NOT NULL DEFAULT 0,
-    created_at  TEXT    NOT NULL DEFAULT (datetime('now'))
-);
-
-CREATE TABLE IF NOT EXISTS legs (
-    id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    route_id    INTEGER NOT NULL REFERENCES routes(id) ON DELETE CASCADE,
-    seq         INTEGER NOT NULL,
-    line_id     TEXT    NOT NULL,
-    line_code   TEXT    NOT NULL,
-    line_name   TEXT    NOT NULL DEFAULT '',
-    line_mode   TEXT    NOT NULL DEFAULT '',
-    line_color  TEXT    NOT NULL DEFAULT '',
-    from_id     TEXT    NOT NULL,
-    from_name   TEXT    NOT NULL,
-    to_id       TEXT    NOT NULL DEFAULT '',
-    to_name     TEXT    NOT NULL DEFAULT '',
-    -- Destinos que cuentan como mi direccion, en JSON. Vacio = no filtrar.
-    directions  TEXT    NOT NULL DEFAULT '[]'
-);
-CREATE INDEX IF NOT EXISTS idx_legs_route ON legs(route_id, seq);
-
-CREATE TABLE IF NOT EXISTS history (
-    id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    route_id    INTEGER NOT NULL REFERENCES routes(id) ON DELETE CASCADE,
-    ts          TEXT    NOT NULL,
-    day         TEXT    NOT NULL,
-    disrupted   INTEGER NOT NULL DEFAULT 0,
-    delay_min   REAL    NOT NULL DEFAULT 0,
-    worst_line  TEXT    NOT NULL DEFAULT '',
-    detail      TEXT    NOT NULL DEFAULT '{}'
-);
-CREATE INDEX IF NOT EXISTS idx_hist_route_day ON history(route_id, day);
-CREATE INDEX IF NOT EXISTS idx_hist_ts ON history(ts);
-
--- Cada vez que se ve un anden de verdad se apunta aqui, para poder predecir
--- de que via saldra manana el mismo tren. Solo se recogen las estaciones de
--- MIS rutas: no tiene sentido estudiar toda la red.
---
--- Una fila por tren y por dia: el tablero se refresca cada 30 s y sin esa
--- restriccion un solo tren contaria 40 veces y falsearia el porcentaje.
-CREATE TABLE IF NOT EXISTS platform_obs (
-    id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    day         TEXT    NOT NULL,           -- YYYY-MM-DD, hora de Paris
-    seen_at     TEXT    NOT NULL,
-    stop_id     TEXT    NOT NULL,
-    line_id     TEXT    NOT NULL,
-    dest        TEXT    NOT NULL,           -- destino normalizado
-    train       TEXT    NOT NULL DEFAULT '',-- numero de mision, si lo hay
-    aimed       TEXT    NOT NULL DEFAULT '',-- hora teorica HH:MM
-    weekday     INTEGER NOT NULL,           -- 0=lunes .. 6=domingo
-    platform    TEXT    NOT NULL
-);
-CREATE UNIQUE INDEX IF NOT EXISTS idx_obs_unico
-    ON platform_obs(day, stop_id, line_id, train, aimed, dest);
-CREATE INDEX IF NOT EXISTS idx_obs_tren  ON platform_obs(stop_id, line_id, train);
-CREATE INDEX IF NOT EXISTS idx_obs_hora  ON platform_obs(stop_id, line_id, dest, aimed);
-
--- Aciertos y fallos de la prediccion, para poder decir si sirve de algo.
-CREATE TABLE IF NOT EXISTS platform_score (
-    id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    day         TEXT    NOT NULL,
-    stop_id     TEXT    NOT NULL,
-    line_id     TEXT    NOT NULL,
-    predicted   TEXT    NOT NULL,
-    actual      TEXT    NOT NULL,
-    hit         INTEGER NOT NULL
-);
-CREATE UNIQUE INDEX IF NOT EXISTS idx_score_unico
-    ON platform_score(day, stop_id, line_id, predicted, actual);
-
--- Avisos ya traducidos. Se guarda el frances original al lado, para poder
--- comprobar la traduccion, y el modelo que la hizo.
-CREATE TABLE IF NOT EXISTS translations (
-    k       TEXT PRIMARY KEY,      -- hash del texto original
-    fr      TEXT NOT NULL,
-    es      TEXT NOT NULL,
-    model   TEXT NOT NULL DEFAULT '',
-    ts      TEXT NOT NULL
-);
-"""
+# Columnas de la v2 que no forman parte del contrato de la 0.3.0: se leen
+# aparte (el mapa las usa) para que /api/routes siga devolviendo lo mismo.
+_LEG_V2_COLUMNS = ("from_lat", "from_lon", "to_lat", "to_lon")
 
 
 def _connect() -> sqlite3.Connection:
@@ -120,6 +22,7 @@ def _connect() -> sqlite3.Connection:
     con = sqlite3.connect(path, timeout=10)
     con.row_factory = sqlite3.Row
     con.execute("PRAGMA foreign_keys = ON")
+    con.execute("PRAGMA busy_timeout = 10000")
     return con
 
 
@@ -133,27 +36,36 @@ def conn():
         con.close()
 
 
-# Columnas anadidas despues de la primera version. CREATE TABLE IF NOT EXISTS
-# no toca una tabla que ya existe, asi que hay que anadirlas a mano. Es
-# idempotente: se comprueba antes si estan.
-MIGRACIONES = [
-    ("routes", "time_mode", "TEXT NOT NULL DEFAULT 'window'"),
-    ("routes", "time_at", "TEXT NOT NULL DEFAULT ''"),
-    ("routes", "duration_min", "INTEGER NOT NULL DEFAULT 0"),
-]
+def init() -> list[int]:
+    """Crea o migra la BD. Devuelve las migraciones aplicadas.
+
+    Va con su propia conexion en modo autocommit para que cada migracion
+    controle su transaccion (BEGIN IMMEDIATE ... COMMIT).
+    """
+    from .migrations import migrate
+
+    path = settings.db_path
+    parent = os.path.dirname(os.path.abspath(path))
+    if parent:
+        os.makedirs(parent, exist_ok=True)
+    con = sqlite3.connect(path, timeout=10, isolation_level=None)
+    try:
+        con.execute("PRAGMA journal_mode = WAL")
+        return migrate(con, path)
+    finally:
+        con.close()
 
 
-def init():
+def schema_version() -> int:
     with conn() as c:
-        c.executescript(SCHEMA)
-        for tabla, columna, tipo in MIGRACIONES:
-            cols = {r["name"] for r in c.execute(f"PRAGMA table_info({tabla})")}
-            if columna not in cols:
-                c.execute(f"ALTER TABLE {tabla} ADD COLUMN {columna} {tipo}")
+        return int(c.execute("PRAGMA user_version").fetchone()[0])
 
 
-def _leg_dict(row: sqlite3.Row) -> dict:
+def _leg_dict(row: sqlite3.Row, with_coords: bool = False) -> dict:
     d = dict(row)
+    if not with_coords:
+        for col in _LEG_V2_COLUMNS:
+            d.pop(col, None)
     try:
         d["directions"] = json.loads(d["directions"])
     except (ValueError, TypeError):
@@ -178,7 +90,7 @@ def list_routes() -> list[dict]:
     return [_route_dict(r, by_route.get(r["id"], [])) for r in routes]
 
 
-def get_route(route_id: int) -> dict | None:
+def get_route(route_id: int, with_coords: bool = False) -> dict | None:
     with conn() as c:
         r = c.execute("SELECT * FROM routes WHERE id = ?", (route_id,)).fetchone()
         if not r:
@@ -186,7 +98,7 @@ def get_route(route_id: int) -> dict | None:
         legs = c.execute(
             "SELECT * FROM legs WHERE route_id = ? ORDER BY seq",
             (route_id,)).fetchall()
-    return _route_dict(r, [_leg_dict(leg) for leg in legs])
+    return _route_dict(r, [_leg_dict(leg, with_coords) for leg in legs])
 
 
 def save_route(data: dict, route_id: int | None = None) -> int:
@@ -236,16 +148,26 @@ def save_route(data: dict, route_id: int | None = None) -> int:
             c.execute(
                 "INSERT INTO legs "
                 "(route_id, seq, line_id, line_code, line_name, line_mode, "
-                " line_color, from_id, from_name, to_id, to_name, directions) "
-                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+                " line_color, from_id, from_name, to_id, to_name, directions, "
+                " from_lat, from_lon, to_lat, to_lon) "
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 (route_id, i,
                  leg["line_id"], leg.get("line_code", ""),
                  leg.get("line_name", ""), leg.get("line_mode", ""),
                  leg.get("line_color", ""),
                  leg["from_id"], leg.get("from_name", ""),
                  leg.get("to_id", ""), leg.get("to_name", ""),
-                 json.dumps(leg.get("directions", []), ensure_ascii=False)))
+                 json.dumps(leg.get("directions", []), ensure_ascii=False),
+                 _coord(leg.get("from_lat")), _coord(leg.get("from_lon")),
+                 _coord(leg.get("to_lat")), _coord(leg.get("to_lon"))))
     return int(route_id)
+
+
+def _coord(value) -> float | None:
+    try:
+        return float(value) if value is not None else None
+    except (TypeError, ValueError):
+        return None
 
 
 def delete_route(route_id: int) -> bool:
@@ -287,29 +209,71 @@ def last_observation_ts(route_id: int) -> str | None:
 
 
 def stats(days_back: int = 90) -> dict:
-    """Resumen para la pantalla del PASO 3."""
+    """Resumen para la pantalla de estadisticas.
+
+    El corte se calcula en hora de Paris, igual que la columna `day` (en la
+    0.3.0 se comparaba con la fecha UTC de SQLite). `by_line[].n` son
+    observaciones de historial, no dias.
+    """
+    from datetime import datetime, timedelta
+
+    days_back = max(1, min(int(days_back), 3650))
+    desde = (datetime.now(settings.tz).date()
+             - timedelta(days=days_back)).isoformat()
     with conn() as c:
         by_month = c.execute(
             "SELECT substr(day,1,7) AS month, "
             "       COUNT(DISTINCT CASE WHEN disrupted > 0 THEN day END) AS bad_days, "
             "       COUNT(DISTINCT day) AS total_days, "
             "       AVG(delay_min) AS avg_delay "
-            "FROM history WHERE day >= date('now', ?) "
+            "FROM history WHERE day >= ? "
             "GROUP BY month ORDER BY month DESC",
-            (f"-{days_back} days",)).fetchall()
+            (desde,)).fetchall()
         by_line = c.execute(
             "SELECT worst_line, COUNT(*) AS n, AVG(delay_min) AS avg_delay "
             "FROM history WHERE worst_line != '' AND disrupted > 0 "
-            "  AND day >= date('now', ?) "
+            "  AND day >= ? "
             "GROUP BY worst_line ORDER BY n DESC LIMIT 10",
-            (f"-{days_back} days",)).fetchall()
+            (desde,)).fetchall()
         overall = c.execute(
             "SELECT COUNT(*) AS n, AVG(delay_min) AS avg_delay, "
             "       MAX(delay_min) AS max_delay "
-            "FROM history WHERE day >= date('now', ?)",
-            (f"-{days_back} days",)).fetchone()
+            "FROM history WHERE day >= ?",
+            (desde,)).fetchone()
     return {
         "by_month": [dict(r) for r in by_month],
         "by_line": [dict(r) for r in by_line],
         "overall": dict(overall) if overall else {},
     }
+
+
+# ---------------- ajustes del panel ----------------
+
+def get_setting(key: str, default: str | None = None) -> str | None:
+    with conn() as c:
+        r = c.execute("SELECT v FROM settings_kv WHERE k = ?", (key,)).fetchone()
+    return r["v"] if r else default
+
+
+def set_setting(key: str, value: str | None) -> None:
+    with conn() as c:
+        if value is None:
+            c.execute("DELETE FROM settings_kv WHERE k = ?", (key,))
+        else:
+            c.execute(
+                "INSERT INTO settings_kv (k, v, updated_at) "
+                "VALUES (?, ?, datetime('now')) "
+                "ON CONFLICT(k) DO UPDATE SET v = excluded.v, "
+                "updated_at = excluded.updated_at", (key, value))
+
+
+def counts() -> dict:
+    """Tamanos para el panel."""
+    with conn() as c:
+        out = {t: c.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0]
+               for t in ("routes", "history", "platform_obs")}
+    try:
+        out["size_bytes"] = os.path.getsize(settings.db_path)
+    except OSError:
+        out["size_bytes"] = 0
+    return out

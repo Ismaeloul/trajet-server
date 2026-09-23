@@ -2,3 +2,8 @@ fastapi==0.115.6
 uvicorn[standard]==0.34.0
 httpx==0.28.1
 tzdata==2024.2
+# Cifrado de la clave PRIM en reposo (AES-256-GCM + HKDF). La biblioteca
+# estandar no trae ningun cifrado autenticado.
+cryptography==45.0.7
+# QR del emparejamiento en SVG, puro Python y sin dependencias.
+segno==1.6.6

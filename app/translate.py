@@ -84,6 +84,23 @@ async def available() -> dict:
     }
 
 
+_available_cache: tuple[float, dict] | None = None
+AVAILABLE_TTL = 60.0
+
+
+async def available_cached() -> dict:
+    """available() guardado 60 s: /api/health lo llama el HEALTHCHECK cada 30 s
+    y no debe esperar 5 s a Ollama cada vez."""
+    import time
+    global _available_cache
+    now = time.monotonic()
+    if _available_cache and now - _available_cache[0] < AVAILABLE_TTL:
+        return dict(_available_cache[1])
+    res = await available()
+    _available_cache = (now, res)
+    return dict(res)
+
+
 async def translate(text: str) -> str | None:
     """Traduce un aviso. None si no se puede: la pantalla seguira en frances."""
     text = (text or "").strip()
@@ -138,7 +155,33 @@ async def _background(text: str) -> None:
         _en_curso.pop(_key(text), None)
 
 
-def translate_board(board: dict) -> int:
+def cached_many(texts: list[str]) -> dict[str, str | None]:
+    """Varias traducciones de golpe, con una sola conexion a la BD."""
+    out: dict[str, str | None] = {}
+    if not texts:
+        return out
+    with db.conn() as c:
+        for t in texts:
+            if t in out:
+                continue
+            r = c.execute("SELECT es FROM translations WHERE k = ?",
+                          (_key(t),)).fetchone()
+            out[t] = r["es"] if r else None
+    return out
+
+
+async def translate_board_async(board: dict) -> int:
+    """Como translate_board, pero las lecturas de SQLite van a un hilo aparte
+    para no bloquear el bucle de eventos."""
+    from fastapi.concurrency import run_in_threadpool
+
+    msgs = [m for leg in board.get("legs", [])
+            for m in ((leg.get("status") or {}).get("messages") or [])]
+    cache = await run_in_threadpool(cached_many, msgs)
+    return translate_board(board, cache)
+
+
+def translate_board(board: dict, cache: dict[str, str | None] | None = None) -> int:
     """Pone las traducciones que ya hay y lanza las que faltan en segundo plano.
 
     NO espera al modelo. Un aviso nuevo tarda unos 17 s en gemma3:4b (carga
@@ -152,7 +195,8 @@ def translate_board(board: dict) -> int:
         msgs = st.get("messages", [])
         if not msgs:
             continue
-        st["messages_es"] = [cached(m) for m in msgs]
+        st["messages_es"] = [cache[m] if cache is not None and m in cache
+                             else cached(m) for m in msgs]
         puestos += sum(1 for x in st["messages_es"] if x)
 
         for msg, es in zip(msgs, st["messages_es"]):

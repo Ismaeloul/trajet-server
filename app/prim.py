@@ -21,6 +21,10 @@ from .config import settings
 log = logging.getLogger("trajet.prim")
 
 BASE = "https://prim.iledefrance-mobilites.fr"
+
+# Solo para tests: un httpx.MockTransport que hace de PRIM (tests/fakeprim.py).
+# En produccion es None y httpx usa la red.
+transport_override: httpx.AsyncBaseTransport | None = None
 SIRI = f"{BASE}/marketplace"
 NAVITIA = f"{BASE}/marketplace/v2/navitia"
 
@@ -52,7 +56,15 @@ class Entry:
 
 
 class PrimError(Exception):
-    pass
+    """Fallo al hablar con PRIM.
+
+    `kind` dice por que, para que la API pueda ensenar un estado disenado:
+    no_key | invalid | forbidden | quota | unreachable | http
+    """
+
+    def __init__(self, msg: str = "", kind: str = "http"):
+        super().__init__(msg)
+        self.kind = kind
 
 
 class PrimClient:
@@ -70,11 +82,15 @@ class PrimClient:
             timeout=httpx.Timeout(20.0, connect=8.0),
             headers={"apikey": self._key, "Accept": "application/json"},
             limits=httpx.Limits(max_connections=8),
+            transport=transport_override,
         )
 
     async def close(self):
         if self._client:
             await self._client.aclose()
+
+    def has_key(self) -> bool:
+        return bool(self._key)
 
     def _lock(self, key: str) -> asyncio.Lock:
         if key not in self._locks:
@@ -226,3 +242,23 @@ client: PrimClient | None = None
 def get_client() -> PrimClient:
     assert client is not None, "PrimClient no inicializado"
     return client
+
+
+async def startup() -> None:
+    """Crea el cliente con la clave en uso. (La FASE 1 lo completa con el
+    almacen de la clave y el contador de cuota.)"""
+    global client
+    client = PrimClient(settings.api_key)
+    await client.start()
+
+
+async def shutdown() -> None:
+    if client is not None:
+        await client.close()
+
+
+def server_state() -> dict:
+    """ServerState de docs/openapi.yaml para cada tablero de la v1."""
+    key = "valid" if client is not None and client.has_key() else "missing"
+    return {"prim_key": key, "quota_level": "ok", "refresh_hint_s": 30,
+            "degraded": False}

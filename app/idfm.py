@@ -116,6 +116,16 @@ _MODE_ORDER = (
 )
 
 
+def publishes_platform(mode: str) -> bool:
+    """El modo publica via (tren, RER, Transilien, TER).
+
+    Medido el 30/08: metro, bus y tranvia no publican via jamas (0 de ~600).
+    Un modo desconocido cuenta como que no: asi no se reserva un hueco vacio
+    (R3). Si aun asi llega una via, se ensena igual.
+    """
+    return mode_rank(mode) in (1, 2, 3)
+
+
 def mode_rank(mode: str) -> int:
     m = norm_text(mode)
     for i, keys in enumerate(_MODE_ORDER):

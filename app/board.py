@@ -7,14 +7,14 @@ destino va, por que via sale y cuanto lleva de retraso.
 import asyncio
 import logging
 import re
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 
 from . import db
 from .config import settings
 from .frdate import starts_later
 from .idfm import (first_value, line_code, lines_in_message, norm_text,
-                   real_platform, sa_to_siri)
-from .prim import PrimError, get_client
+                   publishes_platform, real_platform, sa_to_siri)
+from .prim import get_client
 
 log = logging.getLogger("trajet.board")
 
@@ -365,12 +365,24 @@ def remember_next(stop_id: str, deps: list[dict]) -> None:
 # ---------------- tablero completo ----------------
 
 async def build_board(route: dict) -> dict:
-    """Junta todo: por cada tramo, proximos pasos y estado de la linea."""
+    """Junta todo: por cada tramo, proximos pasos y estado de la linea.
+
+    Devuelve el tablero de la 0.3.0 mas lo que necesita la v1 (`from_id`,
+    `to_id` y `platform_expected` en cada tramo, y `disruptions_ok`) y dos
+    claves internas que empiezan por `_` y que las capas de la API quitan
+    antes de responder:
+
+      _all_failed   ninguna estacion se pudo leer (ni en cache): el tablero
+                    estaria hueco y la v1 responde con error para que la app
+                    se quede con su ultimo tablero bueno (regla 9).
+      _error        la PrimError de la primera estacion que fallo.
+    """
     prim = get_client()
 
     # Una sola llamada por ESTACION, aunque varios tramos salgan de la misma.
     stations = list(dict.fromkeys(leg["from_id"] for leg in route["legs"]))
-    tasks = [prim.stop_monitoring(sa_to_siri(s), station_ttl(s)) for s in stations]
+    ttls = {s: station_ttl(s) for s in stations}
+    tasks = [prim.stop_monitoring(sa_to_siri(s), ttls[s]) for s in stations]
     tasks.append(prim.general_message())
     results = await asyncio.gather(*tasks, return_exceptions=True)
 
@@ -381,7 +393,12 @@ async def build_board(route: dict) -> dict:
     gm = results[-1]
     disruptions: dict[str, list[dict]] = {}
     gm_age = None
-    if not isinstance(gm, Exception):
+    errors: list[str] = []
+    if isinstance(gm, Exception):
+        # Sin avisos, «normal» no es de fiar: se dice (en la 0.3.0 una linea
+        # cortada salia normal en silencio).
+        errors.append(f"avisos: {gm}")
+    else:
         disruptions = index_disruptions(gm[0])
         gm_age = gm[1]
 
@@ -389,20 +406,31 @@ async def build_board(route: dict) -> dict:
     worst_level = NORMAL
     worst_line = ""
     max_delay = 0.0
-    max_age = 0.0
-    errors: list[str] = []
+    stale = False
+    failed: dict[str, Exception] = {}
+    ages: list[float] = []
+    next_by_station: dict[str, list[dict]] = {}
 
     for leg in route["legs"]:
         res = monitoring.get(leg["from_id"])
         deps: list[dict] = []
         age = None
         if isinstance(res, Exception):
-            errors.append(f"{leg['from_name']}: {res}")
+            if leg["from_id"] not in failed:
+                failed[leg["from_id"]] = res
+                errors.append(f"{leg['from_name']}: {res}")
+            stale = True
         elif res is not None:
             payload, age = res
             deps = extract_departures(payload, leg)
-            remember_next(leg["from_id"], deps)
-            max_age = max(max_age, age or 0)
+            next_by_station.setdefault(leg["from_id"], []).extend(deps)
+            ages.append(age or 0)
+            # Viejo = mas antiguo de lo que su propio ritmo de refresco
+            # permite (con un minuto de margen), no un umbral fijo: con el TTL
+            # adaptativo una estacion con el tren a 40 min se pide cada 5 min
+            # y eso no es un dato viejo.
+            if (age or 0) > ttls.get(leg["from_id"], settings.ttl_stop_monitoring) + 60:
+                stale = True
 
         code = line_code(leg["line_id"])
         status = line_status(code, disruptions)
@@ -430,8 +458,26 @@ async def build_board(route: dict) -> dict:
             "status": status,
             "departures": deps,
             "age": round(age, 1) if age is not None else None,
+            # v1
+            "from_id": leg["from_id"],
+            "to_id": leg.get("to_id") or "",
+            "platform_expected": publishes_platform(leg.get("line_mode") or ""),
         })
 
+    # El ritmo de cada estacion lo marca su paso mas cercano de TODOS sus
+    # tramos (en la 0.3.0 mandaba el ultimo tramo leido).
+    for station in stations:
+        if station in next_by_station:
+            remember_next(station, next_by_station[station])
+        elif station not in failed:
+            remember_next(station, [])
+
+    if gm_age is not None:
+        ages.append(gm_age)
+        if gm_age > settings.ttl_general_message + 60:
+            stale = True
+
+    data_age = round(max(ages), 1) if ages else 0.0
     return {
         "route": {
             "id": route["id"], "name": route["name"],
@@ -442,11 +488,14 @@ async def build_board(route: dict) -> dict:
         "worst_line": worst_line,
         "max_delay": max_delay,
         "updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "data_age": round(max(max_age, gm_age or 0), 1),
-        "stale": max(max_age, gm_age or 0) > settings.refresh_seconds * 3,
+        "data_age": data_age,
+        "stale": stale,
         "errors": errors,
         "quota": dict(prim.quota),
         "last_error": prim.last_error,
+        "disruptions_ok": not isinstance(gm, Exception),
+        "_all_failed": bool(stations) and len(failed) == len(stations),
+        "_error": next(iter(failed.values()), None),
     }
 
 

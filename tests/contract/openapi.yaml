@@ -1,0 +1,2691 @@
+openapi: 3.1.0
+info:
+  title: Trajet
+  version: 0.4.0
+  summary: API del servidor Trajet 0.4.0 — la de la 0.3.0 (compatibilidad) más /api/v1 (iPhone) y /api/admin (panel).
+  description: |
+    **Contrato congelado de la v2 (FASE 1).** Tres familias de rutas:
+
+    - `/api/*` (0.3.0): se conservan tal cual por compatibilidad, detrás del
+      login de Umbrel. La descripción de abajo es la de la 0.3.0; la copia
+      exacta de producción está en `docs/openapi-0.3.0.yaml`.
+    - `/api/v1/*`: la API de la app del iPhone. Fuera del login de Umbrel
+      (`PROXY_AUTH_WHITELIST: "/api/v1/*"`), con token de dispositivo
+      obligatorio salvo `/api/v1/ping` y `/api/v1/pair`. Errores con el sobre
+      `ErrorV1`. `ETag`/304 y gzip.
+    - `/api/admin/*`: el panel, detrás del login de Umbrel, con cabecera
+      `X-Trajet-Panel: 1` en lo que modifica.
+
+    Descripción de la API **0.3.0** del servidor Trajet (repo `trajet-server`,
+    código de producción 0.3.0), derivada del código Python y no de la
+    documentación automática de FastAPI.
+
+    Diferencias con el `/openapi.json` que sirve FastAPI:
+    - FastAPI anuncia `info.version: 0.1.0` porque `FastAPI(...)` no recibe
+      `version` (app/main.py:43). La versión real de la app es 0.3.0
+      (umbrel-app.yml).
+    - FastAPI no declara ningún esquema de respuesta (las funciones devuelven
+      `dict`) ni de cuerpo (el cuerpo se declara como `payload: dict`). Aquí
+      los esquemas de respuesta se han sacado del código que construye cada
+      diccionario y los de cuerpo de lo que el código lee.
+    - El conjunto (ruta, método, parámetros) es idéntico al de FastAPI.
+
+    Convenciones:
+    - Sin autenticación de ningún tipo.
+    - Errores de `HTTPException`: `{"detail": "<texto en español>"}`.
+    - Errores de validación de FastAPI (422): `HTTPValidationError`.
+    - Excepciones no controladas: HTTP 500 con cuerpo de texto
+      `Internal Server Error` (comportamiento por defecto de Starlette).
+    - Rutas no descritas aquí (fuera del esquema, `include_in_schema=False`):
+      `GET /manifest.webmanifest`, `GET /sw.js`, `GET /apple-touch-icon.png`,
+      `GET /apple-touch-icon-precomposed.png`, `GET /favicon.ico`,
+      `GET /static/*` y el propio `GET /openapi.json`. `/docs` y `/redoc`
+      están desactivados (app/main.py:43).
+servers:
+  - url: http://localhost:7796
+    description: Puerto publicado por docker-compose y por la app de Umbrel (contenedor en 8000).
+tags:
+  - name: v1-emparejamiento
+  - name: v1-salud
+  - name: v1-tablero
+  - name: v1-rutas
+  - name: v1-mapa
+  - name: v1-buscador
+  - name: v1-planificador
+  - name: v1-estadisticas
+  - name: admin
+  - name: salud
+  - name: rutas
+  - name: buscador
+  - name: tablero
+  - name: alternativas
+  - name: planificador
+  - name: estadisticas
+  - name: interfaz
+
+paths:
+  /api/health:
+    get:
+      tags: [salud]
+      operationId: health_api_health_get
+      summary: Estado del servidor
+      description: |
+        No gasta cuota de PRIM. Consulta Ollama (`GET {OLLAMA_URL}/api/tags`,
+        timeout 5 s) si `OLLAMA_URL` no está vacía, y hace 3 consultas SQLite
+        (app/platform.py:215-231). Es lo que llama el HEALTHCHECK del
+        Dockerfile cada 30 s.
+      responses:
+        '200':
+          description: Estado.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Health'}
+
+  /api/routes:
+    get:
+      tags: [rutas]
+      operationId: api_routes_api_routes_get
+      summary: Lista de rutas guardadas y la que toca ahora
+      responses:
+        '200':
+          description: Rutas ordenadas por `position, id`.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/RouteList'}
+    post:
+      tags: [rutas]
+      operationId: api_create_route_api_routes_post
+      summary: Crear una ruta a mano
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/RouteInput'}
+      responses:
+        '200':
+          description: Ruta creada.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/RouteSaved'}
+        '400':
+          description: |
+            Falta `name`, `origin_id` o `dest_id` (vacíos tras `strip`), `legs`
+            vacío o ausente, o un tramo sin `line_id`/`from_id`
+            (app/main.py:94-103).
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorDetail'}
+        '422':
+          description: El cuerpo no es un objeto JSON.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/HTTPValidationError'}
+        '500':
+          description: |
+            Excepción no controlada al guardar: falta `origin_name` o
+            `dest_name` (KeyError, app/db.py:212-213), `name` no es texto,
+            `days` es null o tiene valores no enteros, `duration_min` o
+            `position` no convertibles a entero.
+          content:
+            text/plain:
+              schema: {type: string}
+
+  /api/routes/{route_id}:
+    put:
+      tags: [rutas]
+      operationId: api_update_route_api_routes__route_id__put
+      summary: Reemplazar una ruta (cabecera y todos sus tramos)
+      parameters:
+        - name: route_id
+          in: path
+          required: true
+          schema: {type: integer}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/RouteInput'}
+      responses:
+        '200':
+          description: Ruta actualizada. Los tramos se borran y se vuelven a insertar (cambian sus `id`).
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/RouteSaved'}
+        '400':
+          description: Igual que en POST /api/routes.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorDetail'}
+        '404':
+          description: '`{"detail": "ruta no encontrada"}`'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorDetail'}
+        '422':
+          description: '`route_id` no es entero o el cuerpo no es un objeto JSON.'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/HTTPValidationError'}
+        '500':
+          description: Igual que en POST /api/routes.
+          content:
+            text/plain:
+              schema: {type: string}
+    delete:
+      tags: [rutas]
+      operationId: api_delete_route_api_routes__route_id__delete
+      summary: Borrar una ruta
+      description: Borra la ruta; `ON DELETE CASCADE` borra sus tramos y su historial. Los andenes aprendidos (`platform_obs`) no dependen de la ruta y se quedan.
+      parameters:
+        - name: route_id
+          in: path
+          required: true
+          schema: {type: integer}
+      responses:
+        '200':
+          description: Borrada.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/RouteDeleted'}
+        '404':
+          description: '`{"detail": "ruta no encontrada"}`'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorDetail'}
+        '422':
+          description: '`route_id` no es entero.'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/HTTPValidationError'}
+
+  /api/search/stops:
+    get:
+      tags: [buscador]
+      operationId: api_search_stops_api_search_stops_get
+      summary: Buscar zonas de parada (para el editor de rutas)
+      description: |
+        0 o 1 llamada a Navitia `GET /places?q=…&count=12&type[]=stop_area`
+        (cubo de cuota `navitia`). Caché 24 h con clave
+        `pl:stop_area:<q en minúsculas y sin espacios en los extremos>`.
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema: {type: string, minLength: 2}
+      responses:
+        '200':
+          description: Resultados.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/StopSearch'}
+        '422':
+          description: Falta `q` o tiene menos de 2 caracteres.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/HTTPValidationError'}
+        '502':
+          description: 'PRIM falla y no hay copia en caché: `{"detail": "la API de IDFM no responde: <error>"}`'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorDetail'}
+
+  /api/stops/{stop_id}/lines:
+    get:
+      tags: [buscador]
+      operationId: api_stop_lines_api_stops__stop_id__lines_get
+      summary: Líneas que pasan por una zona de parada
+      description: |
+        0 o 1 llamada a Navitia `GET /stop_areas/{stop_id}/lines?count=60`
+        (cubo `navitia`). Caché 24 h, clave `ls:{stop_id}`. Orden: sustitución
+        al final, luego modo (metro, RER, tren, TER, tranvía, funicular,
+        navette/cable, resto) y código numérico (app/idfm.py:113-147).
+      parameters:
+        - name: stop_id
+          in: path
+          required: true
+          schema: {type: string}
+      responses:
+        '200':
+          description: Líneas.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/StopLines'}
+        '422':
+          description: FastAPI lo declara, pero con un parámetro de ruta de tipo texto no puede darse.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/HTTPValidationError'}
+        '502':
+          description: 'PRIM falla sin caché: `{"detail": "la API de IDFM no responde: <error>"}`'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorDetail'}
+
+  /api/stops/{stop_id}/directions:
+    get:
+      tags: [buscador]
+      operationId: api_stop_directions_api_stops__stop_id__directions_get
+      summary: Destinos que circulan ahora para una línea en una parada
+      description: |
+        0 o 1 llamada a SIRI `stop-monitoring` con
+        `MonitoringRef=STIF:StopArea:SP:<código>:` (cubo `stop-monitoring`),
+        TTL 25 s, clave `sm:STIF:StopArea:SP:<código>:` (compartida con el
+        tablero y el recolector).
+      parameters:
+        - name: stop_id
+          in: path
+          required: true
+          schema: {type: string}
+        - name: line_id
+          in: query
+          required: true
+          schema: {type: string}
+      responses:
+        '200':
+          description: Destinos ordenados de más a menos frecuente.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Directions'}
+        '422':
+          description: Falta `line_id`.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/HTTPValidationError'}
+        '502':
+          description: 'PRIM falla sin caché: `{"detail": "la API de IDFM no responde: <error>"}`'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorDetail'}
+
+  /api/board:
+    get:
+      tags: [tablero]
+      operationId: api_board_api_board_get
+      summary: Tablero de una ruta (la activa si no se indica)
+      description: |
+        Llamadas a PRIM: 0 o 1 `stop-monitoring` por ESTACIÓN distinta de la
+        ruta (TTL adaptativo 20/30/90/300/600 s, 25 s la primera vez) + 0 o 1
+        `general-message` (`LineRef=ALL`, TTL 150 s). Efectos en BD: inserta
+        andenes vistos en `platform_obs`, puntuaciones en `platform_score`,
+        como mucho una fila en `history` cada 10 min por ruta (si
+        `log_history`) y lanza traducciones en segundo plano que acaban en
+        `translations`.
+      parameters:
+        - name: route_id
+          in: query
+          required: false
+          schema: {type: [integer, 'null']}
+        - name: log_history
+          in: query
+          required: false
+          schema: {type: boolean, default: true}
+      responses:
+        '200':
+          description: 'Tablero, o `{"empty": true, ...}` si no hay ninguna ruta guardada (aunque se pase `route_id`).'
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Board'
+                  - $ref: '#/components/schemas/BoardEmpty'
+        '404':
+          description: '`route_id` no existe (solo si hay alguna ruta): `{"detail": "ruta no encontrada"}`'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorDetail'}
+        '422':
+          description: '`route_id` no es entero o `log_history` no es booleano.'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/HTTPValidationError'}
+        '502':
+          description: |
+            Declarado en app/main.py:185-186, pero `build_board` usa
+            `asyncio.gather(..., return_exceptions=True)` y nunca propaga
+            `PrimError`: en la práctica los fallos van a `errors` del tablero.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorDetail'}
+
+  /api/alternatives/{route_id}:
+    get:
+      tags: [alternativas]
+      operationId: api_alternatives_api_alternatives__route_id__get
+      summary: Itinerarios alternativos evitando las líneas perturbadas
+      description: |
+        Hasta 3 llamadas a PRIM: `general-message` (TTL 150 s) y, solo si hay
+        líneas tocadas o `force=true`, Navitia `journeys` con
+        `forbidden_uris[]` (TTL 600 s) y otra `journeys` sin exclusiones para
+        la duración de referencia (se guarda 12 h en memoria por ruta).
+      parameters:
+        - name: route_id
+          in: path
+          required: true
+          schema: {type: integer}
+        - name: force
+          in: query
+          required: false
+          schema: {type: boolean, default: false}
+      responses:
+        '200':
+          description: Alternativas, o la respuesta corta si no hace falta ninguna.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Alternatives'
+                  - $ref: '#/components/schemas/AlternativesNotNeeded'
+        '404':
+          description: '`{"detail": "ruta no encontrada"}`'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorDetail'}
+        '422':
+          description: '`route_id` no es entero o `force` no es booleano.'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/HTTPValidationError'}
+        '502':
+          description: 'La llamada `journeys` con exclusiones falla sin caché: `{"detail": "el calculador no responde: <error>"}`'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorDetail'}
+
+  /api/search/places:
+    get:
+      tags: [planificador]
+      operationId: api_search_places_api_search_places_get
+      summary: Buscar paradas, direcciones postales y sitios (planificador)
+      description: |
+        0 o 1 llamada a Navitia `GET /places?q=…&count=10&type[]=stop_area&type[]=address&type[]=poi`
+        (cubo `navitia`). Caché 24 h, clave `pl:stop_area+address+poi:<q normalizada>`.
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema: {type: string, minLength: 2}
+      responses:
+        '200':
+          description: Resultados.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PlaceSearch'}
+        '422':
+          description: Falta `q` o tiene menos de 2 caracteres.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/HTTPValidationError'}
+        '502':
+          description: 'PRIM falla sin caché: `{"detail": "la API de IDFM no responde: <error>"}`'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorDetail'}
+
+  /api/plan:
+    get:
+      tags: [planificador]
+      operationId: api_plan_api_plan_get
+      summary: Opciones de trayecto puerta a puerta
+      description: |
+        0 o 1 llamada a Navitia `GET /journeys` con `min_nb_journeys=4`,
+        `max_nb_journeys=6`, `data_freshness=realtime` y, si hay `when`,
+        `datetime=<YYYYMMDDTHHMMSS>` y `datetime_represents=<mode>`
+        (cubo `navitia`). Caché 600 s.
+      parameters:
+        - name: from
+          in: query
+          required: true
+          description: Id Navitia de origen (`stop_area:IDFM:…`, `lon;lat` de una dirección, poi…).
+          schema: {type: string, minLength: 3}
+        - name: to
+          in: query
+          required: true
+          description: Id Navitia de destino.
+          schema: {type: string, minLength: 3}
+        - name: when
+          in: query
+          required: false
+          description: '`HH:MM` en hora de París. Si ya ha pasado hoy, se planifica para mañana. Si no se puede partir en dos enteros se ignora (ahora).'
+          schema: {type: [string, 'null']}
+        - name: mode
+          in: query
+          required: false
+          description: '`departure` o `arrival` (validado a mano, 400 si no).'
+          schema: {type: string, default: departure}
+      responses:
+        '200':
+          description: Opciones ordenadas y sin duplicar por combinación de líneas.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Plan'}
+        '400':
+          description: '`{"detail": "mode tiene que ser ''departure'' o ''arrival''"}`'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorDetail'}
+        '404':
+          description: 'Ninguna opción con transporte público: `{"detail": "no hay ningún trayecto en transporte público entre esos dos puntos a esa hora"}`'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorDetail'}
+        '422':
+          description: Falta `from` o `to`, o tiene menos de 3 caracteres.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/HTTPValidationError'}
+        '500':
+          description: '`when` con hora o minuto fuera de rango (p. ej. `25:00`): `datetime.replace` lanza ValueError fuera del try (app/planner.py:216).'
+          content:
+            text/plain:
+              schema: {type: string}
+        '502':
+          description: 'PRIM falla sin caché: `{"detail": "la API de IDFM no responde: <error>"}`'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorDetail'}
+
+  /api/routes/from-plan:
+    post:
+      tags: [planificador, rutas]
+      operationId: api_route_from_plan_api_routes_from_plan_post
+      summary: Guardar como ruta vigilada una opción del planificador
+      description: |
+        Por cada tramo con `from_id`, `line_id` y `direction` no vacíos, 0 o 1
+        llamada a SIRI `stop-monitoring` de su estación (TTL 25 s; dos tramos
+        de la misma estación comparten llamada) para traducir la dirección de
+        Navitia al destino que usa el tiempo real. NO pasa por
+        `_validate_route`: se guarda lo que llegue.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/RouteFromPlanInput'}
+      responses:
+        '200':
+          description: Ruta creada.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/RouteFromPlanSaved'}
+        '400':
+          description: '`option.legs` vacío o ausente: `{"detail": "falta el itinerario elegido"}`'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorDetail'}
+        '422':
+          description: El cuerpo no es un objeto JSON.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/HTTPValidationError'}
+        '500':
+          description: '`option` o `meta` no son objetos, un tramo no es objeto, `days` con valores no enteros, `minutes` no convertible a entero…'
+          content:
+            text/plain:
+              schema: {type: string}
+
+  /api/platform-model:
+    get:
+      tags: [estadisticas]
+      operationId: api_platform_model_api_platform_model_get
+      summary: Qué sabe la previsión de andén y si acierta
+      description: No gasta cuota. `route_id` omitido = ruta activa. Un `route_id` inexistente (o 0) no da error; simplemente no se incluyen `route` ni `coverage`.
+      parameters:
+        - name: route_id
+          in: query
+          required: false
+          schema: {type: [integer, 'null']}
+      responses:
+        '200':
+          description: Modelo.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PlatformModel'}
+        '422':
+          description: '`route_id` no es entero.'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/HTTPValidationError'}
+
+  /api/stats:
+    get:
+      tags: [estadisticas]
+      operationId: api_stats_api_stats_get
+      summary: Historial de incidencias
+      description: No gasta cuota. Tres consultas sobre `history` filtradas por `day >= date('now', '-<days> days')`.
+      parameters:
+        - name: days
+          in: query
+          required: false
+          schema: {type: integer, default: 90}
+      responses:
+        '200':
+          description: Resumen.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Stats'}
+        '422':
+          description: '`days` no es entero.'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/HTTPValidationError'}
+
+  /:
+    get:
+      tags: [interfaz]
+      operationId: index__get
+      summary: Portada de la PWA (app/static/index.html)
+      responses:
+        '200':
+          description: HTML de la interfaz web.
+          content:
+            text/html:
+              schema: {type: string}
+
+  # ==================================================================
+  #  API v1 · la que usa la app del iPhone (fuera del login de Umbrel)
+  # ==================================================================
+  #
+  # Todo lo de /api/v1 exige `Authorization: Bearer <token>` salvo
+  # /api/v1/ping y /api/v1/pair. Errores con el sobre ErrorV1.
+
+  /api/v1/ping:
+    get:
+      tags: [v1-emparejamiento]
+      operationId: v1_ping
+      summary: ¿Hay un Trajet aquí? (sin token)
+      description: |
+        Lo usa la app para saber cuál de sus direcciones responde antes de
+        pedir nada. No gasta cuota ni toca la BD. Si llega un token válido en
+        `Authorization`, dice `paired: true`; si no hay token o no vale,
+        `paired: false` (nunca 401).
+      security: []
+      responses:
+        '200':
+          description: Aquí hay un Trajet.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Ping'}
+
+  /api/v1/pair:
+    post:
+      tags: [v1-emparejamiento]
+      operationId: v1_pair
+      summary: Canjear el código del QR por un token de dispositivo
+      description: |
+        El código es de un solo uso y vale 5 minutos. La respuesta de error
+        es la MISMA para un código mal escrito, caducado o ya usado (no se
+        da pista). Rate limit: 5 intentos por minuto por IP y 20 cada 5
+        minutos en total; tras 10 fallos seguidos se anulan todos los
+        códigos vivos.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/PairRequest'}
+      responses:
+        '200':
+          description: Emparejado. El token solo se enseña esta vez.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PairResult'}
+        '400':
+          description: 'Cuerpo inválido (`bad_request`).'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorV1'}
+        '401':
+          description: 'Código no válido, caducado o usado (`pairing_invalid`).'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorV1'}
+        '429':
+          description: 'Demasiados intentos (`rate_limited`). Cabecera `Retry-After` en segundos.'
+          headers:
+            Retry-After:
+              schema: {type: integer}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ErrorV1'}
+
+  /api/v1/devices/me:
+    get:
+      tags: [v1-emparejamiento]
+      operationId: v1_device_me
+      security: [{deviceToken: []}]
+      summary: Este dispositivo
+      responses:
+        '200':
+          description: Datos del dispositivo del token.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Device'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+    delete:
+      tags: [v1-emparejamiento]
+      operationId: v1_device_unpair
+      security: [{deviceToken: []}]
+      summary: Desemparejar este dispositivo (revoca su token)
+      responses:
+        '200':
+          description: Revocado.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [revoked]
+                properties:
+                  revoked: {type: boolean, const: true}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+
+  /api/v1/health:
+    get:
+      tags: [v1-salud]
+      operationId: v1_health
+      security: [{deviceToken: []}]
+      summary: Estado del servidor, de la clave PRIM y de la cuota
+      description: |
+        No gasta cuota. Nunca devuelve la clave PRIM ni parte de ella. El
+        estado de Ollama se cachea 60 s para que Ajustes no espere 5 s.
+      responses:
+        '200':
+          description: Estado.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/HealthV1'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+
+  /api/v1/board:
+    get:
+      tags: [v1-tablero]
+      operationId: v1_board
+      security: [{deviceToken: []}]
+      summary: Tablero de una ruta (la que toca si no se indica)
+      description: |
+        Igual que `/api/board` más el estado del servidor (`server`) y los
+        campos `from_id`, `to_id` y `platform_expected` por tramo.
+
+        **Nunca se manda un tablero hueco.** Si no se ha podido traer NADA
+        (ninguna estación ni avisos, ni en caché) se responde con error
+        (`prim_key_missing` 503, `prim_quota_exhausted` 503,
+        `prim_key_invalid` 503 o `prim_unreachable` 502) para que la app se
+        quede con su último tablero bueno y enseñe el estado diseñado. Si
+        solo falla una parte, 200 con esa parte en `errors`.
+
+        Acepta `If-None-Match` y responde 304 si el cuerpo no ha cambiado.
+        `server.refresh_hint_s` dice cada cuánto conviene volver a pedirlo
+        (30 s normalmente; más si la cuota va justa).
+      parameters:
+        - name: route_id
+          in: query
+          required: false
+          schema: {type: [integer, 'null']}
+        - name: log_history
+          in: query
+          required: false
+          description: La app manda `false` en los refrescos automáticos (R40).
+          schema: {type: boolean, default: true}
+        - $ref: '#/components/parameters/IfNoneMatch'
+      responses:
+        '200':
+          description: Tablero, o vacío si no hay rutas.
+          headers:
+            ETag: {$ref: '#/components/headers/ETag'}
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/BoardV1'
+                  - $ref: '#/components/schemas/BoardEmptyV1'
+        '304': {$ref: '#/components/responses/NotModified'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '502': {$ref: '#/components/responses/Upstream'}
+        '503': {$ref: '#/components/responses/PrimUnavailable'}
+
+  /api/v1/routes:
+    get:
+      tags: [v1-rutas]
+      operationId: v1_routes_list
+      security: [{deviceToken: []}]
+      summary: Rutas guardadas y la que toca ahora
+      parameters:
+        - $ref: '#/components/parameters/IfNoneMatch'
+      responses:
+        '200':
+          description: Rutas.
+          headers:
+            ETag: {$ref: '#/components/headers/ETag'}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/RouteList'}
+        '304': {$ref: '#/components/responses/NotModified'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+    post:
+      tags: [v1-rutas]
+      operationId: v1_routes_create
+      security: [{deviceToken: []}]
+      summary: Crear una ruta a mano
+      description: Validación completa (400 con mensaje claro, nunca 500).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/RouteInput'}
+      responses:
+        '201':
+          description: Creada.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/RouteSaved'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+
+  /api/v1/routes/{route_id}:
+    parameters:
+      - name: route_id
+        in: path
+        required: true
+        schema: {type: integer}
+    get:
+      tags: [v1-rutas]
+      operationId: v1_routes_get
+      security: [{deviceToken: []}]
+      summary: Una ruta
+      responses:
+        '200':
+          description: Ruta.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Route'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+    put:
+      tags: [v1-rutas]
+      operationId: v1_routes_update
+      security: [{deviceToken: []}]
+      summary: Reemplazar una ruta (cabecera y tramos)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/RouteInput'}
+      responses:
+        '200':
+          description: Actualizada.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/RouteSaved'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+    delete:
+      tags: [v1-rutas]
+      operationId: v1_routes_delete
+      security: [{deviceToken: []}]
+      summary: Borrar una ruta (y su historial; los andenes aprendidos se quedan)
+      responses:
+        '200':
+          description: Borrada.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/RouteDeleted'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+
+  /api/v1/routes/from-plan:
+    post:
+      tags: [v1-rutas]
+      operationId: v1_routes_from_plan
+      security: [{deviceToken: []}]
+      summary: Guardar como ruta una opción del planificador
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/RouteFromPlanInput'}
+      responses:
+        '201':
+          description: Creada.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/RouteFromPlanSaved'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+
+  /api/v1/routes/{route_id}/map:
+    get:
+      tags: [v1-mapa]
+      operationId: v1_route_map
+      security: [{deviceToken: []}]
+      summary: Geometría de las líneas de la ruta, paradas, accesos y transbordos
+      description: |
+        Datos abiertos de IDFM (ver `docs/datos-idfm.md`), recortados al tramo
+        de cada línea y simplificados (polilínea codificada, precisión 5, dos
+        niveles: `coarse` a 20 m y `fine` a 2 m). No gasta cuota de PRIM. Si
+        el mapa aún se está calculando, `pending: true` y lo que haya. Si el
+        portal de IDFM está caído, lo último guardado con `stale: true`.
+      parameters:
+        - name: route_id
+          in: path
+          required: true
+          schema: {type: integer}
+        - $ref: '#/components/parameters/IfNoneMatch'
+      responses:
+        '200':
+          description: Mapa de la ruta.
+          headers:
+            ETag: {$ref: '#/components/headers/ETag'}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/RouteMap'}
+        '304': {$ref: '#/components/responses/NotModified'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+
+  /api/v1/search/stops:
+    get:
+      tags: [v1-buscador]
+      operationId: v1_search_stops
+      security: [{deviceToken: []}]
+      summary: Buscar zonas de parada (editor manual)
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema: {type: string, minLength: 2, maxLength: 80}
+      responses:
+        '200':
+          description: Resultados.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/StopSearch'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '502': {$ref: '#/components/responses/Upstream'}
+        '503': {$ref: '#/components/responses/PrimUnavailable'}
+
+  /api/v1/search/places:
+    get:
+      tags: [v1-buscador]
+      operationId: v1_search_places
+      security: [{deviceToken: []}]
+      summary: Buscar paradas, direcciones y sitios (planificador)
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema: {type: string, minLength: 2, maxLength: 80}
+      responses:
+        '200':
+          description: Resultados.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PlaceSearch'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '502': {$ref: '#/components/responses/Upstream'}
+        '503': {$ref: '#/components/responses/PrimUnavailable'}
+
+  /api/v1/stops/{stop_id}/lines:
+    get:
+      tags: [v1-buscador]
+      operationId: v1_stop_lines
+      security: [{deviceToken: []}]
+      summary: Líneas que pasan por una zona de parada (ordenadas por modo)
+      parameters:
+        - name: stop_id
+          in: path
+          required: true
+          schema: {type: string}
+      responses:
+        '200':
+          description: Líneas.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/StopLines'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '502': {$ref: '#/components/responses/Upstream'}
+        '503': {$ref: '#/components/responses/PrimUnavailable'}
+
+  /api/v1/stops/{stop_id}/directions:
+    get:
+      tags: [v1-buscador]
+      operationId: v1_stop_directions
+      security: [{deviceToken: []}]
+      summary: Destinos que circulan ahora para una línea en una parada
+      parameters:
+        - name: stop_id
+          in: path
+          required: true
+          schema: {type: string}
+        - name: line_id
+          in: query
+          required: true
+          schema: {type: string}
+      responses:
+        '200':
+          description: Destinos.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Directions'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '502': {$ref: '#/components/responses/Upstream'}
+        '503': {$ref: '#/components/responses/PrimUnavailable'}
+
+  /api/v1/plan:
+    get:
+      tags: [v1-planificador]
+      operationId: v1_plan
+      security: [{deviceToken: []}]
+      summary: Opciones de trayecto puerta a puerta
+      parameters:
+        - name: from
+          in: query
+          required: true
+          schema: {type: string, minLength: 3}
+        - name: to
+          in: query
+          required: true
+          schema: {type: string, minLength: 3}
+        - name: when
+          in: query
+          required: false
+          description: '`HH:MM` (París). Fuera de rango → 400, no 500.'
+          schema: {type: [string, 'null'], pattern: '^([01]\d|2[0-3]):[0-5]\d$'}
+        - name: mode
+          in: query
+          required: false
+          schema: {type: string, enum: [departure, arrival], default: departure}
+      responses:
+        '200':
+          description: Opciones.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Plan'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '502': {$ref: '#/components/responses/Upstream'}
+        '503': {$ref: '#/components/responses/PrimUnavailable'}
+
+  /api/v1/alternatives/{route_id}:
+    get:
+      tags: [v1-tablero]
+      operationId: v1_alternatives
+      security: [{deviceToken: []}]
+      summary: Alternativas evitando las líneas tocadas (solo al pedirlas)
+      parameters:
+        - name: route_id
+          in: path
+          required: true
+          schema: {type: integer}
+        - name: force
+          in: query
+          required: false
+          schema: {type: boolean, default: false}
+      responses:
+        '200':
+          description: Alternativas o respuesta corta.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Alternatives'
+                  - $ref: '#/components/schemas/AlternativesNotNeeded'
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '502': {$ref: '#/components/responses/Upstream'}
+        '503': {$ref: '#/components/responses/PrimUnavailable'}
+
+  /api/v1/stats:
+    get:
+      tags: [v1-estadisticas]
+      operationId: v1_stats
+      security: [{deviceToken: []}]
+      summary: Historial de incidencias
+      parameters:
+        - name: days
+          in: query
+          required: false
+          schema: {type: integer, minimum: 1, maximum: 3650, default: 90}
+      responses:
+        '200':
+          description: Resumen.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/StatsV1'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+
+  /api/v1/platform-model:
+    get:
+      tags: [v1-estadisticas]
+      operationId: v1_platform_model
+      security: [{deviceToken: []}]
+      summary: Qué sabe la previsión de vía y cuánto acierta (única fuente del porcentaje)
+      parameters:
+        - name: route_id
+          in: query
+          required: false
+          schema: {type: [integer, 'null']}
+      responses:
+        '200':
+          description: Modelo.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PlatformModel'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+
+  # ==================================================================
+  #  Panel · /api/admin (detrás del login de Umbrel)
+  # ==================================================================
+  #
+  # Las que cambian algo exigen la cabecera `X-Trajet-Panel: 1` (y, si el
+  # navegador manda `Origin`, que sea el mismo origen). Respuestas con
+  # `Cache-Control: no-store`. Con TRAJET_ADMIN_PEERS=auto solo se aceptan
+  # conexiones que vengan del proxy de Umbrel (o de 127.0.0.1).
+
+  /api/admin/overview:
+    get:
+      tags: [admin]
+      operationId: admin_overview
+      summary: Todo lo del panel en una llamada
+      security: []
+      responses:
+        '200':
+          description: Resumen.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/AdminOverview'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+
+  /api/admin/pairing:
+    post:
+      tags: [admin]
+      operationId: admin_pairing_create
+      summary: Generar un QR de emparejamiento (válido 5 min, un solo uso)
+      description: Genera uno nuevo y anula el anterior que siguiera vivo.
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/PanelHeader'
+      responses:
+        '201':
+          description: Sesión de emparejamiento.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PairingSession'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+
+  /api/admin/pairing/{pairing_id}:
+    parameters:
+      - name: pairing_id
+        in: path
+        required: true
+        schema: {type: string}
+    get:
+      tags: [admin]
+      operationId: admin_pairing_status
+      summary: Estado del QR (el panel lo sondea para decir «emparejado»)
+      security: []
+      responses:
+        '200':
+          description: Estado.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PairingStatus'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+    delete:
+      tags: [admin]
+      operationId: admin_pairing_cancel
+      summary: Anular el QR
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/PanelHeader'
+      responses:
+        '200':
+          description: Anulado.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PairingStatus'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+
+  /api/admin/devices:
+    get:
+      tags: [admin]
+      operationId: admin_devices
+      summary: Dispositivos emparejados
+      security: []
+      responses:
+        '200':
+          description: Lista.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [devices]
+                properties:
+                  devices:
+                    type: array
+                    items: {$ref: '#/components/schemas/Device'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+
+  /api/admin/devices/{device_id}:
+    parameters:
+      - name: device_id
+        in: path
+        required: true
+        schema: {type: integer}
+    patch:
+      tags: [admin]
+      operationId: admin_device_rename
+      summary: Renombrar un dispositivo
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/PanelHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [name]
+              properties:
+                name: {type: string, minLength: 1, maxLength: 60}
+      responses:
+        '200':
+          description: Renombrado.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Device'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+    delete:
+      tags: [admin]
+      operationId: admin_device_revoke
+      summary: Revocar un dispositivo (su token deja de valer al momento)
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/PanelHeader'
+      responses:
+        '200':
+          description: Revocado.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [revoked]
+                properties:
+                  revoked: {type: integer}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+
+  /api/admin/prim-key:
+    get:
+      tags: [admin]
+      operationId: admin_prim_key_info
+      summary: Estado de la clave PRIM (nunca la clave)
+      security: []
+      responses:
+        '200':
+          description: Estado.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PrimKeyInfo'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+    post:
+      tags: [admin]
+      operationId: admin_prim_key_save
+      summary: Probar y guardar (o reemplazar) la clave PRIM
+      description: |
+        Hace una llamada mínima a cada API de PRIM con la clave NUEVA, sin
+        tocar la que está en uso. Solo si responde bien la cifra, la guarda
+        y la aplica en caliente (sin reiniciar), vacía la caché de PRIM y
+        reinicia el contador de cuota. Si falla, explica por qué y no
+        guarda nada.
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/PanelHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [key]
+              properties:
+                key: {type: string, minLength: 8, maxLength: 256, writeOnly: true}
+      responses:
+        '200':
+          description: Guardada y en uso.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PrimKeyResult'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '422':
+          description: 'PRIM la rechaza (`prim_key_rejected`); `checks` dice qué API y por qué. No se guarda nada.'
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PrimKeyResult'}
+    delete:
+      tags: [admin]
+      operationId: admin_prim_key_delete
+      summary: Borrar la clave guardada en el panel
+      description: 'Exige además `X-Trajet-Confirm: borrar`. Si hay `PRIM_API_KEY` en el entorno, pasa a usarse esa.'
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/PanelHeader'
+        - name: X-Trajet-Confirm
+          in: header
+          required: true
+          schema: {type: string, const: borrar}
+      responses:
+        '200':
+          description: Borrada.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PrimKeyInfo'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+
+  /api/admin/prim-key/check:
+    post:
+      tags: [admin]
+      operationId: admin_prim_key_check
+      summary: Volver a comprobar la clave en uso
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/PanelHeader'
+      responses:
+        '200':
+          description: Resultado.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PrimKeyResult'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+
+  /api/admin/quota:
+    get:
+      tags: [admin]
+      operationId: admin_quota
+      summary: Cuota por endpoint (hoy y últimos 7 días)
+      security: []
+      responses:
+        '200':
+          description: Cuota.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/AdminQuota'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+
+  /api/admin/errors:
+    get:
+      tags: [admin]
+      operationId: admin_errors
+      summary: Errores recientes (ya sin secretos)
+      security: []
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema: {type: integer, minimum: 1, maximum: 200, default: 50}
+      responses:
+        '200':
+          description: Errores, del más nuevo al más viejo.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [errors]
+                properties:
+                  errors:
+                    type: array
+                    items: {$ref: '#/components/schemas/ErrorLogEntry'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+
+  /api/admin/settings:
+    get:
+      tags: [admin]
+      operationId: admin_settings_get
+      summary: Direcciones que van en el QR
+      security: []
+      responses:
+        '200':
+          description: Ajustes.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/AdminSettings'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+    put:
+      tags: [admin]
+      operationId: admin_settings_put
+      summary: Cambiar las direcciones del QR
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/PanelHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/AdminSettings'}
+      responses:
+        '200':
+          description: Guardados.
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/AdminSettings'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+
+components:
+  schemas:
+
+    # ------------------------------------------------------------ errores
+    ErrorDetail:
+      type: object
+      description: Cuerpo de un `HTTPException` de FastAPI.
+      additionalProperties: false
+      required: [detail]
+      properties:
+        detail: {type: string}
+
+    HTTPValidationError:
+      type: object
+      description: Error de validación estándar de FastAPI (copiado del openapi.json de producción).
+      properties:
+        detail:
+          type: array
+          items: {$ref: '#/components/schemas/ValidationError'}
+
+    ValidationError:
+      type: object
+      required: [loc, msg, type]
+      properties:
+        loc:
+          type: array
+          items:
+            anyOf:
+              - {type: string}
+              - {type: integer}
+        msg: {type: string}
+        type: {type: string}
+
+    # ------------------------------------------------------------ comunes
+    Quota:
+      type: object
+      description: |
+        Llamadas restantes hoy según la cabecera `x-ratelimit-remaining-day`
+        de la última respuesta de cada cubo (app/prim.py:105-110). Solo
+        aparecen los cubos que ya han respondido desde el arranque; no se
+        pone a cero a medianoche UTC.
+      additionalProperties: false
+      properties:
+        stop-monitoring: {type: integer}
+        general-message: {type: integer}
+        navitia:
+          type: integer
+          description: Un solo cubo para places, stop_areas/…/lines y journeys.
+
+    # ------------------------------------------------------------ salud
+    Health:
+      type: object
+      additionalProperties: false
+      required: [ok, key_configured, quota, last_error, now_paris, collector, platform_model, translator]
+      properties:
+        ok: {type: boolean, const: true}
+        key_configured:
+          type: boolean
+          description: '`PRIM_API_KEY` no vacía.'
+        quota: {$ref: '#/components/schemas/Quota'}
+        last_error:
+          type: [string, 'null']
+          description: '`"<TipoDeExcepción>: <mensaje>"` de la última llamada fallida a PRIM; vuelve a null con cualquier llamada buena.'
+        now_paris:
+          type: string
+          pattern: '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$'
+        collector: {$ref: '#/components/schemas/CollectorStatus'}
+        platform_model: {$ref: '#/components/schemas/PlatformAccuracy'}
+        translator: {$ref: '#/components/schemas/TranslatorStatus'}
+
+    CollectorStatus:
+      type: object
+      description: Estado del recolector de andenes (app/collector.py:260-262, 171-173).
+      additionalProperties: false
+      required: [enabled, running, last_at, session_total, stations, recorded, reason, interval, remaining, priority]
+      properties:
+        enabled: {type: boolean, description: '`TRAJET_COLLECT` activo.'}
+        running: {type: boolean, description: 'Hay tarea de fondo creada.'}
+        last_at: {type: string, description: '`HH:MM:SS` (París) de la última pasada completada, o "".'}
+        session_total: {type: integer, description: 'Andenes nuevos grabados desde el arranque.'}
+        stations: {type: integer, description: 'Estaciones estudiadas en la última pasada (máx. 4).'}
+        recorded: {type: integer, description: 'Andenes nuevos grabados en la última pasada.'}
+        reason: {type: string, description: 'Motivo del ritmo o de no muestrear, o el texto de la excepción.'}
+        interval: {type: integer, minimum: 0, description: 'Segundos hasta la siguiente pasada; 0 = no muestrea (espera 600 s).'}
+        remaining: {type: [integer, 'null'], description: 'Cuota `stop-monitoring` conocida al planificar.'}
+        priority: {type: boolean, description: 'Alguna ruta está en su franja (±30 min).'}
+
+    PlatformAccuracy:
+      type: object
+      description: Aciertos de la previsión (app/platform.py:215-231).
+      additionalProperties: false
+      required: [predictions, hits, rate, observations, days]
+      properties:
+        predictions: {type: integer, description: 'Filas en platform_score.'}
+        hits: {type: integer}
+        rate: {type: [number, 'null'], description: 'hits/predictions redondeado a 2 decimales; null si no hay.'}
+        observations: {type: integer, description: 'Filas en platform_obs.'}
+        days: {type: integer, description: 'Días distintos en platform_obs.'}
+
+    TranslatorStatus:
+      type: object
+      description: |
+        Tres formas (app/translate.py:64-84):
+        sin configurar `{"ok": false, "reason": "sin configurar"}`;
+        Ollama no responde `{"ok": false, "reason": "no responde: …", "models": []}`;
+        responde `{"ok": <tiene el modelo>, "reason": "" | "falta el modelo X", "model": X, "models": [...]}`.
+      additionalProperties: false
+      required: [ok, reason]
+      properties:
+        ok: {type: boolean}
+        reason: {type: string}
+        model: {type: string}
+        models:
+          type: array
+          items: {type: string}
+
+    # ------------------------------------------------------------ rutas
+    RouteLeg:
+      type: object
+      description: Fila de la tabla `legs` tal cual (`SELECT *`), con `directions` ya decodificado del JSON.
+      additionalProperties: false
+      required: [id, route_id, seq, line_id, line_code, line_name, line_mode, line_color, from_id, from_name, to_id, to_name, directions]
+      properties:
+        id: {type: integer}
+        route_id: {type: integer}
+        seq: {type: integer, minimum: 0, description: 'Orden del tramo, 0..n-1 (se reasigna al guardar).'}
+        line_id: {type: string, description: 'Id Navitia, p. ej. `line:IDFM:C01739`.'}
+        line_code: {type: string}
+        line_name: {type: string}
+        line_mode: {type: string, description: 'Modo comercial tal como lo da IDFM (`Métro`, `RER`, `Train`, `Bus`…).'}
+        line_color: {type: string, description: 'Hex sin `#`.'}
+        from_id: {type: string, description: 'Zona de parada Navitia `stop_area:IDFM:NNNNN`.'}
+        from_name: {type: string}
+        to_id: {type: string}
+        to_name: {type: string}
+        directions:
+          type: array
+          description: Destinos (texto SIRI) que cuentan como mi sentido. Vacío = sin filtro. Lo que se guardó en JSON, sin validar el tipo.
+          items: {type: string}
+
+    Route:
+      type: object
+      description: Fila de la tabla `routes` (`SELECT *`) con `days` como lista y sus tramos.
+      additionalProperties: false
+      required: [id, name, origin_id, origin_name, dest_id, dest_name, days, time_from, time_to, time_mode, time_at, duration_min, position, created_at, legs]
+      properties:
+        id: {type: integer}
+        name: {type: string}
+        origin_id: {type: string, description: 'Id Navitia (`stop_area:…` o `lon;lat` de una dirección).'}
+        origin_name: {type: string}
+        dest_id: {type: string}
+        dest_name: {type: string}
+        days:
+          type: array
+          description: 0 = lunes … 6 = domingo. No se valida el rango.
+          items: {type: integer}
+        time_from: {type: string, description: 'Inicio de franja `HH:MM` (calculado si time_mode ≠ window).'}
+        time_to: {type: string, description: 'Fin de franja `HH:MM`.'}
+        time_mode:
+          type: string
+          enum: [window, departure, arrival]
+        time_at: {type: string, description: '`HH:MM` de salida o llegada, o "".'}
+        duration_min: {type: integer, description: 'Duración conocida del trayecto (planificador) o 0.'}
+        position: {type: integer}
+        created_at: {type: string, description: "`datetime('now')` de SQLite en UTC: `YYYY-MM-DD HH:MM:SS`."}
+        legs:
+          type: array
+          items: {$ref: '#/components/schemas/RouteLeg'}
+
+    RouteList:
+      type: object
+      additionalProperties: false
+      required: [routes, active_id]
+      properties:
+        routes:
+          type: array
+          items: {$ref: '#/components/schemas/Route'}
+        active_id:
+          type: [integer, 'null']
+          description: Ruta que elegiría el tablero ahora (`pick_active_route`); null si no hay rutas.
+
+    RouteSaved:
+      type: object
+      additionalProperties: false
+      required: [id, route]
+      properties:
+        id: {type: integer}
+        route: {$ref: '#/components/schemas/Route'}
+
+    RouteFromPlanSaved:
+      type: object
+      additionalProperties: false
+      required: [id, route, without_direction]
+      properties:
+        id: {type: integer}
+        route: {$ref: '#/components/schemas/Route'}
+        without_direction:
+          type: array
+          description: '`line_code` de los tramos que se quedaron sin dirección (verán todos los pasos).'
+          items: {type: string}
+
+    RouteDeleted:
+      type: object
+      additionalProperties: false
+      required: [deleted]
+      properties:
+        deleted: {type: integer}
+
+    RouteLegInput:
+      type: object
+      description: Tramo en el cuerpo de POST/PUT. Se aceptan (y se ignoran) campos extra como `id`, `route_id` o `seq`.
+      additionalProperties: true
+      required: [line_id, from_id]
+      properties:
+        line_id: {type: string, minLength: 1}
+        from_id: {type: string, minLength: 1}
+        line_code: {type: string, default: ''}
+        line_name: {type: string, default: ''}
+        line_mode: {type: string, default: ''}
+        line_color: {type: string, default: ''}
+        from_name: {type: string, default: ''}
+        to_id: {type: string, default: ''}
+        to_name: {type: string, default: ''}
+        directions:
+          type: array
+          default: []
+          items: {type: string}
+
+    RouteInput:
+      type: object
+      description: |
+        Cuerpo de POST/PUT /api/routes. FastAPI solo comprueba que sea un
+        objeto JSON; el resto lo comprueba `_validate_route`
+        (app/main.py:94-103) y lo que falle después en `db.save_route`
+        acaba en 500. Se aceptan campos extra (el front manda la ruta entera
+        tal como la recibió, con `id`, `created_at`…).
+      additionalProperties: true
+      required: [name, origin_id, origin_name, dest_id, dest_name, legs]
+      properties:
+        name: {type: string, minLength: 1}
+        origin_id: {type: string, minLength: 1}
+        origin_name: {type: string, description: 'Obligatorio de hecho (KeyError → 500), puede ser "".'}
+        dest_id: {type: string, minLength: 1}
+        dest_name: {type: string, description: 'Obligatorio de hecho (KeyError → 500), puede ser "".'}
+        days:
+          type: array
+          default: [0, 1, 2, 3, 4]
+          items: {type: integer}
+        time_mode:
+          type: string
+          enum: [window, departure, arrival]
+          default: window
+          description: Cualquier otro valor se guarda como `window`.
+        time_at: {type: string, default: '', description: '`HH:MM`; necesario para departure/arrival.'}
+        time_from: {type: string, default: '07:00', description: 'Solo se usa con time_mode=window (o sin time_at).'}
+        time_to: {type: string, default: '10:00'}
+        duration_min: {type: integer, default: 0}
+        position: {type: integer, default: 0}
+        legs:
+          type: array
+          minItems: 1
+          items: {$ref: '#/components/schemas/RouteLegInput'}
+
+    RouteMetaInput:
+      type: object
+      description: '`meta` de /api/routes/from-plan. Todos opcionales; los vacíos se rellenan desde el primer/último tramo o con valores por defecto (app/planner.py:179-199).'
+      additionalProperties: true
+      properties:
+        name: {type: string, description: 'Vacío → "<origen> → <destino>".'}
+        origin_id: {type: string}
+        origin_name: {type: string}
+        dest_id: {type: string}
+        dest_name: {type: string}
+        days:
+          type: array
+          items: {type: integer}
+        time_from: {type: string}
+        time_to: {type: string}
+        time_mode: {type: string, enum: [window, departure, arrival]}
+        time_at: {type: string}
+
+    RouteFromPlanInput:
+      type: object
+      additionalProperties: true
+      required: [option]
+      properties:
+        option:
+          $ref: '#/components/schemas/PlanOption'
+          description: Una de las opciones devueltas por /api/plan (se leen `legs[]` y `minutes`).
+        meta: {$ref: '#/components/schemas/RouteMetaInput'}
+
+    # ------------------------------------------------------------ buscador
+    StopSearchLine:
+      type: object
+      additionalProperties: false
+      required: [id, code, mode, color]
+      properties:
+        id: {type: [string, 'null']}
+        code: {type: [string, 'null'], description: '`code` o, si no hay, `name` de Navitia.'}
+        mode: {type: string, description: '`commercial_mode.name` o "".'}
+        color: {type: string}
+
+    Stop:
+      type: object
+      additionalProperties: false
+      required: [id, name, city, lines]
+      properties:
+        id: {type: string, description: '`stop_area:IDFM:NNNNN`.'}
+        name: {type: [string, 'null']}
+        city: {type: string, description: 'Primera región administrativa, o "".'}
+        lines:
+          type: array
+          description: Las líneas que Navitia incluya en la zona de parada (puede venir vacía).
+          items: {$ref: '#/components/schemas/StopSearchLine'}
+
+    StopSearch:
+      type: object
+      additionalProperties: false
+      required: [stops, age]
+      properties:
+        stops:
+          type: array
+          items: {$ref: '#/components/schemas/Stop'}
+        age: {type: number, description: 'Segundos de antigüedad del dato de Navitia (0 si recién traído).'}
+
+    Line:
+      type: object
+      additionalProperties: false
+      required: [id, code, name, mode, color]
+      properties:
+        id: {type: [string, 'null'], description: '`line:IDFM:Cnnnnn`.'}
+        code: {type: [string, 'null']}
+        name: {type: [string, 'null']}
+        mode: {type: string}
+        color: {type: string}
+
+    StopLines:
+      type: object
+      additionalProperties: false
+      required: [lines]
+      properties:
+        lines:
+          type: array
+          items: {$ref: '#/components/schemas/Line'}
+
+    Directions:
+      type: object
+      additionalProperties: false
+      required: [directions, age]
+      properties:
+        directions:
+          type: array
+          description: Destinos SIRI (DestinationName o DestinationDisplay) de esa línea, de más a menos pasos.
+          items: {type: string}
+        age: {type: number}
+
+    Place:
+      type: object
+      additionalProperties: false
+      required: [id, name, city, kind]
+      properties:
+        id: {type: string, description: 'Id Navitia; para una dirección es `lon;lat`.'}
+        name: {type: string}
+        city: {type: string}
+        kind:
+          type: string
+          description: '`parada`, `dirección`, `sitio`, o el `embedded_type` crudo si es otro.'
+
+    PlaceSearch:
+      type: object
+      additionalProperties: false
+      required: [places]
+      properties:
+        places:
+          type: array
+          items: {$ref: '#/components/schemas/Place'}
+
+    # ------------------------------------------------------------ planificador
+    PlanLeg:
+      type: object
+      description: Sección `public_transport` de un itinerario Navitia (app/planner.py:74-86).
+      additionalProperties: false
+      required: [line_id, line_code, line_name, line_mode, line_color, from_id, from_name, to_id, to_name, direction, minutes, at]
+      properties:
+        line_id: {type: string}
+        line_code: {type: string}
+        line_name: {type: string}
+        line_mode: {type: string}
+        line_color: {type: string}
+        from_id: {type: string}
+        from_name: {type: string}
+        to_id: {type: string}
+        to_name: {type: string}
+        direction: {type: string, description: 'Dirección según Navitia (no SIRI).'}
+        minutes: {type: integer}
+        at: {type: string, pattern: '^(\d{2}:\d{2})?$'}
+
+    PlanOption:
+      type: object
+      description: Un itinerario (app/planner.py:92-100). También es el `option` de /api/routes/from-plan.
+      additionalProperties: false
+      required: [kind, minutes, walk_minutes, transfers, departure, arrival, legs]
+      properties:
+        kind: {type: string, description: '`type` de Navitia (best, rapid, comfort…).'}
+        minutes: {type: integer}
+        walk_minutes: {type: integer, description: 'Suma de street_network, crow_fly y transfer.'}
+        transfers: {type: integer}
+        departure: {type: string, pattern: '^(\d{2}:\d{2})?$'}
+        arrival: {type: string, pattern: '^(\d{2}:\d{2})?$'}
+        legs:
+          type: array
+          minItems: 1
+          items: {$ref: '#/components/schemas/PlanLeg'}
+
+    Plan:
+      type: object
+      additionalProperties: false
+      required: [options, age]
+      properties:
+        options:
+          type: array
+          minItems: 1
+          items: {$ref: '#/components/schemas/PlanOption'}
+        age: {type: number}
+
+    # ------------------------------------------------------------ tablero
+    BoardEmpty:
+      type: object
+      additionalProperties: false
+      required: [empty, message]
+      properties:
+        empty: {type: boolean, const: true}
+        message: {type: string, const: 'todavia no hay rutas guardadas'}
+
+    BoardRoute:
+      type: object
+      additionalProperties: false
+      required: [id, name, origin_name, dest_name]
+      properties:
+        id: {type: integer}
+        name: {type: string}
+        origin_name: {type: string}
+        dest_name: {type: string}
+
+    PlatformGuess:
+      type: object
+      description: Andén previsto cuando la API aún no lo publica (app/platform.py:139-141).
+      additionalProperties: false
+      required: [platform, share, samples, basis, why]
+      properties:
+        platform: {type: string}
+        share: {type: number, minimum: 0.5, maximum: 1, description: 'Proporción del andén mayoritario (estrictamente > 0,5 antes de redondear a 2 decimales).'}
+        samples: {type: integer, minimum: 3}
+        basis: {type: string, enum: [mision, hora, linea]}
+        why: {type: string, enum: ['por el número de tren', 'por la hora habitual', 'por la línea']}
+
+    Departure:
+      type: object
+      description: Un paso (app/board.py:274-295). `guess` solo aparece si no hay andén real y la previsión se atreve.
+      additionalProperties: false
+      required: [jid, minutes, at, aimed_at, destination, platform, platform_new, delay, status, at_stop, train, length]
+      properties:
+        jid: {type: string, description: 'DatedVehicleJourneyRef, o ItemIdentifier, o "".'}
+        minutes: {type: integer, minimum: 0, description: 'Minutos hasta la hora prevista, redondeado y nunca negativo.'}
+        at: {type: string, pattern: '^\d{2}:\d{2}$', description: 'Hora prevista (París).'}
+        aimed_at: {type: string, pattern: '^(\d{2}:\d{2})?$', description: 'Hora teórica (París) o "" si SIRI no la da.'}
+        destination: {type: string}
+        platform: {type: [string, 'null'], description: 'Vía real; null si no viene o es "unknown"/nombre de estación.'}
+        platform_new: {type: boolean, description: 'La vía acaba de aparecer para este viaje.'}
+        delay: {type: [integer, 'null'], description: 'Minutos (prevista − teórica), puede ser negativo; null sin hora teórica.'}
+        status: {type: string, description: 'DepartureStatus o ArrivalStatus de SIRI (onTime, delayed…) o "".'}
+        at_stop: {type: boolean}
+        train: {type: [string, 'null'], description: 'Número de misión (TrainNumberRef).'}
+        length: {type: [string, 'null'], enum: [short, long, null], description: 'De VehicleFeatureRef shortTrain/longTrain.'}
+        guess: {$ref: '#/components/schemas/PlatformGuess'}
+
+    LineStatus:
+      type: object
+      description: Estado de la línea con los avisos de hoy (app/board.py:195-214 y app/translate.py:141-172).
+      additionalProperties: false
+      required: [level, label, messages, planned]
+      properties:
+        level: {type: integer, enum: [0, 1, 2], description: '0 normal, 1 perturbada, 2 interrumpida.'}
+        label: {type: string, enum: [normal, perturbada, interrumpida]}
+        messages:
+          type: array
+          maxItems: 3
+          description: Texto (el más corto) de los avisos activos, en francés.
+          items: {type: string}
+        planned: {type: integer, minimum: 0, description: 'Avisos con fecha de inicio futura (no encienden el semáforo).'}
+        messages_es:
+          type: array
+          description: Solo si hay `messages`. Traducción cacheada de cada mensaje o null.
+          items: {type: [string, 'null']}
+        translating:
+          type: boolean
+          description: Solo si hay `messages`. Hay OLLAMA_URL y falta alguna traducción.
+
+    BoardLeg:
+      type: object
+      additionalProperties: false
+      required: [seq, line_id, line_code, line_name, line_mode, line_color, from_name, to_name, directions, status, departures, age]
+      properties:
+        seq: {type: integer}
+        line_id: {type: string}
+        line_code: {type: string}
+        line_name: {type: string}
+        line_mode: {type: string}
+        line_color: {type: string}
+        from_name: {type: string}
+        to_name: {type: string}
+        directions:
+          type: array
+          items: {type: string}
+        status: {$ref: '#/components/schemas/LineStatus'}
+        departures:
+          type: array
+          maxItems: 4
+          items: {$ref: '#/components/schemas/Departure'}
+        age: {type: [number, 'null'], description: 'Segundos de antigüedad del stop-monitoring de la estación; null si falló sin caché.'}
+
+    Board:
+      type: object
+      additionalProperties: false
+      required: [route, legs, worst_level, worst_line, max_delay, updated_at, data_age, stale, errors, quota, last_error, auto_selected]
+      properties:
+        route: {$ref: '#/components/schemas/BoardRoute'}
+        legs:
+          type: array
+          items: {$ref: '#/components/schemas/BoardLeg'}
+        worst_level: {type: integer, enum: [0, 1, 2]}
+        worst_line: {type: string, description: 'Línea con peor estado; si todas normales, la del mayor retraso positivo; si no, "".'}
+        max_delay: {type: number, description: 'Mayor retraso positivo entre las salidas mostradas (0.0 si ninguno).'}
+        updated_at: {type: string, format: date-time, description: 'UTC, precisión de segundos (`…+00:00`).'}
+        data_age: {type: number, description: 'Máximo de las edades de stop-monitoring y general-message, 1 decimal.'}
+        stale: {type: boolean, description: 'data_age > 90 s (3 × refresh_seconds).'}
+        errors:
+          type: array
+          description: '"<from_name>: <error>" por cada tramo cuya estación falló sin caché.'
+          items: {type: string}
+        quota: {$ref: '#/components/schemas/Quota'}
+        last_error: {type: [string, 'null']}
+        auto_selected: {type: boolean, description: 'true si no se pasó route_id.'}
+
+    # ------------------------------------------------------------ alternativas
+    AffectedLine:
+      type: object
+      additionalProperties: false
+      required: [line_id, line_code, level, label]
+      properties:
+        line_id: {type: string}
+        line_code: {type: string}
+        level: {type: integer, enum: [1, 2]}
+        label: {type: string, enum: [perturbada, interrumpida]}
+
+    AltLeg:
+      type: object
+      additionalProperties: false
+      required: [code, mode, direction, color, minutes, status]
+      properties:
+        code: {type: string}
+        mode: {type: string}
+        direction: {type: string}
+        color: {type: string}
+        minutes: {type: integer}
+        status: {type: string, enum: [normal, perturbada, interrumpida]}
+
+    AltOption:
+      type: object
+      additionalProperties: false
+      required: [total_minutes, transfers, delta_minutes, legs, usable, worst_level, departure, arrival]
+      properties:
+        total_minutes: {type: integer}
+        transfers: {type: integer}
+        delta_minutes: {type: [integer, 'null'], description: 'Minutos respecto a la duración de referencia; null si no se conoce.'}
+        legs:
+          type: array
+          minItems: 1
+          items: {$ref: '#/components/schemas/AltLeg'}
+        usable: {type: boolean, description: 'false si alguna línea de la alternativa está interrumpida.'}
+        worst_level: {type: integer, enum: [0, 1, 2]}
+        departure: {type: string, description: 'Crudo de Navitia `YYYYMMDDTHHMMSS` (o "").'}
+        arrival: {type: string, description: 'Crudo de Navitia `YYYYMMDDTHHMMSS` (o "").'}
+
+    Alternatives:
+      type: object
+      additionalProperties: false
+      required: [needed, affected, options, baseline_minutes, age, quota]
+      properties:
+        needed: {type: boolean, description: 'Hay alguna línea de la ruta tocada (false si se llegó por force).'}
+        affected:
+          type: array
+          items: {$ref: '#/components/schemas/AffectedLine'}
+        options:
+          type: array
+          maxItems: 2
+          items: {$ref: '#/components/schemas/AltOption'}
+        baseline_minutes: {type: [integer, 'null']}
+        age: {type: number}
+        quota: {$ref: '#/components/schemas/Quota'}
+
+    AlternativesNotNeeded:
+      type: object
+      description: Respuesta corta cuando ninguna línea está tocada y no se pidió `force`.
+      additionalProperties: false
+      required: [needed, affected, options]
+      properties:
+        needed: {type: boolean, const: false}
+        affected: {type: array, maxItems: 0}
+        options: {type: array, maxItems: 0}
+
+    # ------------------------------------------------------------ estadísticas
+    PlatformCoverage:
+      type: object
+      additionalProperties: false
+      required: [seq, line_code, observations, days, platforms]
+      properties:
+        seq: {type: integer}
+        line_code: {type: string}
+        observations: {type: integer}
+        days: {type: integer}
+        platforms: {type: integer, description: 'Vías distintas vistas.'}
+
+    PlatformModel:
+      type: object
+      additionalProperties: false
+      required: [accuracy, collector]
+      properties:
+        accuracy: {$ref: '#/components/schemas/PlatformAccuracy'}
+        collector: {$ref: '#/components/schemas/CollectorStatus'}
+        route:
+          type: object
+          additionalProperties: false
+          required: [id, name]
+          properties:
+            id: {type: integer}
+            name: {type: string}
+        coverage:
+          type: array
+          items: {$ref: '#/components/schemas/PlatformCoverage'}
+
+    StatsMonth:
+      type: object
+      additionalProperties: false
+      required: [month, bad_days, total_days, avg_delay]
+      properties:
+        month: {type: string, pattern: '^\d{4}-\d{2}$'}
+        bad_days: {type: integer, description: 'Días con alguna observación con disrupted > 0.'}
+        total_days: {type: integer}
+        avg_delay: {type: [number, 'null']}
+
+    StatsLine:
+      type: object
+      additionalProperties: false
+      required: [worst_line, n, avg_delay]
+      properties:
+        worst_line: {type: string}
+        n: {type: integer, description: 'Filas de historial (no días) con esa línea como peor y disrupted > 0.'}
+        avg_delay: {type: [number, 'null']}
+
+    StatsOverall:
+      type: object
+      additionalProperties: false
+      required: [n, avg_delay, max_delay]
+      properties:
+        n: {type: integer}
+        avg_delay: {type: [number, 'null']}
+        max_delay: {type: [number, 'null']}
+
+    Stats:
+      type: object
+      additionalProperties: false
+      required: [by_month, by_line, overall]
+      properties:
+        by_month:
+          type: array
+          items: {$ref: '#/components/schemas/StatsMonth'}
+        by_line:
+          type: array
+          maxItems: 10
+          items: {$ref: '#/components/schemas/StatsLine'}
+        overall: {$ref: '#/components/schemas/StatsOverall'}
+
+    # ================================================================
+    #  v1 y panel
+    # ================================================================
+
+    ErrorV1:
+      type: object
+      description: |
+        Sobre de error de /api/v1 y /api/admin. `code` es estable y es lo que
+        mira la app para enseñar un estado diseñado; `message` va en español
+        para personas. Códigos: bad_request, unauthorized, forbidden,
+        not_found, pairing_invalid, rate_limited, prim_key_missing,
+        prim_key_invalid, prim_quota_exhausted, prim_unreachable, upstream,
+        prim_key_rejected, internal.
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          type: object
+          additionalProperties: false
+          required: [code, message]
+          properties:
+            code: {type: string}
+            message: {type: string}
+            retry_after: {type: integer, description: 'Segundos (solo con rate_limited y cuota).'}
+
+    Ping:
+      type: object
+      additionalProperties: false
+      required: [ok, service, api, version, paired]
+      properties:
+        ok: {type: boolean, const: true}
+        service: {type: string, const: trajet}
+        api: {type: integer, const: 1}
+        version: {type: string, description: 'Versión del servidor, p. ej. 0.4.0.'}
+        paired: {type: boolean, description: 'El token de la petición (si lo hay) es válido.'}
+
+    PairRequest:
+      type: object
+      additionalProperties: false
+      required: [code, device_name]
+      properties:
+        code:
+          type: string
+          description: 'Código del QR, `ABCD-EFGH` (se aceptan minúsculas, espacios y sin guion).'
+          minLength: 8
+          maxLength: 16
+        device_name: {type: string, minLength: 1, maxLength: 60, description: 'P. ej. «iPhone de Isma».'}
+        device_model: {type: string, maxLength: 60, description: 'P. ej. «iPhone17,1».'}
+        app_version: {type: string, maxLength: 30}
+
+    ServerUrl:
+      type: object
+      additionalProperties: false
+      required: [kind, url]
+      properties:
+        kind: {type: string, enum: [lan, tailscale, other]}
+        url: {type: string, format: uri, description: 'Base sin barra final, p. ej. http://192.168.1.188:7796'}
+
+    PairResult:
+      type: object
+      additionalProperties: false
+      required: [token, device, server]
+      properties:
+        token:
+          type: string
+          description: '`trj_` + 43 caracteres base64url (256 bits). Solo se enseña aquí; el servidor guarda su SHA-256.'
+          pattern: '^trj_[A-Za-z0-9_-]{43}$'
+        device: {$ref: '#/components/schemas/Device'}
+        server:
+          type: object
+          additionalProperties: false
+          required: [name, version, urls]
+          properties:
+            name: {type: string}
+            version: {type: string}
+            urls:
+              type: array
+              items: {$ref: '#/components/schemas/ServerUrl'}
+
+    Device:
+      type: object
+      additionalProperties: false
+      required: [id, name, model, created_at, last_used_at]
+      properties:
+        id: {type: integer}
+        name: {type: string}
+        model: {type: string}
+        app_version: {type: string}
+        created_at: {type: string, format: date-time}
+        last_used_at: {type: [string, 'null'], format: date-time}
+        last_ip: {type: [string, 'null'], description: 'Solo en el panel.'}
+
+    PairingQR:
+      type: string
+      description: |
+        Contenido del QR. Es un enlace con el esquema propio de la app, así
+        que la cámara del iPhone también lo abre:
+
+        `trajet://pair?v=1&code=ABCD-EFGH&lan=<url>&ts=<url>&name=<nombre>`
+
+        `lan` y `ts` (Tailscale) van codificadas con percent-encoding y
+        pueden faltar si no están configuradas. Nunca lleva la clave PRIM.
+
+    PairingSession:
+      type: object
+      additionalProperties: false
+      required: [id, code, expires_at, ttl_s, qr_payload, qr_svg, urls]
+      properties:
+        id: {type: string}
+        code: {type: string, pattern: '^[A-Z2-9]{4}-[A-Z2-9]{4}$'}
+        expires_at: {type: string, format: date-time}
+        ttl_s: {type: integer, const: 300}
+        qr_payload: {$ref: '#/components/schemas/PairingQR'}
+        qr_svg: {type: string, description: 'SVG del QR, listo para incrustar.'}
+        urls:
+          type: array
+          items: {$ref: '#/components/schemas/ServerUrl'}
+
+    PairingStatus:
+      type: object
+      additionalProperties: false
+      required: [id, status, expires_at]
+      properties:
+        id: {type: string}
+        status: {type: string, enum: [pending, used, expired, cancelled]}
+        expires_at: {type: string, format: date-time}
+        device: {$ref: '#/components/schemas/Device'}
+
+    QuotaEndpoint:
+      type: object
+      additionalProperties: false
+      required: [endpoint, used, cap, remaining_reported, level]
+      properties:
+        endpoint: {type: string, enum: [stop-monitoring, general-message, navitia]}
+        used: {type: integer, description: 'Llamadas hechas hoy (día UTC) con la clave en uso, contadas por el servidor.'}
+        cap: {type: integer, description: 'Tope diario (1000 por defecto; configurable).'}
+        remaining_reported: {type: [integer, 'null'], description: 'Lo que dice la cabecera x-ratelimit-remaining-day de PRIM.'}
+        level: {type: string, enum: [ok, warn, critical, exhausted]}
+
+    QuotaV1:
+      type: object
+      additionalProperties: false
+      required: [day_utc, resets_at, level, refresh_hint_s, endpoints]
+      properties:
+        day_utc: {type: string, pattern: '^\d{4}-\d{2}-\d{2}$'}
+        resets_at: {type: string, format: date-time}
+        level:
+          type: string
+          enum: [ok, warn, critical, exhausted]
+          description: 'El del peor endpoint: < 70 % ok, < 85 % warn, < 95 % critical; si no, exhausted (no se llama a PRIM; se sirve la caché).'
+        refresh_hint_s: {type: integer, enum: [30, 60, 120, 300]}
+        endpoints:
+          type: array
+          items: {$ref: '#/components/schemas/QuotaEndpoint'}
+
+    PrimState:
+      type: object
+      description: Estado de la clave PRIM para la app. Nunca la clave ni un trozo de ella.
+      additionalProperties: false
+      required: [key_state, key_source, checked_at]
+      properties:
+        key_state:
+          type: string
+          enum: [missing, valid, invalid, forbidden, quota_exhausted, unreachable, unknown]
+        key_source: {type: string, enum: [panel, env, none]}
+        checked_at: {type: [string, 'null'], format: date-time}
+        last_error: {type: [string, 'null'], description: 'Último fallo con PRIM, sin secretos ni parámetros de búsqueda.'}
+
+    ServerState:
+      type: object
+      description: Lo que la app necesita saber del servidor en cada tablero.
+      additionalProperties: false
+      required: [prim_key, quota_level, refresh_hint_s, degraded]
+      properties:
+        prim_key: {type: string, enum: [missing, valid, invalid, forbidden, quota_exhausted, unreachable, unknown]}
+        quota_level: {type: string, enum: [ok, warn, critical, exhausted]}
+        refresh_hint_s: {type: integer, enum: [30, 60, 120, 300], description: 'Cada cuánto conviene refrescar. La app nunca baja de 30 s.'}
+        degraded: {type: boolean, description: 'Se está sirviendo caché más vieja de lo normal para ahorrar cuota o porque PRIM falla.'}
+
+    HealthV1:
+      type: object
+      additionalProperties: false
+      required: [ok, version, api, now_paris, schema_version, prim, quota, collector, platform_model, translator]
+      properties:
+        ok: {type: boolean}
+        version: {type: string}
+        api: {type: integer, const: 1}
+        now_paris: {type: string, pattern: '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$'}
+        schema_version: {type: integer}
+        prim: {$ref: '#/components/schemas/PrimState'}
+        quota: {$ref: '#/components/schemas/QuotaV1'}
+        collector: {$ref: '#/components/schemas/CollectorStatus'}
+        platform_model: {$ref: '#/components/schemas/PlatformAccuracy'}
+        translator: {$ref: '#/components/schemas/TranslatorStatus'}
+
+    BoardLegV1:
+      description: 'BoardLeg de la 0.3.0 más `from_id`, `to_id` y `platform_expected`.'
+      allOf:
+        - $ref: '#/components/schemas/BoardLegBase'
+        - type: object
+          required: [from_id, to_id, platform_expected]
+          properties:
+            from_id: {type: string, description: 'Zona de parada de subida (Navitia), para enlazar con el mapa y las geocercas.'}
+            to_id: {type: string}
+            platform_expected:
+              type: boolean
+              description: 'El modo de la línea publica vía (tren, RER). false en metro, bus, tranvía, funicular: la app no reserva hueco (R3).'
+
+    BoardLegBase:
+      type: object
+      description: 'Igual que BoardLeg pero abierto, para poder extenderlo en v1.'
+      required: [seq, line_id, line_code, line_name, line_mode, line_color, from_name, to_name, directions, status, departures, age]
+      properties:
+        seq: {type: integer}
+        line_id: {type: string}
+        line_code: {type: string}
+        line_name: {type: string}
+        line_mode: {type: string}
+        line_color: {type: string}
+        from_name: {type: string}
+        to_name: {type: string}
+        directions:
+          type: array
+          items: {type: string}
+        status: {$ref: '#/components/schemas/LineStatus'}
+        departures:
+          type: array
+          maxItems: 4
+          items: {$ref: '#/components/schemas/Departure'}
+        age: {type: [number, 'null']}
+
+    BoardV1:
+      type: object
+      description: 'Board de la 0.3.0 con tramos BoardLegV1, `server` y `disruptions_ok`.'
+      additionalProperties: false
+      required: [route, legs, worst_level, worst_line, max_delay, updated_at, data_age, stale, errors, quota, last_error, auto_selected, server, disruptions_ok]
+      properties:
+        route: {$ref: '#/components/schemas/BoardRoute'}
+        legs:
+          type: array
+          items: {$ref: '#/components/schemas/BoardLegV1'}
+        worst_level: {type: integer, enum: [0, 1, 2]}
+        worst_line: {type: string}
+        max_delay: {type: number}
+        updated_at: {type: string, format: date-time}
+        data_age: {type: number, description: 'Antigüedad del dato más viejo usado (s).'}
+        stale:
+          type: boolean
+          description: 'Alguna estación sirve un dato más viejo de lo que su propio ritmo de refresco permite (no un umbral fijo de 90 s).'
+        errors:
+          type: array
+          description: 'Un texto por estación que falló (sin repetir) y, si fallaron los avisos, «avisos: …».'
+          items: {type: string}
+        quota: {$ref: '#/components/schemas/Quota'}
+        last_error: {type: [string, 'null']}
+        auto_selected: {type: boolean}
+        server: {$ref: '#/components/schemas/ServerState'}
+        disruptions_ok:
+          type: boolean
+          description: 'false si no se pudieron leer los avisos (ni en caché): el «normal» de las líneas no es de fiar y la app lo dice.'
+
+    BoardEmptyV1:
+      type: object
+      additionalProperties: false
+      required: [empty, message, server]
+      properties:
+        empty: {type: boolean, const: true}
+        message: {type: string}
+        server: {$ref: '#/components/schemas/ServerState'}
+
+    StatsV1:
+      description: 'Stats de la 0.3.0; los días se cuentan en hora de París y `by_line[].n` son observaciones, no días.'
+      allOf:
+        - $ref: '#/components/schemas/Stats'
+
+    MapPoint:
+      type: object
+      additionalProperties: false
+      required: [name, lat, lon]
+      properties:
+        name: {type: string}
+        lat: {type: number}
+        lon: {type: number}
+
+    MapLegStop:
+      type: object
+      additionalProperties: false
+      required: [zdc, name, lat, lon]
+      properties:
+        zdc: {type: string, description: 'Zona de correspondencia (código numérico de stop_area:IDFM:<zdc>).'}
+        stop_id: {type: [string, 'null']}
+        name: {type: string}
+        lat: {type: number}
+        lon: {type: number}
+
+    MapLine:
+      type: object
+      additionalProperties: false
+      required: [seq, line_id, code, mode, color, text_color, from, to, path, length_m, via, source]
+      properties:
+        seq: {type: integer}
+        line_id: {type: string}
+        code: {type: string}
+        mode: {type: string, enum: [rail, metro, tram, bus, other]}
+        color: {type: string, pattern: '^#[0-9A-Fa-f]{6}$'}
+        text_color: {type: string, pattern: '^#[0-9A-Fa-f]{6}$'}
+        from: {$ref: '#/components/schemas/MapLegStop'}
+        to: {$ref: '#/components/schemas/MapLegStop'}
+        path:
+          type: [object, 'null']
+          description: 'null si no hay trazado todavía (la app une las paradas con una recta discreta).'
+          additionalProperties: false
+          required: [encoding, coarse, fine, tolerance_m]
+          properties:
+            encoding: {type: string, const: polyline5}
+            coarse: {type: string, description: 'Polilínea codificada simplificada a 20 m (zoom ≤ 13).'}
+            fine: {type: string, description: 'Polilínea codificada simplificada a 2 m (zoom 14–16).'}
+            tolerance_m:
+              type: object
+              additionalProperties: false
+              required: [coarse, fine]
+              properties:
+                coarse: {type: number}
+                fine: {type: number}
+        length_m: {type: [integer, 'null']}
+        via:
+          type: array
+          description: Paradas intermedias en orden.
+          items: {$ref: '#/components/schemas/MapPoint'}
+        source: {type: string, enum: [gtfs, ferre, recta, none]}
+
+    MapPlatform:
+      type: object
+      additionalProperties: false
+      required: [id, lat, lon]
+      properties:
+        id: {type: string, description: 'Formato SIRI: STIF:StopPoint:Q:<arrid>:'}
+        line: {type: [string, 'null']}
+        name: {type: [string, 'null']}
+        lat: {type: number}
+        lon: {type: number}
+
+    MapStation:
+      type: object
+      additionalProperties: false
+      required: [zdc, name, lat, lon, role, platforms, tracks]
+      properties:
+        zdc: {type: string}
+        name: {type: string}
+        lat: {type: number}
+        lon: {type: number}
+        role: {type: string, enum: [origin, transfer, destination]}
+        platforms:
+          type: array
+          items: {$ref: '#/components/schemas/MapPlatform'}
+        tracks:
+          type: array
+          description: Vías con coordenadas (solo estaciones SNCF).
+          items:
+            type: object
+            additionalProperties: false
+            required: [voie, lat, lon]
+            properties:
+              voie: {type: string}
+              lat: {type: number}
+              lon: {type: number}
+
+    MapAccess:
+      type: object
+      additionalProperties: false
+      required: [id, zdc, name, entry, exit, lat, lon, to_stop]
+      properties:
+        id: {type: string}
+        zdc: {type: string}
+        name: {type: string}
+        number: {type: [string, 'null']}
+        entry: {type: boolean}
+        exit: {type: boolean}
+        lat: {type: number}
+        lon: {type: number}
+        to_stop:
+          type: array
+          description: 'Metros (m) y segundos (s) andando del acceso a cada andén, según pathways.txt.'
+          items:
+            type: object
+            additionalProperties: false
+            required: [stop_id, m, s]
+            properties:
+              stop_id: {type: string}
+              m: {type: [number, 'null']}
+              s: {type: [integer, 'null']}
+
+    MapTransfer:
+      type: object
+      additionalProperties: false
+      required: [zdc, from_seq, to_seq, min_transfer_s]
+      properties:
+        zdc: {type: string}
+        from_seq: {type: integer}
+        to_seq: {type: integer}
+        min_transfer_s: {type: [integer, 'null'], description: 'Tiempo mínimo de transbordo (transfers.txt). No hay geometría abierta del camino entre andenes.'}
+
+    RouteMap:
+      type: object
+      additionalProperties: false
+      required: [route_id, generated_at, pending, stale, lines, stations, accesses, transfers, sources, license]
+      properties:
+        route_id: {type: integer}
+        generated_at: {type: string, format: date-time}
+        pending: {type: boolean, description: 'Se está calculando en segundo plano; volver a pedir en unos segundos.'}
+        stale: {type: boolean, description: 'El portal de IDFM falló; es lo último que se guardó.'}
+        lines:
+          type: array
+          items: {$ref: '#/components/schemas/MapLine'}
+        stations:
+          type: array
+          items: {$ref: '#/components/schemas/MapStation'}
+        accesses:
+          type: array
+          items: {$ref: '#/components/schemas/MapAccess'}
+        transfers:
+          type: array
+          items: {$ref: '#/components/schemas/MapTransfer'}
+        sources:
+          type: object
+          description: 'Fecha de proceso de cada dataset usado.'
+          additionalProperties: {type: string}
+        license: {type: string}
+
+    PrimKeyInfo:
+      type: object
+      description: 'Lo que el panel sabe de la clave. Nunca la clave: solo sus 4 últimos caracteres.'
+      additionalProperties: false
+      required: [configured, source, last4, saved_at, state, state_detail, checked_at, env_available, encryption]
+      properties:
+        configured: {type: boolean}
+        source: {type: string, enum: [panel, env, none]}
+        last4: {type: [string, 'null'], pattern: '^.{4}$'}
+        saved_at: {type: [string, 'null'], format: date-time}
+        state: {type: string, enum: [missing, valid, invalid, forbidden, quota_exhausted, unreachable, unknown]}
+        state_detail: {type: string}
+        checked_at: {type: [string, 'null'], format: date-time}
+        env_available: {type: boolean, description: 'Hay PRIM_API_KEY en el entorno (se usa si el panel está vacío).'}
+        encryption: {type: string, enum: [app_seed, local_master_key, none]}
+
+    PrimKeyCheck:
+      type: object
+      additionalProperties: false
+      required: [api, ok, status, message]
+      properties:
+        api: {type: string, enum: [stop-monitoring, general-message, navitia]}
+        ok: {type: boolean}
+        status: {type: [integer, 'null'], description: 'Código HTTP de PRIM, o null si no respondió.'}
+        message: {type: string}
+
+    PrimKeyResult:
+      type: object
+      additionalProperties: false
+      required: [saved, info, checks]
+      properties:
+        saved: {type: boolean}
+        info: {$ref: '#/components/schemas/PrimKeyInfo'}
+        checks:
+          type: array
+          items: {$ref: '#/components/schemas/PrimKeyCheck'}
+        error:
+          type: object
+          additionalProperties: false
+          required: [code, message]
+          properties:
+            code: {type: string}
+            message: {type: string}
+
+    AdminQuotaDay:
+      type: object
+      additionalProperties: false
+      required: [day_utc, endpoint, used]
+      properties:
+        day_utc: {type: string}
+        endpoint: {type: string}
+        used: {type: integer}
+
+    AdminQuota:
+      type: object
+      additionalProperties: false
+      required: [today, history]
+      properties:
+        today: {$ref: '#/components/schemas/QuotaV1'}
+        history:
+          type: array
+          items: {$ref: '#/components/schemas/AdminQuotaDay'}
+
+    ErrorLogEntry:
+      type: object
+      additionalProperties: false
+      required: [ts, level, logger, message]
+      properties:
+        ts: {type: string, format: date-time}
+        level: {type: string, enum: [WARNING, ERROR, CRITICAL]}
+        logger: {type: string}
+        message: {type: string}
+
+    AdminSettings:
+      type: object
+      additionalProperties: false
+      required: [server_name, lan_url, tailscale_url]
+      properties:
+        server_name: {type: string, maxLength: 40}
+        lan_url: {type: [string, 'null'], description: 'Base de la red de casa, p. ej. http://192.168.1.188:7796'}
+        tailscale_url: {type: [string, 'null'], description: 'Base por Tailscale, p. ej. http://100.99.38.76:7796'}
+
+    AdminOverview:
+      type: object
+      additionalProperties: false
+      required: [version, uptime_s, now_paris, schema_version, prim_key, quota, devices, collector, platform_model, translator, database, memory, map_data, warnings]
+      properties:
+        version: {type: string}
+        uptime_s: {type: integer}
+        now_paris: {type: string}
+        schema_version: {type: integer}
+        prim_key: {$ref: '#/components/schemas/PrimKeyInfo'}
+        quota: {$ref: '#/components/schemas/QuotaV1'}
+        devices: {type: integer, description: 'Dispositivos emparejados activos.'}
+        collector: {$ref: '#/components/schemas/CollectorStatus'}
+        platform_model: {$ref: '#/components/schemas/PlatformAccuracy'}
+        translator: {$ref: '#/components/schemas/TranslatorStatus'}
+        database:
+          type: object
+          additionalProperties: false
+          required: [size_bytes, routes, history, platform_obs]
+          properties:
+            size_bytes: {type: integer}
+            routes: {type: integer}
+            history: {type: integer}
+            platform_obs: {type: integer}
+        memory:
+          type: object
+          additionalProperties: false
+          required: [rss_bytes, limit_bytes]
+          properties:
+            rss_bytes: {type: [integer, 'null']}
+            limit_bytes: {type: [integer, 'null'], description: 'Límite del contenedor (cgroup), si se puede leer.'}
+        map_data:
+          type: object
+          additionalProperties: false
+          required: [cached_items, last_refresh, last_error]
+          properties:
+            cached_items: {type: integer}
+            last_refresh: {type: [string, 'null'], format: date-time}
+            last_error: {type: [string, 'null']}
+        warnings:
+          type: array
+          description: 'Avisos para enseñar arriba del panel (sin clave, cuota justa, cifrado sin APP_SEED…).'
+          items:
+            type: object
+            additionalProperties: false
+            required: [level, text]
+            properties:
+              level: {type: string, enum: [info, warn, error]}
+              text: {type: string}
+
+  parameters:
+    IfNoneMatch:
+      name: If-None-Match
+      in: header
+      required: false
+      schema: {type: string}
+    PanelHeader:
+      name: X-Trajet-Panel
+      in: header
+      required: true
+      description: 'Siempre `1`. Protege contra CSRF (un formulario de otra web no puede ponerla).'
+      schema: {type: string, const: '1'}
+
+  headers:
+    ETag:
+      description: ETag débil del cuerpo (W/"…").
+      schema: {type: string}
+
+  responses:
+    NotModified:
+      description: El cuerpo no ha cambiado desde el ETag enviado.
+    Unauthorized:
+      description: 'Falta el token, no vale o está revocado (`unauthorized`).'
+      content:
+        application/json:
+          schema: {$ref: '#/components/schemas/ErrorV1'}
+    Forbidden:
+      description: 'Falta la cabecera del panel, origen distinto o la conexión no viene del proxy de Umbrel (`forbidden`).'
+      content:
+        application/json:
+          schema: {$ref: '#/components/schemas/ErrorV1'}
+    NotFound:
+      description: '`not_found`.'
+      content:
+        application/json:
+          schema: {$ref: '#/components/schemas/ErrorV1'}
+    BadRequest:
+      description: '`bad_request`, con el motivo en `message`.'
+      content:
+        application/json:
+          schema: {$ref: '#/components/schemas/ErrorV1'}
+    Upstream:
+      description: 'PRIM no responde y no hay nada en caché (`prim_unreachable` o `upstream`).'
+      content:
+        application/json:
+          schema: {$ref: '#/components/schemas/ErrorV1'}
+    PrimUnavailable:
+      description: 'Sin clave PRIM (`prim_key_missing`), clave rechazada (`prim_key_invalid`) o cuota agotada sin caché (`prim_quota_exhausted`). Estados diseñados en la app.'
+      content:
+        application/json:
+          schema: {$ref: '#/components/schemas/ErrorV1'}
+
+  securitySchemes:
+    deviceToken:
+      type: http
+      scheme: bearer
+      description: 'Token de dispositivo obtenido en /api/v1/pair.'

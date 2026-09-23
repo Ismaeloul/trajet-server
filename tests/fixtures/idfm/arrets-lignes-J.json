@@ -1,0 +1,542 @@
+[
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:411342",
+  "stop_name": "Liancourt-Saint-Pierre",
+  "stop_lon": "1.9054790812050526",
+  "stop_lat": "49.22054256178432",
+  "mode": "LocalTrain",
+  "nom_commune": "Liancourt-Saint-Pierre"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:44161",
+  "stop_name": "Montgeroult - Courcelles",
+  "stop_lon": "2.0029460458068105",
+  "stop_lat": "49.080811910011626",
+  "mode": "LocalTrain",
+  "nom_commune": "Montgeroult"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:51494",
+  "stop_name": "Osny",
+  "stop_lon": "2.0581556508746317",
+  "stop_lat": "49.06281914403825",
+  "mode": "LocalTrain",
+  "nom_commune": "Osny"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:54249",
+  "stop_name": "Les Clairières de Verneuil",
+  "stop_lon": "1.9552440340828119",
+  "stop_lat": "48.99266997269272",
+  "mode": "LocalTrain",
+  "nom_commune": "Verneuil-sur-Seine"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:43070",
+  "stop_name": "Aubergenville Élisabethville",
+  "stop_lon": "1.8489603900783327",
+  "stop_lat": "48.97233225408568",
+  "mode": "LocalTrain",
+  "nom_commune": "Aubergenville"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:47898",
+  "stop_name": "Ermont - Eaubonne",
+  "stop_lon": "2.2707541014797794",
+  "stop_lat": "48.98049890628609",
+  "mode": "LocalTrain",
+  "nom_commune": "Ermont"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:43160",
+  "stop_name": "Maurecourt",
+  "stop_lon": "2.059634534011659",
+  "stop_lat": "48.986862412057214",
+  "mode": "LocalTrain",
+  "nom_commune": "Andrésy"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:43157",
+  "stop_name": "Mantes-la-Jolie",
+  "stop_lon": "1.703836824856348",
+  "stop_lat": "48.989295021419494",
+  "mode": "LocalTrain",
+  "nom_commune": "Mantes-la-Jolie"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:59301",
+  "stop_name": "Gisors",
+  "stop_lon": "1.7847679942171768",
+  "stop_lat": "49.285504693998305",
+  "mode": "LocalTrain",
+  "nom_commune": "Gisors"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:411348",
+  "stop_name": "Lavilletertre",
+  "stop_lon": "1.9205792747729",
+  "stop_lat": "49.20238205277644",
+  "mode": "LocalTrain",
+  "nom_commune": "Lavilletertre"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:46801",
+  "stop_name": "Boissy-l'Aillerie",
+  "stop_lon": "2.025386064104548",
+  "stop_lat": "49.07572135804642",
+  "mode": "LocalTrain",
+  "nom_commune": "Boissy-l'Aillerie"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:44411",
+  "stop_name": "Pontoise",
+  "stop_lon": "2.0957859968423524",
+  "stop_lat": "49.04673337596684",
+  "mode": "LocalTrain",
+  "nom_commune": "Pontoise"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:479059",
+  "stop_name": "Rosny-sur-Seine",
+  "stop_lon": "1.6298170882272784",
+  "stop_lat": "48.99751746396684",
+  "mode": "LocalTrain",
+  "nom_commune": "Rosny-sur-Seine"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:46984",
+  "stop_name": "Bonnières",
+  "stop_lon": "1.5820546885594051",
+  "stop_lat": "49.03882194566387",
+  "mode": "LocalTrain",
+  "nom_commune": "Bonnières-sur-Seine"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:51238",
+  "stop_name": "Bois-Colombes",
+  "stop_lon": "2.2716490888242244",
+  "stop_lat": "48.91419560591249",
+  "mode": "LocalTrain",
+  "nom_commune": "Bois-Colombes"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:47875",
+  "stop_name": "Argenteuil",
+  "stop_lon": "2.257913508915154",
+  "stop_lat": "48.9468952901277",
+  "mode": "LocalTrain",
+  "nom_commune": "Argenteuil"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:43143",
+  "stop_name": "La Frette - Montigny",
+  "stop_lon": "2.180341866372171",
+  "stop_lat": "48.97988373233732",
+  "mode": "LocalTrain",
+  "nom_commune": "La Frette-sur-Seine"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:47603",
+  "stop_name": "Herblay",
+  "stop_lon": "2.1622316587721904",
+  "stop_lat": "48.990136140429954",
+  "mode": "LocalTrain",
+  "nom_commune": "Herblay-sur-Seine"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:46926",
+  "stop_name": "Triel-sur-Seine",
+  "stop_lon": "2.005709444143668",
+  "stop_lat": "48.98141600700941",
+  "mode": "LocalTrain",
+  "nom_commune": "Triel-sur-Seine"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:43217",
+  "stop_name": "Vaux-sur-Seine",
+  "stop_lon": "1.9630264473162566",
+  "stop_lat": "49.0073550143858",
+  "mode": "LocalTrain",
+  "nom_commune": "Vaux-sur-Seine"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:46897",
+  "stop_name": "Meulan - Hardricourt",
+  "stop_lon": "1.9021289902435004",
+  "stop_lat": "49.00581615609435",
+  "mode": "LocalTrain",
+  "nom_commune": "Hardricourt"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:46965",
+  "stop_name": "Mantes Station",
+  "stop_lon": "1.7151334567152097",
+  "stop_lat": "48.98360892717879",
+  "mode": "LocalTrain",
+  "nom_commune": "Mantes-la-Jolie"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:47955",
+  "stop_name": "Saint-Ouen-l'Aumône Quartier de l'Église",
+  "stop_lon": "2.1034691329132857",
+  "stop_lat": "49.03909361746138",
+  "mode": "LocalTrain",
+  "nom_commune": "Saint-Ouen-l'Aumône"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:43079",
+  "stop_name": "Éragny - Neuville",
+  "stop_lon": "2.090571123307668",
+  "stop_lat": "49.01790068888594",
+  "mode": "LocalTrain",
+  "nom_commune": "Éragny"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:47874",
+  "stop_name": "Poissy",
+  "stop_lon": "2.040804469960689",
+  "stop_lat": "48.93324983956547",
+  "mode": "LocalTrain",
+  "nom_commune": "Poissy"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:47964",
+  "stop_name": "Vernouillet - Verneuil",
+  "stop_lon": "1.9829377621754614",
+  "stop_lat": "48.981645855003116",
+  "mode": "LocalTrain",
+  "nom_commune": "Verneuil-sur-Seine"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:58566",
+  "stop_name": "Gare Saint-Lazare",
+  "stop_lon": "2.3244386552397684",
+  "stop_lat": "48.87747568635212",
+  "mode": "LocalTrain",
+  "nom_commune": "Paris"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:43116",
+  "stop_name": "Cormeilles-en-Parisis",
+  "stop_lon": "2.1930511780913897",
+  "stop_lat": "48.9686435877584",
+  "mode": "LocalTrain",
+  "nom_commune": "Cormeilles-en-Parisis"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:43114",
+  "stop_name": "Conflans Fin d'Oise",
+  "stop_lon": "2.0746499245710193",
+  "stop_lat": "48.991156287258484",
+  "mode": "LocalTrain",
+  "nom_commune": "Conflans-Sainte-Honorine"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:47916",
+  "stop_name": "Andrésy",
+  "stop_lon": "2.0486677678528",
+  "stop_lat": "48.974620752632916",
+  "mode": "LocalTrain",
+  "nom_commune": "Andrésy"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:47929",
+  "stop_name": "Chanteloup-les-Vignes",
+  "stop_lon": "2.0276211497651646",
+  "stop_lat": "48.97035707590211",
+  "mode": "LocalTrain",
+  "nom_commune": "Chanteloup-les-Vignes"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:43137",
+  "stop_name": "Juziers",
+  "stop_lon": "1.8449525722587152",
+  "stop_lat": "48.99224048747195",
+  "mode": "LocalTrain",
+  "nom_commune": "Juziers"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:43129",
+  "stop_name": "Gargenville",
+  "stop_lon": "1.8090110590166268",
+  "stop_lat": "48.983003872761415",
+  "mode": "LocalTrain",
+  "nom_commune": "Gargenville"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:46975",
+  "stop_name": "Issou - Porcheville",
+  "stop_lon": "1.7838404356830648",
+  "stop_lat": "48.9793069192499",
+  "mode": "LocalTrain",
+  "nom_commune": "Issou"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:47922",
+  "stop_name": "Us",
+  "stop_lon": "1.9705444983242866",
+  "stop_lat": "49.09955483034093",
+  "mode": "LocalTrain",
+  "nom_commune": "Us"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:43082",
+  "stop_name": "Houilles - Carrières-sur-Seine",
+  "stop_lon": "2.1851757042018707",
+  "stop_lat": "48.92034757911033",
+  "mode": "LocalTrain",
+  "nom_commune": "Houilles"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:47966",
+  "stop_name": "Villennes-sur-Seine",
+  "stop_lon": "1.999557321396041",
+  "stop_lat": "48.93983138477974",
+  "mode": "LocalTrain",
+  "nom_commune": "Villennes-sur-Seine"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:47881",
+  "stop_name": "Les Mureaux",
+  "stop_lon": "1.9134674211236111",
+  "stop_lat": "48.99259097971094",
+  "mode": "LocalTrain",
+  "nom_commune": "Les Mureaux"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:47882",
+  "stop_name": "Épône - Mézières",
+  "stop_lon": "1.809133387838305",
+  "stop_lat": "48.96340497197892",
+  "mode": "LocalTrain",
+  "nom_commune": "Épône"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:43189",
+  "stop_name": "Sannois",
+  "stop_lon": "2.263820283806777",
+  "stop_lat": "48.970881176549405",
+  "mode": "LocalTrain",
+  "nom_commune": "Sannois"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:43069",
+  "stop_name": "Asnières-sur-Seine",
+  "stop_lon": "2.2832114335873186",
+  "stop_lat": "48.90587474197106",
+  "mode": "LocalTrain",
+  "nom_commune": "Asnières-sur-Seine"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:43113",
+  "stop_name": "Colombes",
+  "stop_lon": "2.2593187577109575",
+  "stop_lat": "48.92395845032284",
+  "mode": "LocalTrain",
+  "nom_commune": "Colombes"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:47447",
+  "stop_name": "Conflans-Sainte-Honorine",
+  "stop_lon": "2.09871661352047",
+  "stop_lat": "48.996919424234726",
+  "mode": "LocalTrain",
+  "nom_commune": "Conflans-Sainte-Honorine"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:411338",
+  "stop_name": "Trie-Château",
+  "stop_lon": "1.818497020989674",
+  "stop_lat": "49.2824007109848",
+  "mode": "LocalTrain",
+  "nom_commune": "Trie-Château"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:411345",
+  "stop_name": "Chaumont-en-Vexin",
+  "stop_lon": "1.8732362595841847",
+  "stop_lat": "49.26118959499568",
+  "mode": "LocalTrain",
+  "nom_commune": "Chaumont-en-Vexin"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:47930",
+  "stop_name": "Chars",
+  "stop_lon": "1.936865953454158",
+  "stop_lat": "49.16300140123273",
+  "mode": "LocalTrain",
+  "nom_commune": "Chars"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:47949",
+  "stop_name": "Santeuil - Le Perchay",
+  "stop_lon": "1.949406923865895",
+  "stop_lat": "49.12334471123142",
+  "mode": "LocalTrain",
+  "nom_commune": "Santeuil"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:43191",
+  "stop_name": "Sartrouville",
+  "stop_lon": "2.1572200388507317",
+  "stop_lat": "48.93769529363442",
+  "mode": "LocalTrain",
+  "nom_commune": "Sartrouville"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:473109",
+  "stop_name": "Maisons-Laffitte",
+  "stop_lon": "2.1446722659338855",
+  "stop_lat": "48.94574060746957",
+  "mode": "LocalTrain",
+  "nom_commune": "Maisons-Laffitte"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:59038",
+  "stop_name": "Vernon - Giverny",
+  "stop_lon": "1.477776772218189",
+  "stop_lat": "49.091626659828435",
+  "mode": "LocalTrain",
+  "nom_commune": "Vernon"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:43236",
+  "stop_name": "Le Stade",
+  "stop_lon": "2.260948512567054",
+  "stop_lat": "48.93172049557505",
+  "mode": "LocalTrain",
+  "nom_commune": "Colombes"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:43212",
+  "stop_name": "Val d'Argenteuil",
+  "stop_lon": "2.2326940500534516",
+  "stop_lat": "48.95065749524003",
+  "mode": "LocalTrain",
+  "nom_commune": "Argenteuil"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:46902",
+  "stop_name": "Thun le Paradis",
+  "stop_lon": "1.919170589720022",
+  "stop_lat": "49.006673442207415",
+  "mode": "LocalTrain",
+  "nom_commune": "Meulan-en-Yvelines"
+ },
+ {
+  "id": "IDFM:C01739",
+  "route_long_name": "J",
+  "stop_id": "IDFM:monomodalStopPlace:43151",
+  "stop_name": "Limay",
+  "stop_lon": "1.7474125098984148",
+  "stop_lat": "48.98420212754175",
+  "mode": "LocalTrain",
+  "nom_commune": "Limay"
+ }
+]

@@ -1,0 +1,995 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.324809525060938,
+     48.87516164759954
+    ]
+   },
+   "properties": {
+    "arrid": "420302",
+    "arrname": "Gare Saint-Lazare",
+    "arrtype": "bus",
+    "zdaid": "473234",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.324606776069679,
+     48.87502560302735
+    ]
+   },
+   "properties": {
+    "arrid": "21963",
+    "arrname": "Saint-Lazare",
+    "arrtype": "metro",
+    "zdaid": "462374",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "false"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3251304302535005,
+     48.877753549516314
+    ]
+   },
+   "properties": {
+    "arrid": "471341",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3236233751454374,
+     48.87725940219735
+    ]
+   },
+   "properties": {
+    "arrid": "472546",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.32347352060639,
+     48.8772495620443
+    ]
+   },
+   "properties": {
+    "arrid": "472318",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3251710988853103,
+     48.877771765506395
+    ]
+   },
+   "properties": {
+    "arrid": "472142",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3253754908426214,
+     48.877781910870496
+    ]
+   },
+   "properties": {
+    "arrid": "470776",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.32411372370381,
+     48.87729814517622
+    ]
+   },
+   "properties": {
+    "arrid": "472852",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3240575025539023,
+     48.87427605118167
+    ]
+   },
+   "properties": {
+    "arrid": "492988",
+    "arrname": "Pasquier - Anjou",
+    "arrtype": "bus",
+    "zdaid": "427068",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3254889729755313,
+     48.87533635235189
+    ]
+   },
+   "properties": {
+    "arrid": "28406",
+    "arrname": "Gare Saint-Lazare",
+    "arrtype": "bus",
+    "zdaid": "473237",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3266249516448703,
+     48.87500099922393
+    ]
+   },
+   "properties": {
+    "arrid": "22739",
+    "arrname": "Gare Saint-Lazare - Havre",
+    "arrtype": "bus",
+    "zdaid": "427224",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.324523577495512,
+     48.87513305423861
+    ]
+   },
+   "properties": {
+    "arrid": "22718",
+    "arrname": "Gare Saint-Lazare",
+    "arrtype": "bus",
+    "zdaid": "473234",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3275845479599506,
+     48.87565391691284
+    ]
+   },
+   "properties": {
+    "arrid": "21964",
+    "arrname": "Saint-Lazare",
+    "arrtype": "metro",
+    "zdaid": "462374",
+    "arrtown": "Paris 9e",
+    "arraccessibility": "false"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3276394296102447,
+     48.875627245038096
+    ]
+   },
+   "properties": {
+    "arrid": "462969",
+    "arrname": "Saint-Lazare",
+    "arrtype": "metro",
+    "zdaid": "462374",
+    "arrtown": "Paris 9e",
+    "arraccessibility": "false"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3249801077930425,
+     48.877779682087755
+    ]
+   },
+   "properties": {
+    "arrid": "471064",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3244924701707954,
+     48.8749665010208
+    ]
+   },
+   "properties": {
+    "arrid": "462971",
+    "arrname": "Saint-Lazare",
+    "arrtype": "metro",
+    "zdaid": "462374",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "false"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3245339132892635,
+     48.877174609629996
+    ]
+   },
+   "properties": {
+    "arrid": "41194",
+    "arrname": "Gare Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "partial"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3251469772680378,
+     48.87752880863689
+    ]
+   },
+   "properties": {
+    "arrid": "471150",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3234327361563225,
+     48.87724033818008
+    ]
+   },
+   "properties": {
+    "arrid": "471940",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.32430436315377,
+     48.87731720810805
+    ]
+   },
+   "properties": {
+    "arrid": "471724",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3237324452225527,
+     48.87726001840079
+    ]
+   },
+   "properties": {
+    "arrid": "471658",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.325106308834376,
+     48.877510592634586
+    ]
+   },
+   "properties": {
+    "arrid": "472519",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3240593053344707,
+     48.87728884454929
+    ]
+   },
+   "properties": {
+    "arrid": "472368",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3245355541974044,
+     48.87736347966007
+    ]
+   },
+   "properties": {
+    "arrid": "472070",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3255670641452126,
+     48.877729030113095
+    ]
+   },
+   "properties": {
+    "arrid": "472110",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.324629844529851,
+     48.8753494951098
+    ]
+   },
+   "properties": {
+    "arrid": "462970",
+    "arrname": "Saint-Lazare",
+    "arrtype": "metro",
+    "zdaid": "462374",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "false"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3267827043841898,
+     48.87439932946706
+    ]
+   },
+   "properties": {
+    "arrid": "22737",
+    "arrname": "Gare Saint-Lazare - Havre",
+    "arrtype": "bus",
+    "zdaid": "427224",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.323895816863339,
+     48.87727892794234
+    ]
+   },
+   "properties": {
+    "arrid": "471495",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3233094481648124,
+     48.87728460819126
+    ]
+   },
+   "properties": {
+    "arrid": "471238",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3253484560254387,
+     48.87776377178593
+    ]
+   },
+   "properties": {
+    "arrid": "472273",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3246668779807638,
+     48.877750935379744
+    ]
+   },
+   "properties": {
+    "arrid": "472102",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3242363109573883,
+     48.87730783060688
+    ]
+   },
+   "properties": {
+    "arrid": "470624",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.324440584266021,
+     48.87732697028268
+    ]
+   },
+   "properties": {
+    "arrid": "472934",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3230488871055877,
+     48.87740004885988
+    ]
+   },
+   "properties": {
+    "arrid": "420865",
+    "arrname": "Gare Saint-Lazare - Rome",
+    "arrtype": "bus",
+    "zdaid": "473203",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3243109129971637,
+     48.875761390989275
+    ]
+   },
+   "properties": {
+    "arrid": "21962",
+    "arrname": "Saint-Lazare",
+    "arrtype": "metro",
+    "zdaid": "462374",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.323258301752386,
+     48.87702351127059
+    ]
+   },
+   "properties": {
+    "arrid": "39724",
+    "arrname": "Gare Saint-Lazare - Rome",
+    "arrtype": "bus",
+    "zdaid": "473203",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3250958230845464,
+     48.87411103534662
+    ]
+   },
+   "properties": {
+    "arrid": "39766",
+    "arrname": "Pasquier - Anjou",
+    "arrtype": "bus",
+    "zdaid": "427068",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.326019739150676,
+     48.87541128895515
+    ]
+   },
+   "properties": {
+    "arrid": "28984",
+    "arrname": "Gare Saint-Lazare",
+    "arrtype": "bus",
+    "zdaid": "473237",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3261905731108676,
+     48.87590688665903
+    ]
+   },
+   "properties": {
+    "arrid": "470840",
+    "arrname": "Gare Saint-Lazare",
+    "arrtype": "bus",
+    "zdaid": "473237",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "partial"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.324668762076965,
+     48.875502602215754
+    ]
+   },
+   "properties": {
+    "arrid": "480764",
+    "arrname": "Gare Saint-Lazare",
+    "arrtype": "bus",
+    "zdaid": "473234",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "partial"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.323822473029765,
+     48.87452653882746
+    ]
+   },
+   "properties": {
+    "arrid": "478615",
+    "arrname": "Pasquier - Anjou",
+    "arrtype": "bus",
+    "zdaid": "427068",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "partial"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.323577981322187,
+     48.8755054369561
+    ]
+   },
+   "properties": {
+    "arrid": "39477",
+    "arrname": "Gare Saint-Lazare",
+    "arrtype": "bus",
+    "zdaid": "473234",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3246310106162915,
+     48.8752595678288
+    ]
+   },
+   "properties": {
+    "arrid": "22218",
+    "arrname": "Saint-Lazare",
+    "arrtype": "metro",
+    "zdaid": "462374",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "false"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3248919071503056,
+     48.8751171453033
+    ]
+   },
+   "properties": {
+    "arrid": "30011",
+    "arrname": "Gare Saint-Lazare",
+    "arrtype": "bus",
+    "zdaid": "473234",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.325170396920301,
+     48.8746690461407
+    ]
+   },
+   "properties": {
+    "arrid": "37512",
+    "arrname": "Gare Saint-Lazare",
+    "arrtype": "bus",
+    "zdaid": "473234",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3273522004021783,
+     48.875697578456396
+    ]
+   },
+   "properties": {
+    "arrid": "28631",
+    "arrname": "Gare Saint-Lazare - Budapest",
+    "arrtype": "bus",
+    "zdaid": "58567",
+    "arrtown": "Paris 9e",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3242422794490807,
+     48.87579697709805
+    ]
+   },
+   "properties": {
+    "arrid": "462972",
+    "arrname": "Saint-Lazare",
+    "arrtype": "metro",
+    "zdaid": "462374",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3246260929267435,
+     48.87774171192626
+    ]
+   },
+   "properties": {
+    "arrid": "472013",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.323936718158497,
+     48.877279158937185
+    ]
+   },
+   "properties": {
+    "arrid": "470692",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3246695599501495,
+     48.877544103072076
+    ]
+   },
+   "properties": {
+    "arrid": "471063",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3235961076265617,
+     48.87725924813097
+    ]
+   },
+   "properties": {
+    "arrid": "472208",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3245747062186695,
+     48.877498601096875
+    ]
+   },
+   "properties": {
+    "arrid": "470674",
+    "arrname": "Paris Saint-Lazare",
+    "arrtype": "rail",
+    "zdaid": "58566",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.323655927472191,
+     48.87580265905166
+    ]
+   },
+   "properties": {
+    "arrid": "37510",
+    "arrname": "Gare Saint-Lazare - Rome",
+    "arrtype": "bus",
+    "zdaid": "473203",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.324777828487544,
+     48.87550321746773
+    ]
+   },
+   "properties": {
+    "arrid": "472755",
+    "arrname": "Gare Saint-Lazare",
+    "arrtype": "bus",
+    "zdaid": "473234",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3268190227837753,
+     48.87686372016352
+    ]
+   },
+   "properties": {
+    "arrid": "491495",
+    "arrname": "Gare Saint-Lazare - Budapest",
+    "arrtype": "bus",
+    "zdaid": "58567",
+    "arrtown": "Paris 8e",
+    "arraccessibility": "partial"
+   }
+  }
+ ]
+}

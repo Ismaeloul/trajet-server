@@ -1,0 +1,41 @@
+[
+ {
+  "id_line": "C01739",
+  "name_line": "J",
+  "shortname_line": "J",
+  "transportmode": "rail",
+  "transportsubmode": "suburbanRailway",
+  "type": null,
+  "operatorref": "800",
+  "operatorname": "SNCF",
+  "additionaloperators": null,
+  "networkname": "Transilien",
+  "colourweb_hexa": "cec73d",
+  "textcolourweb_hexa": "000000",
+  "colourprint_cmjn": "14 0 100 11",
+  "textcolourprint_hexa": "000000",
+  "accessibility": "false",
+  "audiblesigns_available": "unknown",
+  "visualsigns_available": "unknown",
+  "id_groupoflines": "A01852",
+  "shortname_groupoflines": "Transilien J",
+  "notice_title": null,
+  "notice_text": null,
+  "picto": {
+   "thumbnail": true,
+   "filename": "5fb4dcc93cc49_train_J_fc.png",
+   "format": "PNG",
+   "width": 1181,
+   "id": "62e9b7ac99c792f4b7ec85b226ad008e",
+   "height": 1181,
+   "color_summary": [],
+   "url": "https://data.iledefrance-mobilites.fr/api/explore/v2.1/catalog/datasets/referentiel-des-lignes/files/62e9b7ac99c792f4b7ec85b226ad008e"
+  },
+  "valid_fromdate": "2014-07-16",
+  "valid_todate": null,
+  "status": "active",
+  "privatecode": "800854041",
+  "air_conditioning": "true",
+  "id_bus_contrat": null
+ }
+]

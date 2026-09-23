@@ -1,0 +1,437 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.2575619382854013,
+     48.94617818036992
+    ]
+   },
+   "properties": {
+    "arrid": "39998",
+    "arrname": "Gare d'Argenteuil",
+    "arrtype": "bus",
+    "zdaid": "473037",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.257441426734418,
+     48.94696880618618
+    ]
+   },
+   "properties": {
+    "arrid": "472690",
+    "arrname": "Argenteuil",
+    "arrtype": "rail",
+    "zdaid": "47875",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.2575775609453568,
+     48.94699662794602
+    ]
+   },
+   "properties": {
+    "arrid": "472859",
+    "arrname": "Argenteuil",
+    "arrtype": "rail",
+    "zdaid": "47875",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.257341584719786,
+     48.946311708482504
+    ]
+   },
+   "properties": {
+    "arrid": "5603",
+    "arrname": "Gare d'Argenteuil",
+    "arrtype": "bus",
+    "zdaid": "473037",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.257031740411655,
+     48.946975260652295
+    ]
+   },
+   "properties": {
+    "arrid": "5079",
+    "arrname": "Gare d'Argenteuil",
+    "arrtype": "bus",
+    "zdaid": "473037",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.257560526290042,
+     48.946277093186005
+    ]
+   },
+   "properties": {
+    "arrid": "7475",
+    "arrname": "Gare d'Argenteuil",
+    "arrtype": "bus",
+    "zdaid": "473037",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.25594641989136,
+     48.947445151014364
+    ]
+   },
+   "properties": {
+    "arrid": "7479",
+    "arrname": "Gare d'Argenteuil",
+    "arrtype": "bus",
+    "zdaid": "473037",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.257686134725683,
+     48.94704226461788
+    ]
+   },
+   "properties": {
+    "arrid": "472730",
+    "arrname": "Argenteuil",
+    "arrtype": "rail",
+    "zdaid": "47875",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.2574819536049104,
+     48.9460427919173
+    ]
+   },
+   "properties": {
+    "arrid": "7481",
+    "arrname": "Gare d'Argenteuil",
+    "arrtype": "bus",
+    "zdaid": "473037",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.2578219626054765,
+     48.94613482615887
+    ]
+   },
+   "properties": {
+    "arrid": "493723",
+    "arrname": "Gare d'Argenteuil",
+    "arrtype": "bus",
+    "zdaid": "473037",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.2552124306341264,
+     48.948169014688176
+    ]
+   },
+   "properties": {
+    "arrid": "420619",
+    "arrname": "Gare d'Argenteuil",
+    "arrtype": "bus",
+    "zdaid": "488235",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "false"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.2543161816845445,
+     48.94592421962534
+    ]
+   },
+   "properties": {
+    "arrid": "27031",
+    "arrname": "Gare d'Argenteuil",
+    "arrtype": "bus",
+    "zdaid": "473037",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.2576124378388998,
+     48.94646626490693
+    ]
+   },
+   "properties": {
+    "arrid": "7480",
+    "arrname": "Gare d'Argenteuil",
+    "arrtype": "bus",
+    "zdaid": "473037",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.257711208872226,
+     48.94624205484432
+    ]
+   },
+   "properties": {
+    "arrid": "40000",
+    "arrname": "Gare d'Argenteuil",
+    "arrtype": "bus",
+    "zdaid": "473037",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.2583862308715292,
+     48.9467768118268
+    ]
+   },
+   "properties": {
+    "arrid": "471033",
+    "arrname": "Argenteuil",
+    "arrtype": "rail",
+    "zdaid": "47875",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.2574783590465,
+     48.94629457000595
+    ]
+   },
+   "properties": {
+    "arrid": "39839",
+    "arrname": "Gare d'Argenteuil",
+    "arrtype": "bus",
+    "zdaid": "473037",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.2559328964869887,
+     48.947436074217684
+    ]
+   },
+   "properties": {
+    "arrid": "7478",
+    "arrname": "Gare d'Argenteuil",
+    "arrtype": "bus",
+    "zdaid": "473037",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.2559599433004522,
+     48.947454227809445
+    ]
+   },
+   "properties": {
+    "arrid": "426607",
+    "arrname": "Gare d'Argenteuil",
+    "arrtype": "bus",
+    "zdaid": "473037",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.254841758733604,
+     48.94831059693049
+    ]
+   },
+   "properties": {
+    "arrid": "7476",
+    "arrname": "Gare d'Argenteuil",
+    "arrtype": "bus",
+    "zdaid": "473037",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.2546493381346737,
+     48.948399329280456
+    ]
+   },
+   "properties": {
+    "arrid": "7477",
+    "arrname": "Gare d'Argenteuil",
+    "arrtype": "bus",
+    "zdaid": "473037",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "true"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.2578909139689514,
+     48.947043532475746
+    ]
+   },
+   "properties": {
+    "arrid": "472826",
+    "arrname": "Argenteuil",
+    "arrtype": "rail",
+    "zdaid": "47875",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.2582364449302417,
+     48.94674890650748
+    ]
+   },
+   "properties": {
+    "arrid": "471242",
+    "arrname": "Argenteuil",
+    "arrtype": "rail",
+    "zdaid": "47875",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "unknown"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.257957451623329,
+     48.946877576398904
+    ]
+   },
+   "properties": {
+    "arrid": "41166",
+    "arrname": "Argenteuil",
+    "arrtype": "rail",
+    "zdaid": "47875",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "partial"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.2566230822054076,
+     48.94690977718085
+    ]
+   },
+   "properties": {
+    "arrid": "420618",
+    "arrname": "Gare d'Argenteuil",
+    "arrtype": "bus",
+    "zdaid": "488235",
+    "arrtown": "Argenteuil",
+    "arraccessibility": "false"
+   }
+  }
+ ]
+}

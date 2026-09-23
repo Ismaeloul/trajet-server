@@ -1,0 +1,81 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.2578291203107144,
+     48.94754675008595
+    ]
+   },
+   "properties": {
+    "accid": "50170309",
+    "accname": "Entrée / Sortie",
+    "accshortname": 3,
+    "accdescription": "Source IDFM",
+    "accisentry": "true",
+    "accisexit": "true",
+    "fournisseurname": "SNCF"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.257597887538753,
+     48.94652912486601
+    ]
+   },
+   "properties": {
+    "accid": "50170422",
+    "accname": "Entrée / Sortie",
+    "accshortname": null,
+    "accdescription": "Source IDFM - Accès principal",
+    "accisentry": "true",
+    "accisexit": "true",
+    "fournisseurname": "SNCF"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.25700096807866,
+     48.94721787722004
+    ]
+   },
+   "properties": {
+    "accid": "50170427",
+    "accname": "Entrée / Sortie",
+    "accshortname": null,
+    "accdescription": "Source IDFM - Accès via gare routière",
+    "accisentry": "true",
+    "accisexit": "true",
+    "fournisseurname": "SNCF"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.257061870203578,
+     48.94677760436821
+    ]
+   },
+   "properties": {
+    "accid": "50170428",
+    "accname": "Entrée / Sortie",
+    "accshortname": null,
+    "accdescription": "Source IDFM - Accès via gare routière",
+    "accisentry": "true",
+    "accisexit": "true",
+    "fournisseurname": "SNCF"
+   }
+  }
+ ]
+}

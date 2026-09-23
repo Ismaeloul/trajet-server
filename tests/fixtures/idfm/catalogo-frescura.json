@@ -1,0 +1,89 @@
+{
+ "total_count": 12,
+ "results": [
+  {
+   "dataset_id": "traces-du-reseau-ferre-idf",
+   "modified": "2026-07-16T14:43:15+00:00",
+   "data_processed": "2026-07-16T14:43:15+00:00",
+   "records_count": 1673,
+   "license": "Licence Ouverte v2.0 (Etalab)"
+  },
+  {
+   "dataset_id": "zones-d-arrets",
+   "modified": "2026-09-23T00:40:46+00:00",
+   "data_processed": "2026-09-23T00:40:46+00:00",
+   "records_count": 18013,
+   "license": "Licence Ouverte v2.0 (Etalab)"
+  },
+  {
+   "dataset_id": "referentiel-des-lignes",
+   "modified": "2026-09-23T10:21:29+00:00",
+   "data_processed": "2026-09-23T10:21:29+00:00",
+   "records_count": 2128,
+   "license": "Licence ODbL Version Française"
+  },
+  {
+   "dataset_id": "traces-des-lignes-de-transport-en-commun-idfm",
+   "modified": "2026-09-23T15:00:42+00:00",
+   "data_processed": "2026-09-23T15:00:42+00:00",
+   "records_count": 2027,
+   "license": "Licence ODbL Version Française"
+  },
+  {
+   "dataset_id": "arrets",
+   "modified": "2026-09-22T23:41:21+00:00",
+   "data_processed": "2026-09-22T23:41:21+00:00",
+   "records_count": 37963,
+   "license": "Licence Ouverte v2.0 (Etalab)"
+  },
+  {
+   "dataset_id": "relations-acces",
+   "modified": "2026-09-23T00:40:40+00:00",
+   "data_processed": "2026-09-23T00:40:40+00:00",
+   "records_count": 2553,
+   "license": "Licence Ouverte v2.0 (Etalab)"
+  },
+  {
+   "dataset_id": "emplacement-des-gares-idf",
+   "modified": "2025-12-10T14:10:02+00:00",
+   "data_processed": "2025-12-10T14:10:02+00:00",
+   "records_count": 1240,
+   "license": "Licence Ouverte v2.0 (Etalab)"
+  },
+  {
+   "dataset_id": "arrets-transporteur",
+   "modified": "2026-09-22T23:48:56+00:00",
+   "data_processed": "2026-09-22T23:48:56+00:00",
+   "records_count": 55929,
+   "license": "Licence Ouverte v2.0 (Etalab)"
+  },
+  {
+   "dataset_id": "arrets-lignes",
+   "modified": "2026-09-23T15:06:22+00:00",
+   "data_processed": "2026-09-23T15:06:22+00:00",
+   "records_count": 74038,
+   "license": "Licence ODbL Version Française"
+  },
+  {
+   "dataset_id": "zones-de-correspondance",
+   "modified": "2026-09-23T00:00:48+00:00",
+   "data_processed": "2026-09-23T00:00:48+00:00",
+   "records_count": 15552,
+   "license": "Licence Ouverte v2.0 (Etalab)"
+  },
+  {
+   "dataset_id": "acces",
+   "modified": "2026-09-23T00:30:34+00:00",
+   "data_processed": "2026-09-23T00:30:34+00:00",
+   "records_count": 2523,
+   "license": "Licence Ouverte v2.0 (Etalab)"
+  },
+  {
+   "dataset_id": "relations",
+   "modified": "2026-09-23T00:25:17+00:00",
+   "data_processed": "2026-09-23T00:25:17+00:00",
+   "records_count": 55952,
+   "license": "Licence Ouverte v2.0 (Etalab)"
+  }
+ ]
+}

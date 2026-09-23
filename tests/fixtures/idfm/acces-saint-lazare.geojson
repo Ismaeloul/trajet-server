@@ -1,0 +1,271 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3288375411618265,
+     48.875759875777625
+    ]
+   },
+   "properties": {
+    "accid": "50148494",
+    "accname": "r. de Caumartin",
+    "accshortname": 10,
+    "accdescription": null,
+    "accisentry": "true",
+    "accisexit": "true",
+    "fournisseurname": "RATP"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3268021344824814,
+     48.87711543955626
+    ]
+   },
+   "properties": {
+    "accid": "50170773",
+    "accname": "r. Budapest",
+    "accshortname": null,
+    "accdescription": "Source IDFM",
+    "accisentry": "true",
+    "accisexit": "true",
+    "fournisseurname": "SNCF"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3267974173071004,
+     48.87537069804031
+    ]
+   },
+   "properties": {
+    "accid": "50148663",
+    "accname": "passage du Havre",
+    "accshortname": 3,
+    "accdescription": null,
+    "accisentry": "true",
+    "accisexit": "true",
+    "fournisseurname": "RATP"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3246751660936247,
+     48.87606022803171
+    ]
+   },
+   "properties": {
+    "accid": "50147870",
+    "accname": "Galerie des Marchands",
+    "accshortname": 4,
+    "accdescription": null,
+    "accisentry": "true",
+    "accisexit": "true",
+    "fournisseurname": "RATP"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.324865340155184,
+     48.87506303514509
+    ]
+   },
+   "properties": {
+    "accid": "50147867",
+    "accname": "pl. Gabriel Péri",
+    "accshortname": 6,
+    "accdescription": null,
+    "accisentry": "true",
+    "accisexit": "true",
+    "fournisseurname": "RATP"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3241892628559673,
+     48.875679763826874
+    ]
+   },
+   "properties": {
+    "accid": "50147869",
+    "accname": "cour de Rome",
+    "accshortname": 1,
+    "accdescription": null,
+    "accisentry": "true",
+    "accisexit": "true",
+    "fournisseurname": "RATP"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3258623535764733,
+     48.87809042788467
+    ]
+   },
+   "properties": {
+    "accid": "50243328",
+    "accname": "r. de Londres",
+    "accshortname": null,
+    "accdescription": null,
+    "accisentry": "true",
+    "accisexit": "true",
+    "fournisseurname": "SNCF"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3263749022710014,
+     48.87535932778586
+    ]
+   },
+   "properties": {
+    "accid": "50148492",
+    "accname": "pl. du Havre",
+    "accshortname": 2,
+    "accdescription": null,
+    "accisentry": "true",
+    "accisexit": "true",
+    "fournisseurname": "RATP"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3267085264393725,
+     48.8759187943591
+    ]
+   },
+   "properties": {
+    "accid": "50148491",
+    "accname": "r. d'Amsterdam",
+    "accshortname": 8,
+    "accdescription": null,
+    "accisentry": "true",
+    "accisexit": "true",
+    "fournisseurname": "RATP"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3257785441463854,
+     48.87613839458703
+    ]
+   },
+   "properties": {
+    "accid": "50148489",
+    "accname": "rue Intérieure",
+    "accshortname": 5,
+    "accdescription": null,
+    "accisentry": "true",
+    "accisexit": "true",
+    "fournisseurname": "RATP"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.324638240262346,
+     48.874702018522754
+    ]
+   },
+   "properties": {
+    "accid": "50147868",
+    "accname": "r. de l'Arcade",
+    "accshortname": 7,
+    "accdescription": null,
+    "accisentry": "true",
+    "accisexit": "true",
+    "fournisseurname": "RATP"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.323828374714386,
+     48.87617236187658
+    ]
+   },
+   "properties": {
+    "accid": "50170885",
+    "accname": "r. de Rome",
+    "accshortname": null,
+    "accdescription": "Source IDFM",
+    "accisentry": "true",
+    "accisexit": "true",
+    "fournisseurname": "SNCF"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.326419549847376,
+     48.876124016380864
+    ]
+   },
+   "properties": {
+    "accid": "50148490",
+    "accname": "cour du Havre",
+    "accshortname": 9,
+    "accdescription": null,
+    "accisentry": "false",
+    "accisexit": "true",
+    "fournisseurname": "RATP"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.3283730787394616,
+     48.87582921781277
+    ]
+   },
+   "properties": {
+    "accid": "50148706",
+    "accname": "r. Saint-Lazare",
+    "accshortname": 11,
+    "accdescription": null,
+    "accisentry": "true",
+    "accisexit": "true",
+    "fournisseurname": "RATP"
+   }
+  }
+ ]
+}

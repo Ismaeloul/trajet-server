@@ -1,0 +1,478 @@
+[
+ {
+  "artid": [
+   "50117065"
+  ],
+  "arrid": "472110",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1528",
+  "publiccode": "27",
+  "artgeopoint": {
+   "lon": 2.3255534302599483,
+   "lat": 48.877728953302075
+  }
+ },
+ {
+  "artid": [
+   "50118540"
+  ],
+  "arrid": "470692",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1545",
+  "publiccode": "9",
+  "artgeopoint": {
+   "lon": 2.323936718158497,
+   "lat": 48.877279158937185
+  }
+ },
+ {
+  "artid": [
+   "50117670"
+  ],
+  "arrid": "471658",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1548",
+  "publiccode": "6",
+  "artgeopoint": {
+   "lon": 2.3237324452225527,
+   "lat": 48.87726001840079
+  }
+ },
+ {
+  "artid": [
+   "50116965"
+  ],
+  "arrid": "472142",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1569",
+  "publiccode": "24",
+  "artgeopoint": {
+   "lon": 2.3251710988853103,
+   "lat": 48.877771765506395
+  }
+ },
+ {
+  "artid": [
+   "50117176"
+  ],
+  "arrid": "471940",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1530",
+  "publiccode": "2",
+  "artgeopoint": {
+   "lon": 2.3234327361563225,
+   "lat": 48.87724033818008
+  }
+ },
+ {
+  "artid": [
+   "50117524"
+  ],
+  "arrid": "471724",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1538",
+  "publiccode": "13",
+  "artgeopoint": {
+   "lon": 2.32430436315377,
+   "lat": 48.87731720810805
+  }
+ },
+ {
+  "artid": [
+   "50116572"
+  ],
+  "arrid": "472519",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1560",
+  "publiccode": "20",
+  "artgeopoint": {
+   "lon": 2.325092675006973,
+   "lat": 48.87751051577108
+  }
+ },
+ {
+  "artid": [
+   "50117018"
+  ],
+  "arrid": "472070",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1536",
+  "publiccode": "15",
+  "artgeopoint": {
+   "lon": 2.3245355541974044,
+   "lat": 48.87736347966007
+  }
+ },
+ {
+  "artid": [
+   "50118650"
+  ],
+  "arrid": "470674",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1534",
+  "publiccode": "16",
+  "artgeopoint": {
+   "lon": 2.3245747062186695,
+   "lat": 48.877498601096875
+  }
+ },
+ {
+  "artid": [
+   "50118614"
+  ],
+  "arrid": "470624",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1527",
+  "publiccode": "12",
+  "artgeopoint": {
+   "lon": 2.3242363109573883,
+   "lat": 48.87730783060688
+  }
+ },
+ {
+  "artid": [
+   "50024686"
+  ],
+  "arrid": "41194",
+  "artname": "GARE ST LAZARE",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "8738400",
+  "publiccode": "-",
+  "artgeopoint": {
+   "lon": 2.3247517917610856,
+   "lat": 48.875360876193994
+  }
+ },
+ {
+  "artid": [
+   "50116144"
+  ],
+  "arrid": "472852",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1543",
+  "publiccode": "11",
+  "artgeopoint": {
+   "lon": 2.32411372370381,
+   "lat": 48.87729814517622
+  }
+ },
+ {
+  "artid": [
+   "50118049"
+  ],
+  "arrid": "471238",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1535",
+  "publiccode": "1",
+  "artgeopoint": {
+   "lon": 2.3233095650059514,
+   "lat": 48.87727561548057
+  }
+ },
+ {
+  "artid": [
+   "50118929"
+  ],
+  "arrid": "471658",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1547",
+  "publiccode": "7",
+  "artgeopoint": {
+   "lon": 2.323745962216638,
+   "lat": 48.8772690881305
+  }
+ },
+ {
+  "artid": [
+   "50118897"
+  ],
+  "arrid": "472368",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1544",
+  "publiccode": "10",
+  "artgeopoint": {
+   "lon": 2.3240593053344707,
+   "lat": 48.87728884454929
+  }
+ },
+ {
+  "artid": [
+   "50116639"
+  ],
+  "arrid": "472208",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1565",
+  "publiccode": "4",
+  "artgeopoint": {
+   "lon": 2.3235961076265617,
+   "lat": 48.87725924813097
+  }
+ },
+ {
+  "artid": [
+   "50118197"
+  ],
+  "arrid": "471150",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1537",
+  "publiccode": "21",
+  "artgeopoint": {
+   "lon": 2.3251469772680378,
+   "lat": 48.87752880863689
+  }
+ },
+ {
+  "artid": [
+   "50117963"
+  ],
+  "arrid": "471341",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1570",
+  "publiccode": "23",
+  "artgeopoint": {
+   "lon": 2.3251304302535005,
+   "lat": 48.877753549516314
+  }
+ },
+ {
+  "artid": [
+   "50117106"
+  ],
+  "arrid": "472102",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1531",
+  "publiccode": "19",
+  "artgeopoint": {
+   "lon": 2.3246668779807638,
+   "lat": 48.877750935379744
+  }
+ },
+ {
+  "artid": [
+   "50117219"
+  ],
+  "arrid": "472013",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1532",
+  "publiccode": "18",
+  "artgeopoint": {
+   "lon": 2.3246260929267435,
+   "lat": 48.87774171192626
+  }
+ },
+ {
+  "artid": [
+   "50118489"
+  ],
+  "arrid": "470776",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1566",
+  "publiccode": "26",
+  "artgeopoint": {
+   "lon": 2.3253754908426214,
+   "lat": 48.877781910870496
+  }
+ },
+ {
+  "artid": [
+   "50118268"
+  ],
+  "arrid": "471063",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1533",
+  "publiccode": "17",
+  "artgeopoint": {
+   "lon": 2.3246696765570305,
+   "lat": 48.87753511036216
+  }
+ },
+ {
+  "artid": [
+   "50118937"
+  ],
+  "arrid": "472934",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1549",
+  "publiccode": "14",
+  "artgeopoint": {
+   "lon": 2.324440584266021,
+   "lat": 48.87732697028268
+  }
+ },
+ {
+  "artid": [
+   "50117833"
+  ],
+  "arrid": "471495",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1546",
+  "publiccode": "8",
+  "artgeopoint": {
+   "lon": 2.323895816863339,
+   "lat": 48.87727892794234
+  }
+ },
+ {
+  "artid": [
+   "50118269"
+  ],
+  "arrid": "471064",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1539",
+  "publiccode": "22",
+  "artgeopoint": {
+   "lon": 2.3249801077930425,
+   "lat": 48.877779682087755
+  }
+ },
+ {
+  "artid": [
+   "50116434"
+  ],
+  "arrid": "472273",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1568",
+  "publiccode": "25",
+  "artgeopoint": {
+   "lon": 2.3253484560254387,
+   "lat": 48.87776377178593
+  }
+ },
+ {
+  "artid": [
+   "50116473"
+  ],
+  "arrid": "472318",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1529",
+  "publiccode": "3",
+  "artgeopoint": {
+   "lon": 2.32347352060639,
+   "lat": 48.8772495620443
+  }
+ },
+ {
+  "artid": [
+   "50116556"
+  ],
+  "arrid": "472546",
+  "artname": "Paris Saint-Lazare",
+  "fournisseurname": "SNCF",
+  "arttype": [
+   "rail"
+  ],
+  "privatecode": "1564",
+  "publiccode": "5",
+  "artgeopoint": {
+   "lon": 2.3236233751454374,
+   "lat": 48.87725940219735
+  }
+ }
+]

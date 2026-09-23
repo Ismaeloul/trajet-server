@@ -1,0 +1,152 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "coordinates": [
+     2.327842235259622,
+     48.87567210708072
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "id_gares": 769,
+    "nom_gares": "Saint-Lazare",
+    "nom_iv": "Saint-Lazare",
+    "id_ref_zdc": 71370,
+    "id_ref_zda": 462374,
+    "idrefligc": "C01382",
+    "res_com": "METRO 12",
+    "indice_lig": "12",
+    "mode": "METRO"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "coordinates": [
+     2.324738046836634,
+     48.87683695396951
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "id_gares": 822,
+    "nom_gares": "Saint-Lazare",
+    "nom_iv": "Saint-Lazare",
+    "id_ref_zdc": 71370,
+    "id_ref_zda": 58566,
+    "idrefligc": "C01740",
+    "res_com": "TRAIN L",
+    "indice_lig": "L",
+    "mode": "TRAIN"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "coordinates": [
+     2.324380555428912,
+     48.87515128791023
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "id_gares": 771,
+    "nom_gares": "Saint-Lazare",
+    "nom_iv": "Saint-Lazare",
+    "id_ref_zdc": 71370,
+    "id_ref_zda": 462374,
+    "idrefligc": "C01373",
+    "res_com": "METRO 3",
+    "indice_lig": "3",
+    "mode": "METRO"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "coordinates": [
+     2.324224580938853,
+     48.87571908982334
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "id_gares": 1000,
+    "nom_gares": "Saint-Lazare",
+    "nom_iv": "Saint-Lazare",
+    "id_ref_zdc": 71370,
+    "id_ref_zda": 462374,
+    "idrefligc": "C01384",
+    "res_com": "METRO 14",
+    "indice_lig": "14",
+    "mode": "METRO"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "coordinates": [
+     2.32547637444705,
+     48.87542071665263
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "id_gares": 770,
+    "nom_gares": "Saint-Lazare",
+    "nom_iv": "Saint-Lazare",
+    "id_ref_zdc": 71370,
+    "id_ref_zda": 462374,
+    "idrefligc": "C01383",
+    "res_com": "METRO 13",
+    "indice_lig": "13",
+    "mode": "METRO"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "coordinates": [
+     2.25789748402742,
+     48.94679694208001
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "id_gares": 24,
+    "nom_gares": "Argenteuil",
+    "nom_iv": "Argenteuil",
+    "id_ref_zdc": 65063,
+    "id_ref_zda": 47875,
+    "idrefligc": "C01739",
+    "res_com": "TRAIN J",
+    "indice_lig": "J",
+    "mode": "TRAIN"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "coordinates": [
+     2.324738046836634,
+     48.87683695396951
+    ],
+    "type": "Point"
+   },
+   "properties": {
+    "id_gares": 1016,
+    "nom_gares": "Saint-Lazare",
+    "nom_iv": "Saint-Lazare",
+    "id_ref_zdc": 71370,
+    "id_ref_zda": 58566,
+    "idrefligc": "C01739",
+    "res_com": "TRAIN J",
+    "indice_lig": "J",
+    "mode": "TRAIN"
+   }
+  }
+ ]
+}

@@ -1,0 +1,26 @@
+[
+ {
+  "zdcid": "71370",
+  "zdcversion": "1244767",
+  "zdccreated": "2014-12-29T00:00:00+00:00",
+  "zdcchanged": "2026-09-18T13:44:01+00:00",
+  "zdcname": "Gare Saint-Lazare",
+  "zdcxepsg2154": 650517,
+  "zdcyepsg2154": 6864202,
+  "zdctown": "Paris 8e",
+  "zdcpostalregion": "75108",
+  "zdctype": "railStation"
+ },
+ {
+  "zdcid": "65063",
+  "zdcversion": "1106544",
+  "zdccreated": "2014-12-29T00:00:00+00:00",
+  "zdcchanged": "2026-09-18T12:35:40+00:00",
+  "zdcname": "Argenteuil",
+  "zdcxepsg2154": 645530,
+  "zdcyepsg2154": 6872168,
+  "zdctown": "Argenteuil",
+  "zdcpostalregion": "95018",
+  "zdctype": "railStation"
+ }
+]

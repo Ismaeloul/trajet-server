@@ -262,3 +262,26 @@ def server_state() -> dict:
     key = "valid" if client is not None and client.has_key() else "missing"
     return {"prim_key": key, "quota_level": "ok", "refresh_hint_s": 30,
             "degraded": False}
+
+
+def prim_state() -> dict:
+    """PrimState de docs/openapi.yaml (nunca la clave)."""
+    has = client is not None and client.has_key()
+    return {"key_state": "valid" if has else "missing",
+            "key_source": "env" if has else "none",
+            "checked_at": None,
+            "last_error": client.last_error if client else None}
+
+
+def quota_snapshot() -> dict:
+    """QuotaV1 de docs/openapi.yaml."""
+    from datetime import datetime, timedelta, timezone
+    now = datetime.now(timezone.utc)
+    manana = (now + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+    eps = []
+    for ep in ("stop-monitoring", "general-message", "navitia"):
+        rem = client.quota.get(ep) if client else None
+        eps.append({"endpoint": ep, "used": 0, "cap": settings.quota_cap,
+                    "remaining_reported": rem, "level": "ok"})
+    return {"day_utc": now.date().isoformat(), "resets_at": manana.isoformat(),
+            "level": "ok", "refresh_hint_s": 30, "endpoints": eps}

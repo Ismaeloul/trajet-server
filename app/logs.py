@@ -16,3 +16,9 @@ def setup() -> None:
 
 def recent_errors(limit: int = 50) -> list[dict]:
     return []
+
+
+def register_secret(value: str | None) -> None:
+    """Apunta un secreto (p. ej. la clave PRIM en uso) para tacharlo de
+    cualquier log. Lo llama prim.py al arrancar y al cambiar de clave."""
+    return None

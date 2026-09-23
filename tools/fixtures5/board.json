@@ -1,0 +1,310 @@
+{
+ "route": {
+  "id": 1,
+  "name": "6 Rue de la Marseillaise → 74 Av..."
+ },
+ "auto_selected": true,
+ "age": 0,
+ "errors": [],
+ "legs": [
+  {
+   "seq": 0,
+   "line_id": "line:IDFM:C01",
+   "line_code": "6424",
+   "line_name": "6424",
+   "line_mode": "Bus",
+   "line_color": "E4022D",
+   "from_name": "Marseillaise",
+   "to_name": "",
+   "directions": [
+    "Pont de Bezons"
+   ],
+   "status": {
+    "level": 0,
+    "label": "normal",
+    "messages": [],
+    "planned": 0
+   },
+   "age": 0,
+   "departures": [
+    {
+     "jid": "j56Pont de Bezons",
+     "minutes": 56,
+     "at": "11:24",
+     "destination": "Pont de Bezons",
+     "platform": null,
+     "platform_new": false,
+     "delay": 11,
+     "status": "",
+     "at_stop": false,
+     "train": null
+    },
+    {
+     "jid": "j106Pont de Bezons",
+     "minutes": 106,
+     "at": "12:14",
+     "destination": "Pont de Bezons",
+     "platform": null,
+     "platform_new": false,
+     "delay": 1,
+     "status": "",
+     "at_stop": false,
+     "train": null
+    },
+    {
+     "jid": "j165Pont de Bezons",
+     "minutes": 165,
+     "at": "13:13",
+     "destination": "Pont de Bezons",
+     "platform": null,
+     "platform_new": false,
+     "delay": null,
+     "status": "",
+     "at_stop": false,
+     "train": null
+    },
+    {
+     "jid": "j210Pont de Bezons",
+     "minutes": 210,
+     "at": "13:58",
+     "destination": "Pont de Bezons",
+     "platform": null,
+     "platform_new": false,
+     "delay": null,
+     "status": "",
+     "at_stop": false,
+     "train": null
+    }
+   ]
+  },
+  {
+   "seq": 1,
+   "line_id": "line:IDFM:C02",
+   "line_code": "T2",
+   "line_name": "T2",
+   "line_mode": "Tramway",
+   "line_color": "C4318E",
+   "from_name": "Pont de Bezons",
+   "to_name": "",
+   "directions": [
+    "Porte de Versailles (Parc des Expositions)"
+   ],
+   "status": {
+    "level": 0,
+    "label": "normal",
+    "messages": [],
+    "planned": 0
+   },
+   "age": 0,
+   "departures": []
+  },
+  {
+   "seq": 2,
+   "line_id": "line:IDFM:C03",
+   "line_code": "E",
+   "line_name": "E",
+   "line_mode": "RER",
+   "line_color": "C04191",
+   "from_name": "La Défense",
+   "to_name": "",
+   "directions": [
+    "Chelles - Gournay"
+   ],
+   "status": {
+    "level": 0,
+    "label": "normal",
+    "messages": [],
+    "planned": 0
+   },
+   "age": 0,
+   "departures": [
+    {
+     "jid": "j12Chelles - Gournay",
+     "minutes": 12,
+     "at": "10:40",
+     "destination": "Chelles - Gournay",
+     "platform": "11",
+     "platform_new": true,
+     "delay": null,
+     "status": "",
+     "at_stop": false,
+     "train": null,
+     "length": "long"
+    },
+    {
+     "jid": "j22Chelles - Gournay",
+     "minutes": 22,
+     "at": "10:50",
+     "destination": "Chelles - Gournay",
+     "platform": null,
+     "platform_new": false,
+     "delay": null,
+     "status": "",
+     "at_stop": false,
+     "train": null,
+     "guess": {
+      "platform": "11",
+      "share": 0.82,
+      "samples": 17,
+      "basis": "mision",
+      "why": "por el número de tren"
+     },
+     "length": "short"
+    },
+    {
+     "jid": "j32Chelles - Gournay",
+     "minutes": 32,
+     "at": "11:00",
+     "destination": "Chelles - Gournay",
+     "platform": "11",
+     "platform_new": false,
+     "delay": null,
+     "status": "",
+     "at_stop": false,
+     "train": null,
+     "length": "long"
+    },
+    {
+     "jid": "j42Chelles - Gournay",
+     "minutes": 42,
+     "at": "11:10",
+     "destination": "Chelles - Gournay",
+     "platform": "11",
+     "platform_new": false,
+     "delay": null,
+     "status": "",
+     "at_stop": false,
+     "train": null,
+     "length": "long"
+    }
+   ]
+  },
+  {
+   "seq": 3,
+   "line_id": "line:IDFM:C04",
+   "line_code": "13",
+   "line_name": "5",
+   "line_mode": "Métro",
+   "line_color": "82C8E6",
+   "from_name": "Gare du Nord",
+   "to_name": "",
+   "directions": [],
+   "status": {
+    "level": 2,
+    "label": "interrumpida",
+    "planned": 0,
+    "messages": [
+     "Le 30 août jusqu'à 12:00, le trafic est interrompu sur toute la ligne (travaux de modernisation)."
+    ],
+    "messages_es": [
+     "El 30 de agosto hasta las 12:00, el tráfico está interrumpido en toda la línea (trabajos de modernización)."
+    ],
+    "translating": false
+   },
+   "age": 0,
+   "departures": [
+    {
+     "jid": "j2Place d'Italie",
+     "minutes": 2,
+     "at": "10:30",
+     "destination": "Place d'Italie",
+     "platform": null,
+     "platform_new": false,
+     "delay": null,
+     "status": "",
+     "at_stop": false,
+     "train": null
+    },
+    {
+     "jid": "j3Bobigny-Pablo-Picasso",
+     "minutes": 3,
+     "at": "10:31",
+     "destination": "Bobigny-Pablo-Picasso",
+     "platform": null,
+     "platform_new": false,
+     "delay": null,
+     "status": "",
+     "at_stop": false,
+     "train": null
+    },
+    {
+     "jid": "j5Bobigny-Pablo-Picasso",
+     "minutes": 5,
+     "at": "10:33",
+     "destination": "Bobigny-Pablo-Picasso",
+     "platform": null,
+     "platform_new": false,
+     "delay": null,
+     "status": "",
+     "at_stop": false,
+     "train": null
+    },
+    {
+     "jid": "j7Bobigny-Pablo-Picasso",
+     "minutes": 7,
+     "at": "10:35",
+     "destination": "Bobigny-Pablo-Picasso",
+     "platform": null,
+     "platform_new": false,
+     "delay": null,
+     "status": "",
+     "at_stop": false,
+     "train": null
+    }
+   ]
+  },
+  {
+   "seq": 4,
+   "line_id": "line:IDFM:C05",
+   "line_code": "147",
+   "line_name": "147",
+   "line_mode": "Bus",
+   "line_color": "E4022D",
+   "from_name": "Bobigny - Pantin - Raymond Queneau",
+   "to_name": "",
+   "directions": [
+    "Galliéni - Pont de Bondy"
+   ],
+   "status": {
+    "level": 1,
+    "label": "perturbada",
+    "planned": 0,
+    "messages": [
+     "Trafic perturbé en raison d'un incident technique."
+    ],
+    "messages_es": [
+     null
+    ],
+    "translating": true
+   },
+   "age": 0,
+   "departures": [
+    {
+     "jid": "j27Galliéni - Pont de Bondy",
+     "minutes": 27,
+     "at": "10:55",
+     "destination": "Galliéni - Pont de Bondy",
+     "platform": null,
+     "platform_new": false,
+     "delay": null,
+     "status": "",
+     "at_stop": false,
+     "train": null
+    },
+    {
+     "jid": "j42Galliéni - Pont de Bondy",
+     "minutes": 42,
+     "at": "11:10",
+     "destination": "Galliéni - Pont de Bondy",
+     "platform": null,
+     "platform_new": false,
+     "delay": null,
+     "status": "",
+     "at_stop": false,
+     "train": null
+    }
+   ]
+  }
+ ],
+ "stale": false
+}

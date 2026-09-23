@@ -1,0 +1,21 @@
+services:
+  trajet:
+    build: .
+    image: trajet:latest
+    container_name: trajet
+    restart: unless-stopped
+    environment:
+      # La clave se lee del .env que hay junto a este fichero.
+      PRIM_API_KEY: ${PRIM_API_KEY:?falta PRIM_API_KEY en el .env}
+      TZ: Europe/Paris
+      TRAJET_DB: /data/trajet.db
+      # LLM local para traducir los avisos del frances. Ollama corre en su
+      # propio stack de Umbrel, asi que se llega por la puerta de enlace del
+      # bridge. Vacio = sin traduccion, y la app funciona igual.
+      OLLAMA_URL: ${OLLAMA_URL:-http://172.18.0.1:11434}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-gemma3:4b}
+    volumes:
+      - ./data:/data
+    ports:
+      # Solo en la red local / Tailscale. Nada expuesto a internet.
+      - "7796:8000"

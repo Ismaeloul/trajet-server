@@ -1,0 +1,165 @@
+{
+ "route": {
+  "id": 1,
+  "name": "Demo · Saint-Lazare (bórrala)",
+  "origin_name": "Gare Saint-Lazare",
+  "dest_name": "Gallieni"
+ },
+ "legs": [
+  {
+   "seq": 0,
+   "line_id": "line:IDFM:C01383",
+   "line_code": "13",
+   "line_name": "13",
+   "line_mode": "Métro",
+   "line_color": "82C8E6",
+   "from_name": "Gare Saint-Lazare",
+   "to_name": "",
+   "directions": [
+    "Châtillon Montrouge"
+   ],
+   "status": {
+    "level": 1,
+    "label": "perturbada",
+    "messages": [
+     "Le 30 août jusqu'à 12:00, le trafic est interrompu sur toute la ligne (travaux de modernisation).\nBus de remplacement."
+    ],
+    "planned": 1
+   },
+   "departures": [
+    {
+     "jid": "IDFM:C01383:1",
+     "minutes": 2,
+     "at": "10:04",
+     "destination": "Châtillon Montrouge",
+     "platform": null,
+     "platform_new": false,
+     "delay": null,
+     "status": "onTime",
+     "at_stop": false,
+     "train": null
+    },
+    {
+     "jid": "IDFM:C01383:2",
+     "minutes": 5,
+     "at": "10:07",
+     "destination": "Châtillon Montrouge",
+     "platform": null,
+     "platform_new": false,
+     "delay": null,
+     "status": "onTime",
+     "at_stop": false,
+     "train": null
+    },
+    {
+     "jid": "IDFM:C01383:3",
+     "minutes": 9,
+     "at": "10:11",
+     "destination": "Châtillon Montrouge",
+     "platform": null,
+     "platform_new": false,
+     "delay": null,
+     "status": "onTime",
+     "at_stop": false,
+     "train": null
+    },
+    {
+     "jid": "IDFM:C01383:4",
+     "minutes": 12,
+     "at": "10:14",
+     "destination": "Châtillon Montrouge",
+     "platform": null,
+     "platform_new": false,
+     "delay": null,
+     "status": "onTime",
+     "at_stop": true,
+     "train": null
+    }
+   ],
+   "age": 0.0
+  },
+  {
+   "seq": 1,
+   "line_id": "line:IDFM:C01739",
+   "line_code": "J",
+   "line_name": "J",
+   "line_mode": "Train",
+   "line_color": "CEC73D",
+   "from_name": "Gare Saint-Lazare",
+   "to_name": "",
+   "directions": [
+    "Mantes-la-Jolie"
+   ],
+   "status": {
+    "level": 0,
+    "label": "normal",
+    "messages": [],
+    "planned": 0
+   },
+   "departures": [
+    {
+     "jid": "IDFM:C01739:1",
+     "minutes": 6,
+     "at": "10:08",
+     "destination": "Mantes-la-Jolie",
+     "platform": "17",
+     "platform_new": true,
+     "delay": 0,
+     "status": "onTime",
+     "at_stop": false,
+     "train": "135711"
+    },
+    {
+     "jid": "IDFM:C01739:2",
+     "minutes": 21,
+     "at": "10:23",
+     "destination": "Nanterre Université",
+     "platform": null,
+     "platform_new": false,
+     "delay": 3,
+     "status": "delayed",
+     "at_stop": false,
+     "train": "135713"
+    },
+    {
+     "jid": "IDFM:C01739:3",
+     "minutes": 36,
+     "at": "10:38",
+     "destination": "Mantes-la-Jolie",
+     "platform": null,
+     "platform_new": false,
+     "delay": null,
+     "status": "",
+     "at_stop": false,
+     "train": "135715"
+    },
+    {
+     "jid": "IDFM:C01739:4",
+     "minutes": 51,
+     "at": "10:53",
+     "destination": "Mantes-la-Jolie",
+     "platform": "21",
+     "platform_new": false,
+     "delay": -1,
+     "status": "onTime",
+     "at_stop": false,
+     "train": "135717"
+    }
+   ],
+   "age": 0.0
+  }
+ ],
+ "worst_level": 1,
+ "worst_line": "13",
+ "max_delay": 0.0,
+ "updated_at": "2026-08-30T08:03:13+00:00",
+ "data_age": 0.0,
+ "stale": false,
+ "errors": [],
+ "quota": {
+  "stop-monitoring": 819,
+  "general-message": 999
+ },
+ "last_error": null,
+ "auto_selected": true
+}

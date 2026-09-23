@@ -1,0 +1,751 @@
+/* Trajet — se lee de pie en un andén, con una mano, a contraluz o bajo tierra.
+
+   El modelo es lo que ya se lee en la estación: la ficha horaria de papel y
+   el panel de salidas del andén. Una hoja clara, las cifras grandes y
+   estrechas como en el panel, y la vía en amarillo sobre negro, que es
+   exactamente como la anuncia el cartel del andén. Cada tramo lleva una
+   banda con el color oficial de su línea; esos son los únicos colores
+   saturados de la pantalla, aparte del amarillo de la vía y de los tres
+   colores de estado.
+
+   Una sola familia, Archivo, con dos anchuras: la normal para leer y la
+   estrecha para todo lo que es cifra grande (minutos, vías, totales). Trae
+   cifras tabulares, así que las columnas de minutos no bailan al refrescar.
+
+   Clara de día y oscura de noche siguiendo el ajuste del móvil: en el metro
+   a las 7 de la tarde una pantalla blanca deslumbra; en un andén al sol una
+   pantalla negra no se lee. */
+
+@font-face {
+  font-family: 'Archivo';
+  src: url('/static/fonts/archivo.woff2') format('woff2');
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light dark;
+
+  --bg:      #f7f8fa;   /* la hoja */
+  --paper:   #ffffff;   /* campos, menús, barra de pestañas */
+  --ink:     #12161f;
+  --ink-2:   #4b5363;
+  --ink-3:   #6b7383;
+  --rule:    #e1e4ea;
+  --rule-2:  #c6cbd5;
+
+  --voie:     #ffd400;  /* el amarillo del cartel de vía */
+  --voie-ink: #12161f;
+
+  --ok:   #17944f;
+  --warn: #c96a00;
+  --bad:  #d12f2f;
+  --info: #1f5fd6;
+  --ok-bg:   #e4f5ea;
+  --warn-bg: #fff2df;
+  --bad-bg:  #fde8e8;
+
+  --font: 'Archivo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --tap: 48px;
+
+  --sh: 0 10px 28px -10px rgba(18, 22, 31, .3), 0 2px 6px -2px rgba(18, 22, 31, .12);
+
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --t: 180ms;
+
+  --z-menu: 20;
+  --z-tabs: 40;
+  --z-toast: 60;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:      #0f1216;
+    --paper:   #181c22;
+    --ink:     #f1f3f6;
+    --ink-2:   #b7bdc8;
+    --ink-3:   #8a93a2;
+    --rule:    #262b33;
+    --rule-2:  #3a404b;
+    --ok:   #3ccf7a;
+    --warn: #f0a12b;
+    --bad:  #ff6b6b;
+    --info: #79aaff;
+    --ok-bg:   #12271b;
+    --warn-bg: #2b1f0c;
+    --bad-bg:  #2f1717;
+    --sh: 0 10px 28px -10px rgba(0, 0, 0, .7), 0 2px 6px -2px rgba(0, 0, 0, .5);
+  }
+}
+:root[data-theme="dark"] {
+  --bg:      #0f1216;
+  --paper:   #181c22;
+  --ink:     #f1f3f6;
+  --ink-2:   #b7bdc8;
+  --ink-3:   #8a93a2;
+  --rule:    #262b33;
+  --rule-2:  #3a404b;
+  --ok:   #3ccf7a;
+  --warn: #f0a12b;
+  --bad:  #ff6b6b;
+  --info: #79aaff;
+  --ok-bg:   #12271b;
+  --warn-bg: #2b1f0c;
+  --bad-bg:  #2f1717;
+  --sh: 0 10px 28px -10px rgba(0, 0, 0, .7), 0 2px 6px -2px rgba(0, 0, 0, .5);
+}
+
+/* ---------- base ---------- */
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0; padding: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 16px/1.4 var(--font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-variant-numeric: tabular-nums;
+  overscroll-behavior: none;
+}
+body { position: fixed; inset: 0; }
+
+::selection { background: var(--voie); color: var(--voie-ink); }
+input, textarea { caret-color: var(--ink); }
+
+svg { width: 24px; height: 24px; fill: none; stroke: currentColor;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+button {
+  font: inherit; color: inherit; cursor: pointer;
+  background: none; border: 0; padding: 0;
+  transition: opacity var(--t) var(--ease), background var(--t) var(--ease),
+              color var(--t) var(--ease), border-color var(--t) var(--ease);
+}
+button:active { opacity: .6; }
+button:disabled { opacity: .45; cursor: default; }
+
+/* El foco se ve: desde el portátil se usa con teclado. */
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 6px; }
+
+input, select { font: inherit; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* Las cifras grandes van en la anchura estrecha, como en el panel del andén. */
+.num { font-stretch: 78%; font-weight: 700; letter-spacing: -.02em; line-height: 1; }
+
+/* ---------- pantallas ---------- */
+
+/* Abajo no se aparta del borde: ya lo hace lo que se pega ahí (la barra de
+   pestañas, el pie del editor). Contarlo dos veces deja un dedo de aire
+   muerto sobre el indicador de inicio con la app instalada. */
+.view {
+  position: absolute; inset: 0;
+  display: none; flex-direction: column;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+           0 env(safe-area-inset-left);
+}
+.view.active { display: flex; }
+
+.bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 16px 8px 20px;
+  min-height: 60px; flex: 0 0 auto;
+}
+.bar h1 {
+  flex: 1; margin: 0;
+  font-size: 1.6rem; font-weight: 700; letter-spacing: -.025em; line-height: 1.1;
+}
+.bar-action {
+  display: inline-flex; align-items: center; gap: 4px;
+  min-height: 40px; padding: 0 16px 0 12px;
+  background: var(--ink); color: var(--bg);
+  border-radius: 999px; font-weight: 600; font-size: .92rem;
+}
+.bar-action svg { width: 18px; height: 18px; stroke-width: 2.4; }
+.icon-btn {
+  width: var(--tap); height: var(--tap); margin-left: -12px;
+  display: grid; place-items: center; flex: 0 0 auto;
+  color: var(--ink-2); border-radius: 10px;
+}
+
+/* ---------- distintivos de línea ----------
+   La forma dice el modo sin leer, igual que en la señalética: círculo el
+   metro, cuadrado el tren y el RER, esquinas blandas el tranvía y caja ancha
+   el bus, que lleva códigos largos. */
+.bul {
+  display: inline-grid; place-items: center; flex: 0 0 auto;
+  width: 30px; height: 30px; border-radius: 50%;
+  font-weight: 700; font-size: .95rem; font-stretch: 90%;
+  letter-spacing: -.02em; line-height: 1; white-space: nowrap;
+  background: var(--ink-3); color: #fff;
+}
+.bul[data-shape="square"] { border-radius: 4px; }
+.bul[data-shape="round"]  { border-radius: 9px; }
+.bul[data-shape="rect"]   { width: auto; min-width: 30px; padding: 0 6px;
+                            border-radius: 4px; font-size: .84rem; }
+.bul[data-len="3"] { font-size: .8rem; }
+.bul[data-len="4"], .bul[data-len="5"], .bul[data-len="6"] {
+  font-size: .72rem; font-stretch: 75%;
+}
+.bul.lg { width: 40px; height: 40px; font-size: 1.3rem; }
+.bul.lg[data-shape="round"] { border-radius: 12px; }
+.bul.lg[data-shape="rect"] { width: auto; min-width: 40px; padding: 0 8px; font-size: 1.05rem; }
+.bul.lg[data-len="3"] { font-size: 1rem; }
+.bul.lg[data-len="4"], .bul.lg[data-len="5"], .bul.lg[data-len="6"] { font-size: .86rem; }
+.bul.sm { width: 22px; height: 22px; font-size: .72rem; }
+.bul.sm[data-shape="round"] { border-radius: 6px; }
+.bul.sm[data-shape="rect"] { width: auto; min-width: 22px; padding: 0 5px; font-size: .66rem; }
+.bul.sm[data-len="4"], .bul.sm[data-len="5"], .bul.sm[data-len="6"] { font-size: .6rem; }
+
+/* ---------- tablero ---------- */
+
+.board-scroll {
+  flex: 1 1 auto; min-height: 0;
+  overflow-y: auto; overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+.board-inner {
+  position: relative;
+  padding: 12px 0 calc(84px + env(safe-area-inset-bottom));
+  will-change: transform;
+}
+
+/* Tirar para refrescar. Vive detrás y asoma cuando el contenido baja. */
+.pull {
+  position: absolute; top: 10px; left: 50%;
+  margin-left: -19px; width: 38px; height: 38px;
+  display: grid; place-items: center; border-radius: 50%;
+  background: var(--paper); border: 1px solid var(--rule);
+  color: var(--ink-3);
+  transform: translateY(-46px); z-index: 0;
+}
+.pull svg { width: 19px; height: 19px; }
+.pull.ready { color: var(--ink); border-color: var(--ink); }
+.pull.spin { color: var(--ink); animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.board-head {
+  position: relative;
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 12px; padding: 6px 20px 14px;
+}
+.route-btn { flex: 1; min-width: 0; text-align: left; color: var(--ink); }
+.route-btn:active { opacity: .6; }
+.route-title { display: flex; align-items: center; gap: 6px; min-width: 0; }
+#route-name {
+  font-size: clamp(1.6rem, 7vw, 2rem); font-weight: 700;
+  letter-spacing: -.03em; line-height: 1.1;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.chev { width: 22px; height: 22px; color: var(--ink-3); flex: 0 0 auto;
+        transition: transform var(--t) var(--ease); }
+.route-btn[aria-expanded="true"] .chev { transform: rotate(180deg); }
+.route-ends {
+  display: block; margin-top: 4px;
+  font-size: .92rem; color: var(--ink-2);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.route-ends:empty { display: none; }
+.route-ends .arr { color: var(--ink-3); margin: 0 4px; }
+
+/* La antigüedad del dato: un punto de color y el texto, sin pastilla. */
+.age {
+  flex: 0 1 auto; min-width: 0; max-width: 44%; margin-top: 9px;
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: .8rem; font-weight: 500; color: var(--ink-2);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.age::before { content: ''; width: 8px; height: 8px; border-radius: 50%;
+               background: var(--ok); flex: 0 0 auto; }
+.age.stale { color: var(--bad); }
+.age.stale::before { background: var(--bad); }
+.age.loading::before { background: var(--info); animation: blink .9s infinite; }
+@keyframes blink { 50% { opacity: .25; } }
+
+/* La raya bajo la cabecera se llena en 30 s: dice cuándo llega el dato
+   siguiente sin leer "hace 12 s". */
+.tick { height: 3px; margin: 0 20px 16px; border-radius: 2px;
+        background: var(--rule); overflow: hidden; }
+.tick i { display: block; height: 100%; width: 0; background: var(--ink);
+          animation: tick 30s linear forwards; }
+@keyframes tick { to { width: 100%; } }
+.stale .tick i { background: var(--bad); animation: none; width: 100%; opacity: .6; }
+#view-board.stale .legs { opacity: .5; transition: opacity var(--t) var(--ease); }
+
+/* ---------- un tramo ----------
+   La banda con el color oficial de la línea es la cabecera del tramo, como
+   la franja de color que corre por la pared del andén. Debajo, sobre la
+   hoja, las salidas. Entre tramo y tramo no hay caja: la banda siguiente ya
+   separa. */
+.legs { display: flex; flex-direction: column; gap: 10px; }
+.leg { --lc: var(--ink-3); --lt: #fff; position: relative; }
+
+#legs[data-anim="1"] .leg {
+  animation: legIn 420ms var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+@keyframes legIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.leg-band {
+  display: flex; align-items: center; gap: 12px;
+  min-height: 58px; padding: 9px 20px;
+  background: var(--lc); color: var(--lt);
+}
+/* Sobre la banda el distintivo va invertido: fondo del color del texto y
+   el código en el color de la línea. */
+.leg-band .bul { background: var(--lt) !important; color: var(--lc) !important; }
+.leg-txt { flex: 1; min-width: 0; }
+.leg-stop {
+  font-weight: 700; font-size: 1.08rem; letter-spacing: -.015em; line-height: 1.2;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.leg-dir {
+  font-size: .84rem; opacity: .85; margin-top: 1px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.leg-st {
+  flex: 0 0 auto; padding: 4px 8px; border-radius: 6px;
+  font-size: .74rem; font-weight: 700;
+  background: var(--lt); color: var(--lc);
+}
+
+/* ---------- el aviso, pegado a su línea ---------- */
+.warn {
+  display: flex; gap: 10px; align-items: flex-start; flex-wrap: wrap;
+  padding: 12px 20px; background: var(--warn-bg); color: var(--ink);
+}
+.warn.lvl2 { background: var(--bad-bg); }
+.warn-ic { width: 20px; height: 20px; flex: 0 0 auto; margin-top: 2px; color: var(--warn); }
+.warn.lvl2 .warn-ic { color: var(--bad); }
+.warn-txt { flex: 1 1 180px; min-width: 0; font-size: .9rem; line-height: 1.45; text-wrap: pretty; }
+.warn-foot { flex: 0 0 auto; display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+.warn-btn {
+  min-height: 40px; padding: 0 12px; border-radius: 8px;
+  background: var(--ink); color: var(--bg); font-size: .84rem; font-weight: 600;
+}
+.traduciendo { font-size: .74rem; color: var(--ink-2); animation: blink 1.4s infinite; }
+.warn .orig { margin-top: 4px; }
+.warn .orig summary { list-style: none; cursor: pointer; font-size: .8rem;
+                      color: var(--ink-2); padding: 3px 0; text-decoration: underline;
+                      text-underline-offset: 3px; }
+.warn .orig summary::-webkit-details-marker { display: none; }
+.warn .orig[open] { color: var(--ink-2); font-size: .84rem; }
+
+/* ---------- la tira de salidas ----------
+   En tira horizontal caben cinco tramos en una pantalla y aun así se ven
+   las cuatro salidas deslizando el dedo. Cada salida es una columna del
+   panel, separada por una raya; la próxima va más grande. */
+.strip {
+  display: flex; overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
+  padding: 14px 20px 6px; scrollbar-width: none;
+  /* Sin esto el imán del scroll pega la primera salida al borde y se come
+     el margen de la hoja. */
+  scroll-padding: 0 20px;
+}
+.strip::-webkit-scrollbar { display: none; }
+.strip.scrollable { mask-image: linear-gradient(90deg, #000 88%, transparent 100%); }
+
+.dep {
+  flex: 0 0 auto; scroll-snap-align: start;
+  min-width: 88px; padding-right: 14px; margin-right: 14px;
+  border-right: 1px solid var(--rule);
+}
+.dep:last-child { border-right: 0; margin-right: 0; padding-right: 0; }
+
+.dep-t { display: flex; align-items: baseline; gap: 5px; }
+.mins {
+  font-stretch: 78%; font-weight: 700; letter-spacing: -.02em; line-height: 1;
+  font-size: 2.3rem; color: var(--ink-2); white-space: nowrap;
+}
+.dep.first .mins { font-size: 3.7rem; color: var(--ink); letter-spacing: -.03em; }
+.mins .u { font-size: .34em; font-weight: 500; font-stretch: 100%; letter-spacing: 0;
+           color: var(--ink-3); margin-left: 3px; }
+.dep .mins.now { color: var(--ok); }
+.dep .mins.sm { font-size: 1.15rem; line-height: 1.2; font-stretch: 90%; }
+.dep.first .mins.sm { font-size: 1.35rem; }
+
+/* Correr, andar o con calma: sale de los minutos, se entiende sin leer. */
+.pace { width: 16px; height: 16px; flex: 0 0 auto; align-self: center; stroke-width: 2; }
+.pace.corre { color: var(--bad); fill: currentColor; stroke: none; }
+.pace.anda  { color: var(--info); }
+.pace.calma { color: var(--ink-3); }
+
+.clock { margin-top: 6px; font-size: .88rem; font-weight: 500; color: var(--ink-2);
+         white-space: nowrap; }
+.delay { color: var(--warn); font-weight: 700; }
+.delay.neg { color: var(--info); }
+
+.dep-x { display: flex; align-items: center; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+
+/* La vía: confirmada, amarillo sobre negro como el cartel. Probable, un
+   recuadro punteado con la palabra delante. No comparten ni forma ni color:
+   el riesgo real es que una se lea como la otra. */
+.via {
+  display: inline-flex; align-items: baseline; gap: 4px;
+  padding: 3px 7px 2px; border-radius: 5px;
+  background: var(--voie); color: var(--voie-ink);
+  font-stretch: 80%; font-weight: 700; font-size: 1.15rem; line-height: 1.1;
+}
+.via small { font-size: .66rem; font-weight: 600; font-stretch: 100%; opacity: .8; }
+.via.guess { background: none; color: var(--ink-2); border: 1.5px dashed var(--rule-2);
+             font-size: 1rem; padding: 2px 6px 1px; }
+.via.guess small { opacity: 1; color: var(--ink-3); }
+.via.fresh { animation: viaflash 1s var(--ease) 6; }
+@keyframes viaflash {
+  50% { transform: scale(1.05); box-shadow: 0 0 0 7px color-mix(in srgb, var(--voie) 40%, transparent); }
+}
+
+/* Corto o largo. No es ocupación (la API no la da), pero se usa igual. */
+.tren { font-size: .74rem; font-weight: 600; color: var(--ink-3); white-space: nowrap; }
+.tren.corto { color: var(--warn); }
+
+.sin-pasos {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px 10px; color: var(--ink-2);
+}
+.sin-pasos .ic { width: 22px; height: 22px; color: var(--ink-3); flex: 0 0 auto; }
+.sin-pasos b { display: block; font-size: .95rem; font-weight: 700; color: var(--ink); }
+.sin-pasos span { display: block; font-size: .82rem; color: var(--ink-3); margin-top: 1px; }
+
+/* ---------- desplegable de rutas ---------- */
+.route-menu {
+  position: absolute; top: 100%; left: 12px; right: 12px; margin-top: 2px;
+  z-index: var(--z-menu);
+  background: var(--paper); border-radius: 14px; overflow: hidden;
+  box-shadow: var(--sh);
+  animation: menuIn 160ms var(--ease-out) both;
+}
+@keyframes menuIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+.route-menu button {
+  display: flex; align-items: center; gap: 12px; width: 100%;
+  padding: 12px 16px; min-height: 60px; text-align: left;
+  border-bottom: 1px solid var(--rule); color: var(--ink);
+}
+.route-menu button:last-child { border-bottom: 0; }
+.route-menu button.on { background: var(--bg); }
+.rm-main { flex: 1; min-width: 0; }
+.rm-name { display: block; font-weight: 600; overflow: hidden;
+           text-overflow: ellipsis; white-space: nowrap; }
+.rm-sub { display: block; font-size: .8rem; color: var(--ink-3); margin-top: 2px;
+          overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rm-lines { display: flex; gap: 3px; flex: 0 0 auto; }
+.route-menu button.on::after {
+  content: ''; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--ok); flex: 0 0 auto;
+}
+
+.quota { text-align: center; color: var(--ink-3); font-size: .78rem; margin: 22px 20px 0; }
+
+/* ---------- alternativas (lo único global del tablero) ---------- */
+.alert-strip { margin: 0 20px 18px; }
+.alert-strip b { display: block; font-size: 1.05rem; font-weight: 700;
+                 letter-spacing: -.01em; margin-bottom: 4px; }
+.alert-strip.bad b { color: var(--bad); }
+.alt-opt { padding: 12px 0; border-top: 1px solid var(--rule); color: var(--ink); }
+.alt-opt .hd { display: flex; align-items: baseline; gap: 8px; }
+.alt-opt .big { font-stretch: 80%; font-weight: 700; font-size: 1.5rem; letter-spacing: -.02em; }
+.alt-opt .dlt { font-weight: 600; font-size: .86rem; color: var(--warn); }
+.alt-opt .dlt.good { color: var(--ok); }
+.alt-opt .tr { margin-left: auto; font-size: .8rem; color: var(--ink-2); }
+.alt-opt .nope { color: var(--bad); font-size: .84rem; margin-top: 6px; }
+.alt-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin-top: 8px; }
+.alt-chips .bul.lvl1 { box-shadow: 0 0 0 2px var(--warn); }
+.alt-chips .bul.lvl2 { box-shadow: 0 0 0 2px var(--bad); }
+
+/* ---------- barra inferior ----------
+   Plana, a todo lo ancho, con la etiqueta siempre visible. El pulgar llega
+   aquí andando; a la esquina de arriba no. */
+.tabs {
+  position: fixed; z-index: var(--z-tabs);
+  left: 0; right: 0; bottom: 0;
+  display: flex; gap: 4px;
+  padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+  background: var(--paper); border-top: 1px solid var(--rule);
+}
+.tabs.hidden { display: none; }
+.tab {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  min-height: 50px; padding: 6px 0 2px; border-radius: 10px;
+  color: var(--ink-3);
+}
+.tab svg { width: 24px; height: 24px; }
+.tab span { font-size: .68rem; font-weight: 600; letter-spacing: .01em; }
+.tab.on { color: var(--ink); }
+.tab.on svg { stroke-width: 2.5; }
+.tab:active { opacity: 1; background: var(--bg); }
+
+.scroll, .form { padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
+.form.has-foot { padding-bottom: 24px; }
+
+/* ---------- pie del editor ---------- */
+.foot {
+  flex: 0 0 auto; display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  background: var(--paper); border-top: 1px solid var(--rule);
+}
+.spacer { flex: 1; }
+
+/* ---------- botones ---------- */
+.primary {
+  background: var(--ink); color: var(--bg);
+  border-radius: 10px; padding: 0 18px; min-height: var(--tap);
+  font-weight: 600;
+}
+.ghost {
+  width: 100%; background: var(--paper); color: var(--ink);
+  border: 1px solid var(--rule-2); border-radius: 10px;
+  padding: 0 14px; min-height: var(--tap); font-weight: 600;
+}
+.danger { color: var(--bad); font-weight: 600; padding: 0 12px; min-height: var(--tap); }
+.mini-btn { color: var(--info); font-size: .84rem; padding: 6px 8px; min-height: 36px; }
+button.wide { width: 100%; margin-top: 16px; }
+.link-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; min-height: var(--tap); margin-top: 8px;
+  color: var(--ink-2); font-size: .92rem; font-weight: 500;
+}
+.link-btn svg { width: 18px; height: 18px; }
+
+/* ---------- listas ---------- */
+.scroll { flex: 1 1 auto; overflow-y: auto; -webkit-overflow-scrolling: touch;
+          padding: 4px 20px; min-height: 0; }
+
+.rt {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 0; border-bottom: 1px solid var(--rule);
+  cursor: pointer;
+}
+.rt:active { opacity: .6; }
+.rt-main { flex: 1; min-width: 0; }
+.rt-top { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.rt-name { font-weight: 700; font-size: 1.1rem; letter-spacing: -.015em;
+           overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tag {
+  flex: 0 0 auto; font-size: .7rem; font-weight: 600; padding: 3px 7px;
+  border-radius: 5px; background: var(--ink); color: var(--bg); white-space: nowrap;
+}
+.rt-lines, .plan-lines { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
+.rt-lines { margin-top: 8px; }
+.rt-lines .arrow, .plan-lines .arrow { color: var(--ink-3); font-size: .9rem; margin: 0 1px; }
+.rt-meta { display: flex; align-items: center; gap: 10px; margin-top: 8px; min-width: 0;
+           font-size: .84rem; color: var(--ink-2); }
+.rt-when { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rt-days { display: inline-flex; gap: 2px; flex: 0 0 auto; }
+.rt-days i {
+  font-style: normal; font-size: .62rem; font-weight: 600;
+  width: 17px; height: 17px; display: grid; place-items: center;
+  border-radius: 4px; color: var(--ink-3); background: var(--rule);
+}
+.rt-days i.on { color: var(--bg); background: var(--ink); }
+.rt-chev { width: 20px; height: 20px; color: var(--ink-3); flex: 0 0 auto; }
+
+/* ---------- formularios ---------- */
+.form .fld { margin-bottom: 20px; }
+.fld > span, .fld > label > span {
+  display: block; font-size: .88rem; font-weight: 600; color: var(--ink-2);
+  margin-bottom: 6px;
+}
+.fld > span em { font-style: normal; font-weight: 400; color: var(--ink-3); }
+.fld.row2 { display: flex; gap: 10px; }
+.fld.row2 label { flex: 1; }
+.fld.narrow input { max-width: 170px; }
+.plan-fields .fld { margin-bottom: 18px; }
+
+input, select {
+  width: 100%; padding: 0 14px; min-height: var(--tap);
+  background: var(--paper); color: var(--ink);
+  border: 1px solid var(--rule-2); border-radius: 10px;
+}
+input::placeholder { color: var(--ink-3); }
+input:focus, select:focus { outline: 2px solid var(--ink); outline-offset: -1px;
+                            border-color: var(--ink); }
+input[type="time"] { font-weight: 600; }
+
+.days { display: flex; gap: 6px; }
+.day {
+  flex: 1; min-height: 44px; border-radius: 10px;
+  background: var(--paper); border: 1px solid var(--rule-2);
+  color: var(--ink-2); font-weight: 600;
+}
+.day.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+.segmented {
+  display: flex; overflow: hidden;
+  background: var(--paper); border: 1px solid var(--rule-2); border-radius: 10px;
+}
+.segmented button {
+  flex: 1; min-height: 44px; padding: 0 6px;
+  color: var(--ink-2); font-size: .86rem; font-weight: 600;
+  border-left: 1px solid var(--rule-2);
+}
+.segmented button:first-child { border-left: 0; }
+.segmented button.on { background: var(--ink); color: var(--bg); }
+
+/* Resultados de búsqueda: una lista en una caja, cada fila se toca. */
+.stop-pick { position: relative; }
+.stop-results, .stop-res {
+  margin-top: 6px; overflow: hidden;
+  background: var(--paper); border: 1px solid var(--rule-2); border-radius: 10px;
+}
+.stop-results:empty, .stop-res:empty { display: none; }
+.res, .stop-opt {
+  display: flex; align-items: baseline; gap: 8px; width: 100%; text-align: left;
+  padding: 12px 14px; min-height: var(--tap);
+  border-top: 1px solid var(--rule); color: var(--ink); font-size: .95rem; cursor: pointer;
+}
+.res:first-child, .stop-opt:first-child { border-top: 0; }
+.res small { display: block; color: var(--ink-3); font-size: .78rem; margin-top: 2px; }
+.stop-opt .kind { flex: 0 0 auto; min-width: 64px; font-size: .74rem; color: var(--ink-3); }
+.stop-opt .nm { font-weight: 600; min-width: 0; }
+.stop-opt .city { color: var(--ink-3); font-size: .84rem; }
+
+.chosen, .stop-chosen {
+  display: flex; align-items: center; gap: 8px;
+  padding: 0 6px 0 14px; min-height: var(--tap); border-radius: 10px;
+  background: var(--ok-bg); border: 1px solid color-mix(in srgb, var(--ok) 45%, transparent);
+  font-weight: 600;
+}
+.chosen > span, .stop-chosen > span { min-width: 0; overflow: hidden;
+                                       text-overflow: ellipsis; white-space: nowrap; }
+.stop-chosen .x, .chosen .x, .leg-card .hd .x {
+  margin-left: auto; color: var(--ink-2); font-size: 1.3rem; line-height: 1;
+  min-width: 36px; min-height: 36px; border-radius: 8px;
+}
+.leg-card .hd .x { color: var(--bad); }
+input.hidden, .chosen.hidden { display: none; }
+
+.leg-card { padding: 16px 0 6px; border-top: 1px solid var(--rule); }
+.leg-card:first-child { border-top: 0; padding-top: 4px; }
+.leg-card .hd { display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+                font-weight: 700; font-size: 1rem; }
+.leg-card label { display: block; margin-bottom: 12px; }
+.leg-card label > span { display: block; font-size: .84rem; font-weight: 600;
+                         color: var(--ink-2); margin-bottom: 6px; }
+.leg-card .soft { color: var(--ink-3); font-size: .82rem; font-weight: 400; }
+.leg-card .soft.bad { color: var(--bad); }
+.dirs { display: flex; flex-wrap: wrap; gap: 6px; }
+.dir-chip {
+  padding: 0 12px; min-height: 40px; border-radius: 8px;
+  background: var(--paper); border: 1px solid var(--rule-2);
+  color: var(--ink-2); font-size: .84rem; font-weight: 500;
+}
+.dir-chip.on { background: var(--ink); color: var(--bg); border-color: var(--ink); font-weight: 600; }
+
+.hint { padding: 10px 2px; color: var(--ink-2); font-size: .88rem; line-height: 1.45; }
+.hint.bad { color: var(--bad); }
+
+/* ---------- planificador ---------- */
+.plan-opt {
+  display: block; width: 100%; text-align: left; color: var(--ink);
+  padding: 16px 0; border-bottom: 1px solid var(--rule);
+}
+.plan-top { display: flex; align-items: baseline; gap: 10px; }
+.plan-mins { font-stretch: 78%; font-weight: 700; font-size: 2.3rem; line-height: 1;
+             letter-spacing: -.02em; }
+.plan-mins .u { font-size: .38em; font-weight: 500; font-stretch: 100%; letter-spacing: 0;
+                color: var(--ink-3); margin-left: 3px; }
+.plan-extra { font-size: .88rem; font-weight: 600; color: var(--warn); }
+.plan-best { align-self: center; }
+.plan-when { margin-left: auto; font-size: .92rem; font-weight: 500; color: var(--ink-2);
+             white-space: nowrap; }
+.plan-when .arr { color: var(--ink-3); margin: 0 3px; }
+.plan-opt .plan-lines { margin: 10px 0 8px; }
+.plan-sub { font-size: .84rem; color: var(--ink-2); }
+.plan-chosen { padding: 4px 0 16px; border-bottom: 1px solid var(--rule); margin-bottom: 18px; }
+.plan-chosen .plan-sub { margin-top: 8px; }
+.row-btns { display: flex; gap: 10px; margin-top: 20px; }
+.row-btns button { flex: 1; min-height: var(--tap); }
+.row-btns .ghost { width: auto; }
+
+/* ---------- historial ---------- */
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; margin: 6px 0 4px;
+             border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.stat { padding: 16px 0 14px; }
+.stat + .stat { border-left: 1px solid var(--rule); padding-left: 18px; }
+.stat .n { font-stretch: 78%; font-weight: 700; font-size: 2.8rem; line-height: 1;
+           letter-spacing: -.02em; }
+.stat .n .u { font-size: .38em; font-weight: 500; font-stretch: 100%; letter-spacing: 0;
+              color: var(--ink-3); margin-left: 3px; }
+.stat .l { font-size: .84rem; color: var(--ink-2); margin-top: 6px; }
+
+h2.sec { margin: 28px 0 4px; font-size: 1.1rem; font-weight: 700; letter-spacing: -.015em; }
+h2.sec:first-child { margin-top: 8px; }
+
+.stat-row { display: flex; align-items: center; gap: 12px; padding: 12px 0;
+            border-bottom: 1px solid var(--rule); }
+.stat-row .k { flex: 1; min-width: 0; font-weight: 600;
+               overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.stat-row .s { font-size: .84rem; color: var(--ink-2); white-space: nowrap; }
+.stat-row .n { margin-left: auto; font-stretch: 80%; font-weight: 700; font-size: 1.4rem;
+               letter-spacing: -.02em; white-space: nowrap; }
+.stat-row .n small { font-size: .72rem; font-weight: 500; font-stretch: 100%;
+                     letter-spacing: 0; color: var(--ink-3); }
+.meter { position: relative; flex: 1; height: 6px; border-radius: 3px;
+         background: var(--rule); min-width: 60px; overflow: hidden; }
+.meter i { position: absolute; inset: 0 auto 0 0; width: var(--p, 0%);
+           border-radius: 3px; background: var(--warn); }
+.meter.bad i { background: var(--bad); }
+.meter.ok i { background: var(--ok); }
+
+.hidden { display: none !important; }
+
+.note { color: var(--ink-2); font-size: .95rem; line-height: 1.5; padding: 24px 0;
+        text-align: center; text-wrap: pretty; }
+.note b { color: var(--ink); }
+.note.sm { font-size: .88rem; padding: 10px 0; text-align: left; }
+
+/* Pantalla vacía: qué pasa y qué hacer, con su botón. */
+.empty { margin: 36px 20px 20px; text-align: center; }
+.empty .ic {
+  width: 64px; height: 64px; margin: 0 auto 16px;
+  display: grid; place-items: center; border-radius: 50%;
+  background: var(--voie); color: var(--voie-ink);
+}
+.empty .ic svg { width: 28px; height: 28px; stroke-width: 2.2; }
+.empty h3 { margin: 0 0 8px; font-size: 1.4rem; font-weight: 700; letter-spacing: -.025em; }
+.empty p { margin: 0 auto 20px; max-width: 32ch; color: var(--ink-2); line-height: 1.5;
+           text-wrap: pretty; }
+.empty .primary { width: 100%; }
+
+/* ---------- aviso efímero ---------- */
+#toast {
+  position: fixed; left: 16px; right: 16px;
+  bottom: calc(80px + env(safe-area-inset-bottom));
+  padding: 12px 16px; border-radius: 10px;
+  background: var(--ink); color: var(--bg); box-shadow: var(--sh);
+  font-size: .9rem; line-height: 1.35; text-align: center;
+  opacity: 0; transform: translateY(10px); pointer-events: none;
+  z-index: var(--z-toast);
+  transition: opacity .18s ease, transform .18s ease;
+}
+#toast.show { opacity: 1; transform: none; }
+#toast.is-bad { background: var(--bad); color: #fff; }
+#toast.is-warn { background: var(--warn); color: #fff; }
+
+/* ---------- carga ---------- */
+.skeleton { display: flex; flex-direction: column; gap: 10px; }
+.sk-leg { height: 150px; background: var(--rule); opacity: .55;
+          animation: blink 1.4s ease-in-out infinite; }
+.sk-leg:nth-child(2) { animation-delay: .15s; }
+.sk-leg:nth-child(3) { animation-delay: .3s; }

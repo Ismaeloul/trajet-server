@@ -1,0 +1,21 @@
+# Secretos: la clave de PRIM vive en .env y NUNCA se versiona.
+.env
+.env.*
+!.env.example
+
+# Datos: la base de datos de produccion y sus copias no se suben jamas.
+data/
+.local/
+*.db
+*.db-*
+*.sqlite
+
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+node_modules/

@@ -47,8 +47,9 @@ def _reset_module_state():
     except Exception:
         pass
     # Limites de emparejamiento, errores en cola, clave y cuota en memoria.
-    from app import auth, keystore, logs, planner, quota
+    from app import auth, db, keystore, logs, planner, quota
     from app import platform as plat
+    db.init_error = None                 # modo degradado de un arranque anterior
     auth.reset_state()
     logs.reset_state()
     keystore.reset_store()

@@ -28,7 +28,7 @@ from datetime import datetime, time, timedelta, timezone
 from . import db, platform, prim
 from .board import extract_departures
 from .config import settings
-from .idfm import norm_text, sa_to_siri
+from .idfm import publishes_platform, sa_to_siri
 
 log = logging.getLogger("trajet.collector")
 
@@ -51,10 +51,12 @@ MARGIN = timedelta(minutes=30)
 QUIET_FROM = time(1, 0)
 QUIET_TO = time(5, 0)
 
-# Modos que no publican anden nunca: no tiene sentido sondearlos.
-# Se comparan sin tildes: IDFM manda "Métro", y "Métro".lower() sigue
-# llevando el acento, asi que una comparacion directa no casa.
-SIN_ANDEN = {"metro", "bus", "tram", "tramway", "funicular", "funiculaire"}
+# Que modos publican anden lo dice idfm.publishes_platform, lo mismo que usa
+# el tablero para `platform_expected` (R3, R77): una sola fuente de verdad.
+# Antes aqui habia una lista negra propia (metro, bus, tram, funicular) y
+# todo lo que no estuviera en ella se sondeaba: el modo vacio (el que queda
+# en un tramo montado a mano sin modo), la navette, el cable... gastaban
+# cuota de stop-monitoring en estaciones que nunca dan via.
 
 
 def _hhmm(value: str) -> tuple[int, int]:
@@ -117,7 +119,7 @@ def targets(routes: list[dict]) -> dict[str, list[dict]]:
     out: dict[str, list[dict]] = {}
     for route in ordenadas:
         for leg in route.get("legs", []):
-            if norm_text(leg.get("line_mode") or "") in SIN_ANDEN:
+            if not publishes_platform(leg.get("line_mode") or ""):
                 continue
             if not leg.get("from_id"):
                 continue
@@ -196,7 +198,16 @@ async def sample_once(now: datetime | None = None) -> dict:
     # nunca y no se aprendia hasta que alguien abria la app (fallo 18.3.8 de
     # docs/servidor.md). El contador empieza el dia solo.
     remaining = client.quota_counter.remaining("stop-monitoring")
-    interval, motivo = plan_interval(remaining, len(plan), now, priority)
+    if not client.has_key():
+        # Sin clave (lo normal recien instalada la app, con las rutas ya
+        # migradas) cada pasada fallaria con no_key y dejaria un aviso por
+        # estacion en error_log cada 2 min, tapando en el panel los errores
+        # de verdad; y el motivo diria «680 llamadas para 18 h», que es
+        # mentira. Se espera sin llamar: el bucle vuelve a mirar cada IDLE y
+        # en cuanto se guarde una clave en el panel sigue solo.
+        interval, motivo = 0, "sin clave de PRIM"
+    else:
+        interval, motivo = plan_interval(remaining, len(plan), now, priority)
 
     base = {"stations": len(plan), "recorded": 0, "reason": motivo,
             "interval": round(interval), "remaining": remaining,

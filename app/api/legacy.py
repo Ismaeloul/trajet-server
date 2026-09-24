@@ -9,24 +9,36 @@ Diferencias con la 0.3.0 (arreglos, no cambios de contrato):
   - Entradas malas dan 400 con motivo en vez de 500.
   - `when` fuera de rango en /api/plan da 400.
   - Si fallan los avisos, `errors` lo dice (antes: todo «normal» en silencio).
+  - Solo se aceptan conexiones del proxy de Umbrel (o 127.0.0.1), como en el
+    panel: otra app de la red Docker se saltaria el login (403).
+
+Lo que NO cambia: cualquier fallo de PRIM sigue siendo 502 con el texto de
+siempre («la API de IDFM no responde: …», «el calculador no responde: …» en
+las alternativas). Los 503 y los codigos nuevos (sin clave, clave rechazada,
+cuota agotada) son solo de la v1: un cliente de la 0.3.0 no los conoce.
 """
 from __future__ import annotations
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.concurrency import run_in_threadpool
 
+from .. import auth, prim
 from .. import board as B
 from .. import platform as P
-from .. import prim
 from .. import translate as T
 from ..collector import collector
 from . import common
 from .errors import ApiError
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(auth.require_proxy_peer)])
 
 
 def _raise(e: ApiError):
+    # Un fallo de PRIM lleva su forma de la 0.3.0 (common.prim_error): 502 y
+    # «<quien> no responde: <motivo>», sea cual sea el codigo de la v1.
+    if e.legacy is not None:
+        status, message = e.legacy
+        raise HTTPException(status, message) from e
     raise HTTPException(e.status, e.message, headers=e.headers or None) from e
 
 

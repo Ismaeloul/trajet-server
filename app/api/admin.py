@@ -241,7 +241,14 @@ def build_warnings(ov: dict, urls: list[dict], seed_configured: bool,
     infos: list[str] = []
 
     latest = ov.get("schema_latest")
-    if latest and ov["schema_version"] < latest:
+    db_error = ov.get("db_error")
+    if db_error:
+        # Modo degradado (app/main.py): el servidor sigue en pie para que esto
+        # se vea, pero el iPhone no tiene datos hasta que se arregle.
+        errors.append(f"La base de datos no se pudo migrar al arrancar ({db_error}): Trajet "
+                      f"funciona en modo degradado y el iPhone recibe un error (503) hasta que "
+                      f"se arregle. Mira los errores recientes y reinicia la app.")
+    elif latest and ov["schema_version"] < latest:
         errors.append(f"La base de datos no está al día (esquema v{ov['schema_version']} de "
                       f"v{latest}): la migración falló al arrancar; mira los errores recientes.")
     for what in failed or []:
@@ -333,8 +340,9 @@ async def admin_overview():
         "memory": data["memory"],
         "map_data": data["map_data"],
     }
-    ov["warnings"] = build_warnings(dict(ov, schema_latest=data["schema_latest"]), data["urls"],
-                                    bool(settings.secret_seed), data["failed"])
+    ov["warnings"] = build_warnings(dict(ov, schema_latest=data["schema_latest"],
+                                         db_error=db.init_error),
+                                    data["urls"], bool(settings.secret_seed), data["failed"])
     return ov
 
 

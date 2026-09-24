@@ -35,7 +35,8 @@ class ApiError(Exception):
     y a `{"detail": message}` en las rutas de la 0.3.0."""
 
     def __init__(self, code: str, message: str, status: int | None = None,
-                 retry_after: int | None = None, headers: dict | None = None):
+                 retry_after: int | None = None, headers: dict | None = None,
+                 legacy: tuple[int, str] | None = None):
         super().__init__(message)
         self.code = code
         self.message = message
@@ -44,6 +45,9 @@ class ApiError(Exception):
         self.headers = dict(headers or {})
         if retry_after is not None:
             self.headers.setdefault("Retry-After", str(int(retry_after)))
+        # (estado, texto) con que responde la API de la 0.3.0 cuando no es el
+        # mismo que el de la v1 (los fallos de PRIM: alli siempre 502).
+        self.legacy = legacy
 
 
 def is_v2_path(path: str) -> bool:

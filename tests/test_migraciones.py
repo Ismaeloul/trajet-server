@@ -183,6 +183,81 @@ def test_migracion_fallida_no_deja_esquema_a_medias(env, monkeypatch):
     con.close()
 
 
+def test_migracion_fallida_arranca_en_modo_degradado(env, fake_prim, monkeypatch):
+    """H5: si la migracion falla al arrancar, el servidor NO se cae (con
+    restart unless-stopped seria un bucle de reinicios sin panel ni salud).
+    Arranca degradado: /api/v1/* (salvo ping) y /api/* dan 503 con un
+    mensaje claro, el panel funciona y su resumen dice por que; sin
+    recolector ni mapa. Los datos de la 0.3.0 no se tocan."""
+    from _seg_contrato import schema_validator
+    from fastapi.testclient import TestClient
+
+    from app import collector as C
+    from app import db, mapdata, migrations
+    from app.config import settings
+    from app.main import create_app
+
+    def rota(con):
+        con.execute("CREATE TABLE a_medias (x)")
+        raise RuntimeError("fallo a proposito en la migracion 2")
+
+    async def mapa_startup():
+        arrancados.append("mapa")
+
+    antes = _poblar(settings.db_path)
+    arrancados: list[str] = []
+    with monkeypatch.context() as m:
+        m.setattr(migrations, "MIGRATIONS", migrations.MIGRATIONS[:1] + [(2, "rota", rota)])
+        m.setattr(settings, "collect", True)             # que si se arrancarian
+        m.setattr(settings, "map_enabled", True)
+        m.setattr(C.collector, "start", lambda: arrancados.append("recolector"))
+        m.setattr(mapdata, "startup", mapa_startup)
+
+        with TestClient(create_app()) as c:               # no revienta al arrancar
+            assert db.init_error and "fallo a proposito en la migracion 2" in db.init_error
+            assert arrancados == []
+            r = c.get("/api/v1/ping")
+            assert r.status_code == 200 and r.json()["ok"] is True
+            for metodo, url in (("get", "/api/v1/board"), ("get", "/api/v1/health"),
+                                ("post", "/api/v1/pair"), ("get", "/api/v1/routes"),
+                                ("get", "/api/v1/no-existe")):
+                r = c.request(metodo.upper(), url, json={})
+                assert r.status_code == 503, (url, r.text)
+                schema_validator("ErrorV1").validate(r.json())
+                assert r.json()["error"]["code"] == "internal"
+                assert "migración falló" in r.json()["error"]["message"]
+                assert "a proposito" not in r.text         # el motivo, solo en el panel
+            for metodo, url in (("get", "/api/routes"), ("get", "/api/board"),
+                                ("delete", "/api/routes/1"), ("get", "/api/health")):
+                r = c.request(metodo.upper(), url)
+                assert r.status_code == 503, (url, r.text)
+                assert "migración falló" in r.json()["detail"]
+            # El panel sigue y dice por que.
+            assert c.get("/").status_code == 200
+            r = c.get("/api/admin/overview")
+            assert r.status_code == 200, r.text
+            ov = r.json()
+            schema_validator("AdminOverview").validate(ov)
+            assert ov["schema_version"] == 1
+            errores = [w["text"] for w in ov["warnings"] if w["level"] == "error"]
+            assert any("no se pudo migrar" in t and "fallo a proposito en la migracion 2" in t
+                       for t in errores), ov["warnings"]
+            assert ov["collector"]["running"] is False
+            # Y el error esta en los errores recientes del panel.
+            r = c.get("/api/admin/errors")
+            assert any("fallo a proposito" in e["message"] for e in r.json()["errors"])
+
+        con = sqlite3.connect(settings.db_path)
+        assert migrations.current_version(con) == 1 and _snapshot(con) == antes
+        con.close()
+
+    # Arreglado (la migracion de verdad), el siguiente arranque migra y va.
+    with TestClient(create_app()) as c:
+        assert db.init_error is None
+        r = c.get("/api/routes")
+        assert r.status_code == 200 and r.json()["routes"][0]["name"] == "Casa → Trabajo"
+
+
 REAL = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                     ".local", "trajet-prod.db")
 

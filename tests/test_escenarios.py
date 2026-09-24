@@ -255,6 +255,56 @@ def test_R65_si_prim_cae_se_sirve_la_copia_con_su_edad(client, fake_prim):
     assert body["last_error"] in ("stop-monitoring: HTTP 500", "general-message: HTTP 500")
 
 
+def test_R19_umbral_de_stale(client, fake_prim):
+    """R19: `stale` = una estacion (o los avisos) con un dato mas viejo que
+    SU propio ritmo de refresco + 60 s, no un umbral fijo de 90 s.
+
+    Con el tren a 40 min la estacion se pide cada 300 s: una copia de 200 s
+    no es vieja (con el umbral fijo de la 0.3.0 si lo era); de 340 s
+    tampoco; de 400 s con PRIM caido, si. Con el tren a 2 min se pide cada
+    20 s: con PRIM caido, 70 s aun no, y 90 s ya es viejo."""
+    from app import board
+    S.fijar_reloj(fake_prim)
+    fake_prim.add(S.SAINT_LAZARE[0], S.Dep("C01739", "Ermont - Eaubonne", 40))
+    _montar(client, S.Caso("stale", S.ruta("Umbral", [
+        S.tramo(S.J, S.SAINT_LAZARE, S.ARGENTEUIL, ["Ermont - Eaubonne"])]), fake_prim))
+    assert _tablero(client)["stale"] is False
+    assert board.station_ttl("stop_area:IDFM:71370") == 300
+
+    _envejecer(200)                             # copia de 200 s, dentro de su ritmo
+    body = _tablero(client)
+    assert 199 <= body["legs"][0]["age"] <= 205
+    assert body["stale"] is False and body["errors"] == []
+    assert fake_prim.calls["stop-monitoring"] == 1          # ni se ha vuelto a pedir
+
+    fake_prim.fail["stop-monitoring"] = 500     # PRIM caido: se sirve la copia
+    _envejecer(140)                             # 340 s < 300 + 60
+    body = _tablero(client)
+    assert 339 <= body["legs"][0]["age"] <= 345 and body["stale"] is False
+    assert fake_prim.calls["stop-monitoring"] == 2          # lo intento y fallo
+    _envejecer(60)                              # 400 s > 300 + 60
+    body = _tablero(client)
+    assert 399 <= body["legs"][0]["age"] <= 405 and body["stale"] is True
+    assert body["errors"] == []                 # hay copia: no es un fallo visible
+
+    # El tren a 2 min: la estacion se pide cada 20 s.
+    del fake_prim.fail["stop-monitoring"]
+    fake_prim.stations.clear()
+    fake_prim.add(S.SAINT_LAZARE[0], S.Dep("C01739", "Ermont - Eaubonne", 2))
+    from app import prim
+    prim.get_client()._pauses.clear()           # que vuelva a llamar ya
+    body = _tablero(client)
+    assert body["legs"][0]["age"] == 0 and body["stale"] is False
+    assert board.station_ttl("stop_area:IDFM:71370") == 20
+    fake_prim.fail["stop-monitoring"] = 500
+    _envejecer(70)                              # 70 s < 20 + 60
+    body = _tablero(client)
+    assert 69 <= body["legs"][0]["age"] <= 75 and body["stale"] is False
+    _envejecer(20)                              # 90 s > 20 + 60
+    body = _tablero(client)
+    assert 89 <= body["legs"][0]["age"] <= 95 and body["stale"] is True
+
+
 def test_R66_peticiones_simultaneas_una_sola_llamada(client, fake_prim):
     from app import prim
     fake_prim.delay = 0.05
@@ -292,21 +342,24 @@ def test_R67_cada_estacion_a_su_ritmo(client, fake_prim):
 
 # ---------------- errores de PRIM ----------------
 
+# Texto de cada fallo. En la API de la 0.3.0 (/api/*) TODOS son 502 con
+# «la API de IDFM no responde: <texto>», como en produccion: los 503 y los
+# codigos nuevos (clave rechazada, cuota) son solo de la v1 (test_v1.py).
 ESPERADO = {
-    401: ("clave no válida (HTTP 401)", 503, "PRIM rechaza la clave"),
-    403: ("sin permiso para esta API (HTTP 403)", 503, "PRIM rechaza la clave"),
-    429: ("cuota agotada (HTTP 429)", 503, "cuota diaria de PRIM agotada"),
-    500: ("HTTP 500", 502, "no responde: HTTP 500"),
-    "timeout": ("tiempo de espera agotado", 502, "no responde"),
+    401: "clave no válida (HTTP 401)",
+    403: "sin permiso para esta API (HTTP 403)",
+    429: "cuota agotada (HTTP 429)",
+    500: "HTTP 500",
+    "timeout": "tiempo de espera agotado",
 }
 
 
 @pytest.mark.parametrize("fallo", S.FALLOS)
 def test_errores_de_prim_con_mensaje_limpio(client, fake_prim, fallo):
     """Cada fallo llega al pie del tablero con un texto corto, sin URL ni
-    parametros, y el buscador responde con su codigo."""
+    parametros, y el buscador responde 502 con el texto de siempre."""
     from app import prim
-    texto, status, detalle = ESPERADO[fallo]
+    texto = ESPERADO[fallo]
     _montar(client, S.error_prim(fake_prim, fallo))
     body = _tablero(client)
     assert sorted(body["errors"]) == [f"Gare Saint-Lazare: {texto}", f"avisos: {texto}"]
@@ -315,7 +368,8 @@ def test_errores_de_prim_con_mensaje_limpio(client, fake_prim, fallo):
     assert "prim.iledefrance" not in str(body) and "MonitoringRef" not in str(body)
 
     r = client.get("/api/search/stops", params={"q": "argenteuil"})
-    assert r.status_code == status and detalle in r.json()["detail"]
+    assert r.status_code == 502, r.text
+    assert r.json() == {"detail": f"la API de IDFM no responde: {texto}"}
     assert "argenteuil" not in (prim.get_client().last_error or "")
 
     estado = prim.server_state()

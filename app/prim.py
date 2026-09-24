@@ -177,7 +177,8 @@ class PrimClient:
         self._pauses: dict[str, _Pause] = {}
         # endpoint -> (cuando, "endpoint: motivo") del ultimo fallo sin arreglar
         self._errors: dict[str, tuple[float, str]] = {}
-        self._stale_at = 0.0
+        # endpoint -> cuando se sirvio por ultima vez una copia vieja suya
+        self._stale_at: dict[str, float] = {}
         # Cada cambio de clave sube la generacion: lo que llegue tarde de la
         # clave anterior no se cachea ni se cuenta en la nueva.
         self._gen = 0
@@ -233,32 +234,42 @@ class PrimClient:
         return bool(p and p.until > self._clock())
 
     def degraded(self) -> bool:
-        """Se esta sirviendo algo mas viejo de lo normal: cuota justa en los
-        endpoints del tablero, un endpoint en pausa o una copia vieja hace
-        poco."""
+        """El TABLERO se esta sirviendo mas viejo de lo normal: cuota justa,
+        pausa tras fallos o una copia vieja hace poco, siempre en los
+        endpoints del tablero (Q.BOARD_ENDPOINTS).
+
+        ServerState.degraded va en cada tablero y la app lo ensena ahi: que
+        falle el planificador o el buscador (navitia) no hace viejo el
+        tablero, y antes lo marcaba degradado con el dato recien traido."""
         if any(self.quota_counter.level(ep) != "ok" for ep in Q.BOARD_ENDPOINTS):
             return True
-        if any(self.paused(ep) for ep in ENDPOINTS):
+        if any(self.paused(ep) for ep in Q.BOARD_ENDPOINTS):
             return True
-        return self._stale_at > 0 and self._clock() - self._stale_at < STALE_WINDOW
+        now = self._clock()
+        return any(now - self._stale_at.get(ep, -STALE_WINDOW) < STALE_WINDOW
+                   for ep in Q.BOARD_ENDPOINTS)
 
     # ---------------- clave en caliente ----------------
 
     async def set_key(self, key: str) -> None:
         """Cambia la clave sin reiniciar: cabecera, cache y contador nuevos.
 
-        Todo va seguido y sin `await` por medio, asi que ninguna peticion ve
-        la clave nueva con la cache o la cuota de la vieja.
+        Lo que la clave nueva lleva gastado hoy se lee de SQLite en un hilo
+        (asyncio.to_thread): esto lo llama el panel desde el bucle de eventos
+        y una lectura con la BD ocupada lo bloquearia entero. Despues, el
+        cambio va todo seguido y sin `await` por medio, asi que ninguna
+        peticion ve la clave nueva con la cache o la cuota de la vieja.
         """
         key = (key or "").strip()
         logs.register_secret(key)
-        self.quota_counter.reset_for_new_key(key)
+        loaded = await asyncio.to_thread(self.quota_counter.read_for_key, key)
+        self.quota_counter.apply_key(key, loaded)
         self._key = key
         self._gen += 1
         self._cache.clear()
         self._pauses.clear()
         self._errors.clear()
-        self._stale_at = 0.0
+        self._stale_at.clear()
 
     def clear_cache(self) -> None:
         self._cache.clear()
@@ -307,7 +318,7 @@ class PrimClient:
     def _fallback(self, hit: Entry | None, err: PrimError) -> tuple[Any, float]:
         if hit is not None:
             # Servimos lo ultimo que supimos, con su edad real
-            self._stale_at = self._clock()
+            self._stale_at[err.endpoint or ""] = self._clock()
             return hit.data, hit.age
         raise err
 
@@ -641,6 +652,10 @@ async def startup() -> None:
             await client.close()
         except Exception as e:     # un cliente de un bucle ya cerrado (tests)
             log.debug("no se pudo cerrar el cliente anterior: %s", type(e).__name__)
+    # Esto lee disco y SQLite (el fichero de la clave y la cuota de hoy) en
+    # el bucle, pero va en el arranque, antes de atender ninguna peticion.
+    # Los cambios de clave con el servidor en marcha van por set_key, que
+    # lee en un hilo.
     KS.reset_store()
     Q.reset_quota()
     store = KS.get_store()

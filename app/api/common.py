@@ -7,6 +7,7 @@ v1.py a ErrorV1.
 from __future__ import annotations
 
 import logging
+import math
 import re
 import time
 
@@ -47,62 +48,136 @@ def to_legacy_board(data: dict) -> dict:
 
 
 def prim_error(e: PrimError, what: str = "la API de IDFM") -> ApiError:
-    """Traduce un fallo de PRIM a un ApiError con codigo estable."""
+    """Traduce un fallo de PRIM a un ApiError con codigo estable.
+
+    El codigo y el estado son los de la v1. Lleva ademas la respuesta de la
+    0.3.0 (`legacy`): alli cualquier fallo de PRIM era 502 con «<quien> no
+    responde: <motivo>», y los clientes de entonces solo conocen eso."""
+    legacy = (502, f"{what} no responde: {e}")
     kind = getattr(e, "kind", "") or "http"
     if kind == "no_key":
-        return ApiError("prim_key_missing", "el servidor no tiene clave de PRIM configurada")
+        return ApiError("prim_key_missing", "el servidor no tiene clave de PRIM configurada",
+                        legacy=legacy)
     if kind in ("invalid", "forbidden"):
-        return ApiError("prim_key_invalid", "PRIM rechaza la clave del servidor")
+        return ApiError("prim_key_invalid", "PRIM rechaza la clave del servidor", legacy=legacy)
     if kind == "quota":
         return ApiError("prim_quota_exhausted",
-                        "cuota diaria de PRIM agotada; vuelve a haber a medianoche UTC")
+                        "cuota diaria de PRIM agotada; vuelve a haber a medianoche UTC",
+                        legacy=legacy)
     if kind == "unreachable":
-        return ApiError("prim_unreachable", f"{what} no responde")
-    return ApiError("upstream", f"{what} no responde: {e}", status=502)
+        return ApiError("prim_unreachable", f"{what} no responde", legacy=legacy)
+    return ApiError("upstream", f"{what} no responde: {e}", status=502, legacy=legacy)
 
 
 # ---------------- validacion ----------------
 
 _HHMM = re.compile(r"^([01]\d|2[0-3]):[0-5]\d$")
+_HEX3 = re.compile(r"[0-9A-Fa-f]{3}")
+_HEX6 = re.compile(r"[0-9A-Fa-f]{6}")
+
+# Textos opcionales de un tramo. Son columnas NOT NULL de `legs`: un null que
+# llegara hasta SQLite era un IntegrityError y un 500 (H4 de la verificacion).
+# Una app que serialice un opcional como null es lo normal, asi que null
+# cuenta como ausente ("").
+_LEG_TEXT = ("line_code", "line_name", "line_mode", "line_color", "from_name",
+             "to_id", "to_name")
+_LEG_COORDS = ("from_lat", "from_lon", "to_lat", "to_lon")
+
+# Rangos razonables: una duracion de mas de un dia o una posicion enorme no
+# son un trayecto, y un entero de 2^70 era un OverflowError de SQLite (500).
+_NUM_RANGE = {"duration_min": (0, 1440), "position": (-10000, 10000)}
+
+
+def normalize_color(value) -> str:
+    """R12: color de linea como hex de 6 cifras, sin `#` y en mayusculas
+    («#cec73d» -> «CEC73D», «F0A» -> «FF00AA»), o "" si no es un color."""
+    if not isinstance(value, str):
+        return ""
+    v = value.strip()
+    if v.startswith("#"):
+        v = v[1:]
+    if _HEX3.fullmatch(v):
+        v = "".join(c * 2 for c in v)
+    return v.upper() if _HEX6.fullmatch(v) else ""
+
+
+def _number(value) -> bool:
+    """Numero de verdad y finito. bool no cuenta (True es un int en Python) y
+    NaN/Infinity, que json.loads acepta, tampoco."""
+    return (isinstance(value, (int, float)) and not isinstance(value, bool)
+            and math.isfinite(value))
+
+
+def _validate_leg(i: int, leg) -> dict:
+    """Un tramo ya comprobado y normalizado (copia: no toca lo recibido)."""
+    if not isinstance(leg, dict):
+        raise ApiError("bad_request", f"tramo {i + 1}: tiene que ser un objeto")
+    out = dict(leg)
+    for field in ("line_id", "from_id"):
+        v = leg.get(field)
+        if not isinstance(v, str) or not v.strip():
+            raise ApiError("bad_request", f"tramo {i + 1}: falta '{field}'")
+    for field in _LEG_TEXT:
+        v = leg.get(field)
+        if v is None:
+            out[field] = ""
+        elif not isinstance(v, str):
+            raise ApiError("bad_request", f"tramo {i + 1}: '{field}' tiene que ser texto")
+    out["line_color"] = normalize_color(out["line_color"])
+    dirs = leg.get("directions")
+    if dirs is None:
+        # Sin sentido = todos los pasos. Un null guardado tal cual salia
+        # luego como `directions: null` y el contrato dice lista.
+        out["directions"] = []
+    elif not (isinstance(dirs, list) and all(isinstance(d, str) for d in dirs)):
+        raise ApiError("bad_request", f"tramo {i + 1}: 'directions' tiene que ser una lista de textos")
+    for field in _LEG_COORDS:
+        # Coordenadas para el mapa: opcionales; lo que no sea un numero
+        # finito se descarta (el mapa tira entonces de los datos abiertos).
+        if field in out and not _number(out[field]):
+            out.pop(field)
+    return out
 
 
 def validate_route(p) -> dict:
-    """Comprueba una ruta antes de guardarla. 400 con motivo, nunca 500."""
+    """Comprueba una ruta antes de guardarla. 400 con motivo, nunca 500.
+
+    Devuelve una copia normalizada: textos opcionales null -> "", directions
+    null -> [], line_color en hex de 6 cifras, numeros como enteros."""
     if not isinstance(p, dict):
         raise ApiError("bad_request", "la ruta tiene que ser un objeto JSON")
     for field in ("name", "origin_id", "dest_id"):
         if not isinstance(p.get(field, ""), str) or not str(p.get(field, "")).strip():
             raise ApiError("bad_request", f"falta el campo '{field}'")
+    out = dict(p)
     for field in ("origin_name", "dest_name"):
-        if field in p and not isinstance(p[field], str):
+        # Los nombres se pueden omitir (o mandar null): se guardan vacios en
+        # vez de dar un 500.
+        v = p.get(field)
+        if v is None:
+            out[field] = ""
+        elif not isinstance(v, str):
             raise ApiError("bad_request", f"'{field}' tiene que ser texto")
     legs = p.get("legs")
     if not legs or not isinstance(legs, list):
         raise ApiError("bad_request", "la ruta necesita al menos un tramo")
-    for i, leg in enumerate(legs):
-        if not isinstance(leg, dict):
-            raise ApiError("bad_request", f"tramo {i + 1}: tiene que ser un objeto")
-        for field in ("line_id", "from_id"):
-            if not str(leg.get(field, "")).strip():
-                raise ApiError("bad_request", f"tramo {i + 1}: falta '{field}'")
-        dirs = leg.get("directions", [])
-        if dirs is not None and not (isinstance(dirs, list) and all(isinstance(d, str) for d in dirs)):
-            raise ApiError("bad_request", f"tramo {i + 1}: 'directions' tiene que ser una lista de textos")
+    out["legs"] = [_validate_leg(i, leg) for i, leg in enumerate(legs)]
     days = p.get("days", [0, 1, 2, 3, 4])
-    if not isinstance(days, list) or not all(isinstance(d, int) and 0 <= d <= 6 for d in days):
+    if not isinstance(days, list) or not all(
+            isinstance(d, int) and not isinstance(d, bool) and 0 <= d <= 6 for d in days):
         raise ApiError("bad_request", "'days' tiene que ser una lista de 0 (lunes) a 6 (domingo)")
     for field in ("time_from", "time_to", "time_at"):
         v = p.get(field)
         if v not in (None, "") and not (isinstance(v, str) and _HHMM.match(v)):
             raise ApiError("bad_request", f"'{field}' tiene que ser HH:MM")
-    for field in ("duration_min", "position"):
-        v = p.get(field, 0)
-        if v is not None and (isinstance(v, bool) or not isinstance(v, (int, float))):
-            raise ApiError("bad_request", f"'{field}' tiene que ser un numero")
-    # Los nombres se pueden omitir: se guardan vacios en vez de dar un 500.
-    out = dict(p)
-    out.setdefault("origin_name", "")
-    out.setdefault("dest_name", "")
+    for field, (lo, hi) in _NUM_RANGE.items():
+        v = p.get(field)
+        if v is None:
+            out[field] = 0
+        elif not _number(v) or not lo <= v <= hi:
+            raise ApiError("bad_request", f"'{field}' tiene que ser un numero de {lo} a {hi}")
+        else:
+            out[field] = int(v)
     return out
 
 
@@ -230,7 +305,8 @@ async def board(route_id: int | None, log_history: bool) -> dict | None:
     """Tablero de una ruta (la que toca si no se indica).
 
     Devuelve None si no hay ninguna ruta guardada. El dict incluye las claves
-    de la v1 y las internas (`_all_failed`, `_error`): quien llama decide.
+    de la v1 y las internas (`_all_failed`, `_stations_failed`, `_error`):
+    quien llama decide.
     """
     routes = await run_in_threadpool(db.list_routes)
     if not routes:
@@ -261,7 +337,9 @@ async def board(route_id: int | None, log_history: bool) -> dict | None:
     except Exception as e:
         log.warning("traduccion no disponible: %s", e)
 
-    if log_history and not data.get("_all_failed"):
+    # Sin ninguna estacion no hay pasos ni retrasos: una observacion asi
+    # meteria un «0 min de retraso» falso en las estadisticas.
+    if log_history and not data.get("_stations_failed"):
         try:
             await run_in_threadpool(B.record_history, route, data)
         except Exception as e:            # el historial nunca debe tumbar la pantalla
@@ -412,6 +490,32 @@ async def plan(frm: str, to: str, when: str | None, mode: str) -> dict:
     return {"options": options, "age": round(age, 1)}
 
 
+# Campos de texto de la opcion elegida (PlanLeg) y de `meta`. Se comprueban
+# ANTES de montar la ruta: planner.route_from_option llama a PRIM con ellos y
+# hace .strip()/int() sobre lo que llegue; un numero o un objeto donde va un
+# texto era un 500 (H2 de la verificacion).
+_PLAN_LEG_TEXT = ("line_id", "line_code", "line_name", "line_mode", "line_color",
+                  "from_id", "from_name", "to_id", "to_name", "direction")
+_META_TEXT = ("name", "origin_id", "origin_name", "dest_id", "dest_name",
+              "time_mode", "time_at", "time_from", "time_to")
+
+
+def _validate_plan(option: dict, meta: dict) -> None:
+    for i, leg in enumerate(option["legs"]):
+        for field in _PLAN_LEG_TEXT:
+            v = leg.get(field)
+            if v is not None and not isinstance(v, str):
+                raise ApiError("bad_request", f"tramo {i + 1} del itinerario: '{field}' "
+                                              f"tiene que ser texto")
+    for field in _META_TEXT:
+        v = meta.get(field)
+        if v is not None and not isinstance(v, str):
+            raise ApiError("bad_request", f"meta: '{field}' tiene que ser texto")
+    minutes = option.get("minutes")
+    if minutes is not None and not (_number(minutes) and 0 <= minutes <= 1440):
+        raise ApiError("bad_request", "'minutes' del itinerario tiene que ser un numero de 0 a 1440")
+
+
 async def route_from_plan(payload) -> dict:
     """Guarda como ruta vigilada la opcion que se ha elegido."""
     if not isinstance(payload, dict):
@@ -423,6 +527,7 @@ async def route_from_plan(payload) -> dict:
         raise ApiError("bad_request", "falta el itinerario elegido")
     if not all(isinstance(l, dict) for l in option["legs"]):
         raise ApiError("bad_request", "tramos del itinerario no validos")
+    _validate_plan(option, meta)
     data = await planner.route_from_option(option, meta)
     data = validate_route(data)
     route_id = await run_in_threadpool(db.save_route, data)

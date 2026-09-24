@@ -16,6 +16,7 @@ from conftest import ruta_j
 from fakeprim import Dep
 
 from app import collector as C
+from app import idfm
 from app.config import settings
 
 UTC = timezone.utc
@@ -72,11 +73,21 @@ def test_collector_objetivos(env, make_route):
     t = C.targets([RUTA])
     assert list(t) == [STOP]                          # el metro se descarta
     assert t[STOP][0]["line_id"] == LINE
+    # Los modos sin via son los mismos que el tablero declara sin via (R3,
+    # idfm.publishes_platform): tambien el modo vacio (tramo montado a mano),
+    # la navette, el cable, el Noctilien o uno desconocido.
     sin_via = {"days": [0], "legs": [
         {"from_id": f"stop_area:IDFM:{i}", "line_id": "line:IDFM:C0", "line_mode": modo}
         for i, modo in enumerate(("Métro", "METRO", "Bus", "Tram", "Tramway",
-                                  "Funiculaire", "Funicular"))]}
+                                  "Funiculaire", "Funicular", "", None, "Navette", "Câble",
+                                  "Noctilien", "Autocar"))]}
     assert C.targets([sin_via]) == {}
+    for leg in sin_via["legs"]:
+        assert idfm.publishes_platform(leg["line_mode"] or "") is False
+    con_via = {"legs": [{"from_id": f"stop_area:IDFM:{i}", "line_id": "line:IDFM:C1",
+                         "line_mode": modo}
+                        for i, modo in enumerate(("RER", "Train Transilien", "TER"))]}
+    assert len(C.targets([con_via])) == 3
     assert C.targets([{"legs": [{"from_id": "", "line_id": LINE, "line_mode": "RER"}]}]) == {}
     # Dos tramos de la misma estacion: una sola entrada (una llamada).
     doble = {"legs": [{"from_id": STOP, "line_id": LINE, "line_mode": "Train"},
@@ -277,6 +288,25 @@ async def test_recolector_respeta_la_reserva_y_la_noche(pc, fake_prim, make_rout
     assert fake_prim.calls.get("stop-monitoring", 0) == 0
     res = await C.sample_once(now=_lunes(14))
     assert res["recorded"] == 1 and fake_prim.calls["stop-monitoring"] == 1
+
+
+async def test_recolector_sin_clave_no_llama(pc, fake_prim, make_route):
+    """H12: sin clave de PRIM (recien instalado, con las rutas migradas) no
+    se planifica nada ni se llama: intervalo 0 con el motivo de verdad, y ni
+    un aviso por estacion en error_log. Con clave, sigue solo."""
+    from app import logs
+    make_route()
+    fake_prim.add("71370", Dep("C01739", "Ermont - Eaubonne", 6, platform="21"))
+    await pc.set_key("")
+    antes = len(logs.recent_errors(200))
+    res = await C.sample_once(now=_lunes(8))
+    assert res["interval"] == 0 and res["reason"] == "sin clave de PRIM"
+    assert res["stations"] == 1 and res["recorded"] == 0
+    assert fake_prim.total_calls() == 0
+    assert len(logs.recent_errors(200)) == antes
+    await pc.set_key("PRUEBAS0clave0de0mentira0000abcd")
+    res = await C.sample_once(now=_lunes(8))
+    assert res["interval"] > 0 and res["recorded"] == 1
 
 
 async def test_recolector_estacion_caida_no_para_el_resto(pc, fake_prim, make_route):

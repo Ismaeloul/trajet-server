@@ -34,8 +34,9 @@ services:
       # Umbrel es ${APP_SEED}). Se lee del .env; si no esta, el servidor crea
       # data/secrets/master.key y el panel avisa de que es la opcion floja.
       TRAJET_SECRET_SEED: "${TRAJET_SECRET_SEED:-}"
-      # Igual que en el Umbrel: el panel solo acepta conexiones de la puerta de
-      # enlace de la red de Docker (o de 127.0.0.1). Desde este PC funciona
+      # Igual que en el Umbrel: el panel y la API de la 0.3.0 (/api/*) solo
+      # aceptan conexiones de la puerta de enlace de la red de Docker (o de
+      # 127.0.0.1). Desde este PC funciona
       # porque Docker Desktop entrega las conexiones al puerto publicado desde
       # esa puerta de enlace (172.17.0.1 o la de la red del proyecto), que es
       # justo lo que «auto» acepta. Otro contenedor que llamase directamente a

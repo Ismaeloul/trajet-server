@@ -643,3 +643,41 @@ async def test_resiliencia_tramo_roto_no_tumba_el_tablero(pc, fake_prim):
     assert isinstance(board, dict) and len(board["legs"]) == 1
     assert board["legs"][0]["departures"] == [] and board["legs"][0]["age"] is None
     assert board["errors"] and board["_all_failed"] is True
+
+
+async def test_estaciones_caidas_con_avisos_no_es_todo_fallido(pc, fake_prim):
+    """R9: `_all_failed` (la v1 responde con error) solo si no llega NADA.
+    Con stop-monitoring caido pero los avisos bien, el tablero no es hueco:
+    trae el estado de la linea y las estaciones van a `errors`. Sin pasos no
+    se apunta en el historial (`_stations_failed`)."""
+    fake_prim.fail["stop-monitoring"] = 500
+    fake_prim.message(Msg(["C01739"], "Trafic interrompu entre Saint-Lazare et Houilles."))
+    route = {"id": 1, "name": "prueba", "origin_name": "A", "dest_name": "B",
+             "legs": [{"seq": 0, "line_id": "line:IDFM:C01739", "line_code": "J",
+                       "line_name": "J", "line_mode": "Train", "line_color": "CEC73D",
+                       "from_id": "stop_area:IDFM:71370", "from_name": "Saint-Lazare",
+                       "to_id": "", "to_name": "", "directions": []}]}
+    board = await B.build_board(route)
+    assert board["_all_failed"] is False and board["_stations_failed"] is True
+    assert board["disruptions_ok"] is True and board["worst_level"] == B.INTERRUPTED
+    assert board["errors"] == ["Saint-Lazare: HTTP 500"]
+    # Y si ademas fallan los avisos (sin copia), entonces si: nada de nada.
+    fake_prim.fail["general-message"] = 500
+    pc.clear_cache()
+    pc._pauses.clear()
+    board = await B.build_board(route)
+    assert board["_all_failed"] is True and board["disruptions_ok"] is False
+
+
+@pytest.mark.parametrize("faltan, ttl", [
+    (-1, 20), (0, 20), (3, 20), (4, 30), (8, 30), (9, 90), (20, 90), (21, 300), (45, 300),
+    (46, 600), (180, 600), (None, None)])
+def test_station_ttl_cada_tramo_de_la_tabla(env, faltan, ttl):
+    """R67: el ritmo de cada estacion segun lo cerca que este su proximo
+    paso: <=3 min 20 s, <=8 30 s, <=20 90 s, <=45 300 s y mas lejos 600 s.
+    La primera vez (sin paso conocido), el TTL normal de stop-monitoring."""
+    B._next_in.clear()
+    if faltan is not None:
+        B._next_in["stop_area:IDFM:71370"] = faltan
+    esperado = settings.ttl_stop_monitoring if ttl is None else ttl
+    assert B.station_ttl("stop_area:IDFM:71370") == esperado

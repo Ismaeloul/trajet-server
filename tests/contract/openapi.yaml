@@ -738,6 +738,7 @@ paths:
                   - $ref: '#/components/schemas/BoardV1'
                   - $ref: '#/components/schemas/BoardEmptyV1'
         '304': {$ref: '#/components/responses/NotModified'}
+        '400': {$ref: '#/components/responses/BadRequest'}
         '401': {$ref: '#/components/responses/Unauthorized'}
         '404': {$ref: '#/components/responses/NotFound'}
         '502': {$ref: '#/components/responses/Upstream'}
@@ -798,6 +799,7 @@ paths:
           content:
             application/json:
               schema: {$ref: '#/components/schemas/Route'}
+        '400': {$ref: '#/components/responses/BadRequest'}
         '401': {$ref: '#/components/responses/Unauthorized'}
         '404': {$ref: '#/components/responses/NotFound'}
     put:
@@ -830,6 +832,7 @@ paths:
           content:
             application/json:
               schema: {$ref: '#/components/schemas/RouteDeleted'}
+        '400': {$ref: '#/components/responses/BadRequest'}
         '401': {$ref: '#/components/responses/Unauthorized'}
         '404': {$ref: '#/components/responses/NotFound'}
 
@@ -880,6 +883,7 @@ paths:
             application/json:
               schema: {$ref: '#/components/schemas/RouteMap'}
         '304': {$ref: '#/components/responses/NotModified'}
+        '400': {$ref: '#/components/responses/BadRequest'}
         '401': {$ref: '#/components/responses/Unauthorized'}
         '404': {$ref: '#/components/responses/NotFound'}
 
@@ -1034,6 +1038,7 @@ paths:
                 oneOf:
                   - $ref: '#/components/schemas/Alternatives'
                   - $ref: '#/components/schemas/AlternativesNotNeeded'
+        '400': {$ref: '#/components/responses/BadRequest'}
         '401': {$ref: '#/components/responses/Unauthorized'}
         '404': {$ref: '#/components/responses/NotFound'}
         '502': {$ref: '#/components/responses/Upstream'}
@@ -1076,6 +1081,7 @@ paths:
           content:
             application/json:
               schema: {$ref: '#/components/schemas/PlatformModel'}
+        '400': {$ref: '#/components/responses/BadRequest'}
         '401': {$ref: '#/components/responses/Unauthorized'}
 
   # ==================================================================
@@ -1923,7 +1929,7 @@ components:
         max_delay: {type: number, description: 'Mayor retraso positivo entre las salidas mostradas (0.0 si ninguno).'}
         updated_at: {type: string, format: date-time, description: 'UTC, precisión de segundos (`…+00:00`).'}
         data_age: {type: number, description: 'Máximo de las edades de stop-monitoring y general-message, 1 decimal.'}
-        stale: {type: boolean, description: 'data_age > 90 s (3 × refresh_seconds).'}
+        stale: {type: boolean, description: 'Desde la 0.4.0: alguna estación o los avisos sirven un dato más viejo que su propio ritmo de refresco + 60 s, o una estación falló (en la 0.3.0 era data_age > 90 s, que saltaba en falso con el TTL adaptativo).'}
         errors:
           type: array
           description: '"<from_name>: <error>" por cada tramo cuya estación falló sin caché.'
@@ -2220,7 +2226,7 @@ components:
         level:
           type: string
           enum: [ok, warn, critical, exhausted]
-          description: 'El del peor endpoint: < 70 % ok, < 85 % warn, < 95 % critical; si no, exhausted (no se llama a PRIM; se sirve la caché).'
+          description: 'El del peor endpoint: < 70 % ok, < 85 % warn, < 95 % critical; si no, exhausted. Degradación: warn ×2 el TTL, critical ×4, exhausted como mucho una llamada cada 10 min por dato; sin cuota (0 restantes) no se llama y se sirve la caché.'
         refresh_hint_s: {type: integer, enum: [30, 60, 120, 300]}
         endpoints:
           type: array

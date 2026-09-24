@@ -467,9 +467,15 @@ async def build_board(route: dict) -> dict:
     claves internas que empiezan por `_` y que las capas de la API quitan
     antes de responder:
 
-      _all_failed   ninguna estacion se pudo leer (ni en cache): el tablero
-                    estaria hueco y la v1 responde con error para que la app
-                    se quede con su ultimo tablero bueno (regla 9).
+      _all_failed   no se pudo traer NADA: ninguna estacion ni los avisos (ni
+                    en cache). El tablero estaria hueco y la v1 responde con
+                    error para que la app se quede con su ultimo tablero
+                    bueno (regla 9). Si los avisos si llegaron no es hueco:
+                    una linea cortada tiene que verse aunque stop-monitoring
+                    (el primero que agota la cuota) no responda; va 200 con
+                    las estaciones en `errors`, como dice el contrato.
+      _stations_failed  ninguna estacion se pudo leer: no hay pasos ni
+                    retrasos, asi que no se apunta en el historial.
       _error        la PrimError de la primera estacion que fallo.
     """
     prim = get_client()
@@ -576,6 +582,8 @@ async def build_board(route: dict) -> dict:
             stale = True
 
     data_age = round(max(ages), 1) if ages else 0.0
+    disruptions_ok = not isinstance(gm, Exception)
+    stations_failed = bool(stations) and len(failed) == len(stations)
     return {
         "route": {
             "id": route["id"], "name": route["name"],
@@ -591,8 +599,9 @@ async def build_board(route: dict) -> dict:
         "errors": errors,
         "quota": dict(prim.quota),
         "last_error": prim.last_error,
-        "disruptions_ok": not isinstance(gm, Exception),
-        "_all_failed": bool(stations) and len(failed) == len(stations),
+        "disruptions_ok": disruptions_ok,
+        "_all_failed": stations_failed and not disruptions_ok,
+        "_stations_failed": stations_failed,
         "_error": next(iter(failed.values()), None),
     }
 

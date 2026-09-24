@@ -132,6 +132,109 @@ def test_plan_hora_fuera_de_rango_da_400(client):
     assert r.status_code == 400
 
 
+# ---------------- SEC-1: solo desde el proxy de Umbrel ----------------
+
+def _legacy_ops(app, route_id: int) -> list[tuple[str, str]]:
+    """(metodo, url de ejemplo) de cada operacion /api/* de la 0.3.0."""
+    out = []
+    for path, item in app.openapi()["paths"].items():
+        if not path.startswith("/api/") or path.startswith(("/api/v1", "/api/admin")):
+            continue
+        url = (path.replace("{route_id}", str(route_id))
+                   .replace("{stop_id}", "stop_area:IDFM:71370"))
+        out += [(m, url) for m in item if m in ("get", "post", "put", "delete")]
+    return out
+
+
+def test_api_030_solo_desde_el_proxy_de_umbrel(app, fake_prim, monkeypatch):
+    """SEC-1: la 0.3.0 no tiene token, se apoya en el login de Umbrel; otra
+    app de la red Docker que llegue directa (10.21.0.7) se lo saltaria. Con
+    TRAJET_ADMIN_PEERS=auto, como en Umbrel: 403 en TODO /api/* sin tocar
+    nada ni gastar cuota. Por el proxy (la puerta de enlace) o 127.0.0.1
+    funciona como siempre, sin la cabecera X-Trajet-Panel del panel."""
+    from _seg_contrato import PeerApp
+    from fastapi.testclient import TestClient
+
+    from app import auth
+
+    monkeypatch.setattr(auth.settings, "admin_peers", "auto")
+    monkeypatch.setattr(auth, "_default_gateway", lambda: "10.21.0.1")
+    auth.reset_state()
+    with TestClient(PeerApp(app)) as c:
+        proxy = {"x-test-peer": "10.21.0.1"}
+        r = c.post("/api/routes", json=ruta_j(origin_id="2.3488;48.8534",
+                                                origin_name="12 Rue de casa"), headers=proxy)
+        assert r.status_code == 200, r.text
+        rid = r.json()["id"]
+        ops = _legacy_ops(app, rid)
+        assert len(ops) == 15
+
+        for peer in ("10.21.0.7", "192.168.1.40", "testclient"):
+            # X-Forwarded-For no cuenta: manda la conexion
+            h = {"x-test-peer": peer, "X-Forwarded-For": "10.21.0.1"}
+            for method, url in ops:
+                kw = {"json": ruta_j()} if method in ("post", "put") else {}
+                r = c.request(method.upper(), url, headers=h, **kw)
+                assert r.status_code == 403, (peer, method, url, r.text)
+                assert "proxy de Umbrel" in r.json()["detail"]
+                assert "12 Rue de casa" not in r.text
+        assert fake_prim.total_calls() == 0
+
+        # La ruta sigue ahi y, desde el proxy o 127.0.0.1, todo va.
+        for peer in ("10.21.0.1", "127.0.0.1"):
+            r = c.get("/api/routes", headers={"x-test-peer": peer})
+            assert r.status_code == 200 and [x["id"] for x in r.json()["routes"]] == [rid]
+        assert c.get("/api/health", headers=proxy).status_code == 200
+        assert c.delete(f"/api/routes/{rid}", headers=proxy).json() == {"deleted": rid}
+
+
+# ---------------- fallos de PRIM: 502 como siempre ----------------
+
+@pytest.mark.parametrize("fallo", [401, 403, 429, 500, "timeout"])
+def test_fallos_de_prim_502_como_en_la_030(client, fake_prim, make_route, fallo):
+    """H9: en /api/* cualquier fallo de PRIM es 502 con el texto de
+    siempre, tambien sin clave, con la clave rechazada o sin cuota (esos 503
+    con codigo son de la v1). En las alternativas, «el calculador»."""
+    texto = {401: "clave no válida (HTTP 401)", 403: "sin permiso para esta API (HTTP 403)",
+             429: "cuota agotada (HTTP 429)", 500: "HTTP 500",
+             "timeout": "tiempo de espera agotado"}[fallo]
+    rid = make_route()
+    fake_prim.message(Msg(["C01739"], "Trafic interrompu entre Saint-Lazare et Houilles."))
+    fake_prim.fail["navitia"] = fallo
+    if fallo == 429:
+        fake_prim.remaining["navitia"] = 1           # la cuota del dia: se acaba
+    casos = [("/api/search/stops", {"q": "gare"}, "la API de IDFM"),
+             ("/api/search/places", {"q": "gare"}, "la API de IDFM"),
+             ("/api/stops/stop_area:IDFM:71370/lines", {}, "la API de IDFM"),
+             ("/api/plan", {"from": "2.2170;48.9270", "to": "stop_area:IDFM:65063"},
+              "la API de IDFM"),
+             (f"/api/alternatives/{rid}", {}, "el calculador")]
+    for i, (url, params, quien) in enumerate(casos):
+        r = client.get(url, params=params)
+        assert r.status_code == 502, (url, r.text)
+        # La primera llamada trae el motivo de PRIM; las siguientes, el de la
+        # pausa tras el fallo (el mismo) o, con la cuota del dia agotada, ese.
+        motivo = "cuota diaria agotada" if fallo == 429 and i else texto
+        assert r.json() == {"detail": f"{quien} no responde: {motivo}"}, url
+    assert fake_prim.calls["navitia"] == 1
+
+
+def test_sin_clave_502_como_en_la_030(env, fake_prim, monkeypatch):
+    """Sin clave de PRIM: la v1 dice prim_key_missing (503); la 0.3.0, 502."""
+    from fastapi.testclient import TestClient
+
+    from app.config import settings
+    from app.main import create_app
+
+    monkeypatch.setenv("PRIM_API_KEY", "")
+    settings.reload()
+    with TestClient(create_app()) as c:
+        r = c.get("/api/search/stops", params={"q": "gare"})
+        assert r.status_code == 502
+        assert r.json() == {"detail": "la API de IDFM no responde: sin clave de PRIM"}
+    assert fake_prim.total_calls() == 0
+
+
 @pytest.mark.parametrize("path", ["/api/stats", "/api/platform-model"])
 def test_estadisticas_legacy(client, path):
     spec = _spec_030()

@@ -12,6 +12,7 @@ se contrasta con los destinos que circulan de verdad ahora mismo.
 from __future__ import annotations
 
 import asyncio
+import math
 from collections import OrderedDict
 from datetime import datetime, timedelta
 
@@ -246,16 +247,23 @@ async def route_from_option(option: dict, meta: dict) -> dict:
         # ensenar; si el tramo ya las trae, mandan las suyas.
         out.update(leg_coords(out["line_id"], out["from_id"], out["to_id"]))
         for k in ("from_lat", "from_lon", "to_lat", "to_lon"):
-            if isinstance(leg.get(k), (int, float)) and not isinstance(leg.get(k), bool):
-                out[k] = float(leg[k])
+            v = leg.get(k)
+            if isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v):
+                out[k] = float(v)
         out_legs.append(out)
 
     first = legs[0]
     last = legs[-1]
+    # Con .get y comprobando el tipo: la opcion la manda la app y un tramo
+    # sin from_name o un nombre que no es texto era un KeyError o un
+    # AttributeError (500). api/common.py ya lo para antes con un 400; esto
+    # es para que la funcion no dependa de ello.
+    name = meta.get("name")
+    name = name.strip() if isinstance(name, str) else ""
     return {
-        "name": (meta.get("name") or "").strip()
-                or f"{meta.get('origin_name') or first['from_name']} → "
-                   f"{meta.get('dest_name') or last['to_name']}",
+        "name": name
+                or f"{meta.get('origin_name') or first.get('from_name') or ''} → "
+                   f"{meta.get('dest_name') or last.get('to_name') or ''}",
         "origin_id": meta.get("origin_id") or first.get("from_id", ""),
         "origin_name": meta.get("origin_name") or first.get("from_name", ""),
         "dest_id": meta.get("dest_id") or last.get("to_id", ""),
@@ -268,9 +276,16 @@ async def route_from_option(option: dict, meta: dict) -> dict:
         # La duracion real del itinerario elegido: con ella la franja que se
         # calcula a partir de "quiero llegar a las 09:00" es la de verdad y
         # no una estimacion.
-        "duration_min": int(option.get("minutes") or 0),
+        "duration_min": _minutes(option.get("minutes")),
         "legs": out_legs,
     }
+
+
+def _minutes(value) -> int:
+    """`minutes` de la opcion como entero; 0 si no es un numero finito."""
+    if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value):
+        return int(value)
+    return 0
 
 
 def when_param(when: str | None, now: datetime | None = None) -> str | None:

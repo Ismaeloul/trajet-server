@@ -109,19 +109,30 @@ class Quota:
             return
         with self._mem:
             day, kid = self._day, self._key_id
+        self._merge(day, kid, self._read(day, kid, prune))
+
+    def _read(self, day: str, kid: str, prune: bool = False) -> list | None:
+        """Filas de quota_usage de ese dia y esa clave. SQLite: fuera del
+        bucle de eventos. None si no se pudo leer."""
+        if not self._persist:
+            return None
         try:
             with db.conn() as c:
-                rows = c.execute(
+                rows = [dict(r) for r in c.execute(
                     "SELECT endpoint, used, remaining_reported FROM quota_usage "
-                    "WHERE day = ? AND key_id = ?", (day, kid)).fetchall()
+                    "WHERE day = ? AND key_id = ?", (day, kid)).fetchall()]
                 if prune:
                     corte = (date.fromisoformat(day) - timedelta(days=KEEP_DAYS)).isoformat()
                     c.execute("DELETE FROM quota_usage WHERE day < ?", (corte,))
         except Exception as e:
             self._warn_once("lectura", e)
-            return
+            return None
+        return rows
+
+    def _merge(self, day: str, kid: str, rows: list | None) -> None:
+        """Suma a memoria lo leido, si sigue siendo el mismo dia y clave."""
         with self._mem:
-            if (self._day, self._key_id) != (day, kid):
+            if not rows or (self._day, self._key_id) != (day, kid):
                 return
             for r in rows:
                 ep = r["endpoint"]
@@ -211,14 +222,34 @@ class Quota:
 
     def reset_for_new_key(self, key: str | None = None) -> None:
         """Al cambiar la clave. El contador pasa a ser el de la clave nueva:
-        de cero si nunca se uso hoy, o el que llevara si se vuelve a una."""
+        de cero si nunca se uso hoy, o el que llevara si se vuelve a una.
+
+        Lee SQLite. Desde el bucle de eventos no se llama a esta sino a sus
+        dos pasos: read_for_key en un hilo y apply_key en el bucle, como hace
+        prim.set_key."""
+        self.apply_key(key, self.read_for_key(key))
+
+    def read_for_key(self, key: str | None = None) -> tuple[str, str, list | None]:
+        """Lo que hay guardado hoy de esa clave (o de la actual). SQLite:
+        fuera del bucle de eventos."""
+        with self._mem:
+            kid = key_id(key) if key is not None else self._key_id
+        day = self._today()
+        return day, kid, self._read(day, kid)
+
+    def apply_key(self, key: str | None, loaded: tuple[str, str, list | None]) -> None:
+        """Pasa el contador a esa clave con lo leido por read_for_key. Solo
+        memoria: se puede llamar desde el bucle de eventos."""
+        day, kid, rows = loaded
         with self._mem:
             if key is not None:
                 self._key_id = key_id(key)
             self._day = self._today()
             self._used = dict.fromkeys(ENDPOINTS, 0)
             self._reported = dict.fromkeys(ENDPOINTS, None)
-        self._load()
+        # Si entre leer y aplicar cambio el dia UTC, lo leido es de ayer y
+        # _merge no lo usa: la clave empieza el dia nuevo de cero.
+        self._merge(day, kid, rows)
 
     # ---------------- consultar ----------------
 

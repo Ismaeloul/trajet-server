@@ -161,7 +161,8 @@ def test_tablero_parcial_da_200_con_errors(api, fake_prim):
     ("connect", 502, "prim_unreachable"),
 ])
 def test_v1_board_nunca_hueco(api, fake_prim, fallo, status, code):
-    """PRIM caido sin nada en cache: error disenado, nunca un tablero hueco."""
+    """PRIM caido del todo (estaciones Y avisos) sin nada en cache: error
+    disenado, nunca un tablero hueco."""
     caso = S.error_prim(fake_prim, fallo)
     api.post("/api/v1/routes", json=caso.ruta)
     r = api.get("/api/v1/board", params={"log_history": "false"})
@@ -169,6 +170,30 @@ def test_v1_board_nunca_hueco(api, fake_prim, fallo, status, code):
     err = r.json()["error"]
     assert err["code"] == code and err["message"]
     assert "legs" not in r.json()
+
+
+@pytest.mark.parametrize("fallo", [401, 429, 500, "timeout"])
+def test_v1_board_sin_estaciones_pero_con_avisos_da_200(api, fake_prim, fallo):
+    """H3: si fallan todas las estaciones pero los avisos llegan, el tablero
+    NO es hueco (el contrato: error solo si no llega NADA). 200 con las
+    estaciones en `errors`, y la linea cortada se ve: stop-monitoring es el
+    primero que agota la cuota y la app no puede quedarse con un «normal»
+    viejo mientras la J esta interrumpida."""
+    caso = S.error_prim(fake_prim, fallo)
+    del fake_prim.fail["*"]
+    fake_prim.fail["stop-monitoring"] = fallo
+    fake_prim.message(Msg(["C01739"], "Trafic interrompu entre Saint-Lazare et Houilles."))
+    api.post("/api/v1/routes", json=caso.ruta)
+    r = api.get("/api/v1/board")
+    assert r.status_code == 200, r.text
+    b = r.json()
+    assert b["disruptions_ok"] is True and b["stale"] is True
+    assert [e.split(":")[0] for e in b["errors"]] == ["Gare Saint-Lazare"]
+    leg = b["legs"][0]
+    assert leg["departures"] == [] and leg["status"]["label"] == "interrumpida"
+    assert b["worst_level"] == 2
+    # Sin pasos no se apunta en el historial (seria un «0 min» falso).
+    assert api.get("/api/v1/stats").json()["overall"]["n"] == 0
 
 
 def test_tablero_sin_clave_prim_key_missing(env, fake_prim, monkeypatch):
@@ -204,10 +229,40 @@ def test_etag_y_304(api):
     rid = api.post("/api/v1/routes", json=ruta_j()).json()["id"]
     r3 = api.get("/api/v1/routes", headers={"If-None-Match": etag})
     assert r3.status_code == 200 and r3.headers["etag"] != etag
-    # Y el mapa de la ruta (las tres operaciones con 304 en el contrato)
+    assert rid
+
+
+def test_mapa_calculado_304(api):
+    """H7: el mapa ya calculado (su fila en map_cache con la huella de la
+    ruta tal como esta) sale siempre igual, asi que el mismo ETag da 304."""
+    from app import db, mapdata
+    rid = api.post("/api/v1/routes", json=ruta_j()).json()["id"]
+    cuerpo = api.get(f"/api/v1/routes/{rid}/map").json()
+    cuerpo["generated_at"] = "2026-09-01T03:30:00+00:00"       # «calculado» anoche
+    ruta = db.get_route(rid, with_coords=True)
+    mapdata._db_put([(f"route:{rid}", cuerpo, mapdata.fingerprint(ruta), "")])
+    r1 = api.get(f"/api/v1/routes/{rid}/map")
+    assert r1.status_code == 200 and r1.json()["generated_at"] == cuerpo["generated_at"]
+    assert r1.json()["pending"] is False
+    etag = r1.headers["etag"]
+    for _ in range(3):
+        r = api.get(f"/api/v1/routes/{rid}/map", headers={"If-None-Match": etag})
+        assert r.status_code == 304 and r.content == b""
+    # Si la ruta cambia, la huella ya no casa: no se sirve el mapa viejo.
+    api.put(f"/api/v1/routes/{rid}", json=ruta_j(legs=[dict(ruta_j()["legs"][0],
+                                                             from_id="stop_area:IDFM:65063")]))
+    r = api.get(f"/api/v1/routes/{rid}/map", headers={"If-None-Match": etag})
+    assert r.status_code == 200 and r.json()["generated_at"] != cuerpo["generated_at"]
+
+
+def test_mapa_sin_calcular_etag(api):
+    """Un mapa aun sin calcular (pending, o con el mapa apagado) se monta al
+    vuelo con la hora de ahora: el ETag puede cambiar de un segundo a otro, y
+    el 304 no esta garantizado. Solo se comprueba que el contrato se cumple."""
+    rid = api.post("/api/v1/routes", json=ruta_j()).json()["id"]
     e = api.get(f"/api/v1/routes/{rid}/map").headers["etag"]
-    r4 = api.get(f"/api/v1/routes/{rid}/map", headers={"If-None-Match": e})
-    assert r4.status_code in (200, 304)          # 200 si el mapa cambio (pending)
+    r = api.get(f"/api/v1/routes/{rid}/map", headers={"If-None-Match": e})
+    assert r.status_code in (200, 304)
 
 
 def test_gzip(api, fake_prim):
@@ -255,6 +310,159 @@ def test_rutas_validacion_400(api, cambio, texto):
     assert r.status_code == 400
     err = r.json()["error"]
     assert err["code"] == "bad_request" and texto in err["message"]
+
+
+def _tramo(**over) -> dict:
+    return ruta_j(legs=[dict(ruta_j()["legs"][0], **over)])
+
+
+@pytest.mark.parametrize("ruta,texto", [
+    # Textos del tramo: texto o nada; un numero u objeto es un 400 (no 500)
+    *[(_tramo(**{f: 5}), f) for f in ("line_code", "line_name", "line_mode", "line_color",
+                                       "from_name", "to_id", "to_name")],
+    (_tramo(line_id=123), "line_id"), (_tramo(from_id=["x"]), "from_id"),
+    (_tramo(directions="Ermont"), "directions"), (_tramo(directions=[1]), "directions"),
+    # Numeros: finitos, enteros de verdad y en un rango razonable
+    (ruta_j(duration_min=2 ** 70), "duration_min"), (ruta_j(duration_min=1e30), "duration_min"),
+    (ruta_j(duration_min=-1), "duration_min"), (ruta_j(duration_min=1441), "duration_min"),
+    (ruta_j(duration_min="31"), "duration_min"), (ruta_j(duration_min=True), "duration_min"),
+    (ruta_j(position=2 ** 70), "position"), (ruta_j(position=-10001), "position"),
+    (ruta_j(days=[True]), "days"), (ruta_j(origin_name=5), "origin_name"),
+])
+def test_rutas_validacion_400_tipos_y_rangos(api, ruta, texto):
+    """H4/H2: lo que antes acababa en un IntegrityError o un OverflowError de
+    SQLite (500, que el contrato no declara) es un 400 con motivo."""
+    rid = api.post("/api/v1/routes", json=ruta_j()).json()["id"]
+    for metodo, url in (("post", "/api/v1/routes"), ("put", f"/api/v1/routes/{rid}")):
+        r = api.request(metodo, url, json=ruta)
+        assert r.status_code == 400, r.text
+        err = r.json()["error"]
+        assert err["code"] == "bad_request" and texto in err["message"]
+
+
+@pytest.mark.parametrize("crudo", [
+    b'{"name":"x","origin_id":"a","dest_id":"b","duration_min":Infinity,"legs":[]}',
+    b'{"name":"x","origin_id":"a","dest_id":"b","position":NaN,"legs":[]}',
+    b'{"name":"x","origin_id":"a","dest_id":"b","position":-Infinity,"legs":[]}',
+])
+def test_rutas_nan_e_infinity_400(api, crudo):
+    """NaN e Infinity no son JSON (json.loads los aceptaba): 400."""
+    r = api.post("/api/v1/routes", content=crudo, headers={"content-type": "application/json"})
+    assert r.status_code == 400 and r.json()["error"]["code"] == "bad_request"
+
+
+def test_validate_route_nan_infinity_y_nulls():
+    """La misma comprobacion en validate_route (la 0.3.0 no lee el cuerpo a
+    mano): NaN/Infinity fuera; los textos null del tramo cuentan como ""."""
+    from app.api.common import validate_route
+    from app.api.errors import ApiError
+    for campo in ("duration_min", "position"):
+        for malo in (float("nan"), float("inf"), float("-inf")):
+            with pytest.raises(ApiError):
+                validate_route(ruta_j(**{campo: malo}))
+    out = validate_route(ruta_j(position=None, duration_min=None,
+                                legs=[dict(ruta_j()["legs"][0], from_lat=float("nan"),
+                                           to_lon=float("inf"), from_lon=2.32)]))
+    assert out["position"] == 0 and out["duration_min"] == 0
+    leg = out["legs"][0]
+    assert "from_lat" not in leg and "to_lon" not in leg and leg["from_lon"] == 2.32
+
+
+def test_rutas_nulls_se_guardan_vacios(api):
+    """Un opcional mandado como null (lo normal al serializar) no es un 500:
+    los textos del tramo quedan "", directions [], y lo que sale cumple el
+    contrato (RouteLeg)."""
+    nulos = dict.fromkeys(("line_code", "line_name", "line_mode", "line_color", "from_name",
+                           "to_id", "to_name", "directions"))
+    r = api.post("/api/v1/routes", json=ruta_j(origin_name=None, dest_name=None,
+                                                position=None, duration_min=None,
+                                                time_from=None, time_at=None,
+                                                legs=[dict(ruta_j()["legs"][0], **nulos)]))
+    assert r.status_code == 201, r.text
+    leg = r.json()["route"]["legs"][0]
+    assert leg["directions"] == [] and leg["line_code"] == "" and leg["to_name"] == ""
+    rid = r.json()["id"]
+    r = api.put(f"/api/v1/routes/{rid}", json=ruta_j(legs=[dict(ruta_j()["legs"][0], **nulos)]))
+    assert r.status_code == 200 and r.json()["route"]["legs"][0]["directions"] == []
+    assert api.get(f"/api/v1/routes/{rid}").json()["legs"][0]["directions"] == []
+
+
+_PLAN_LEG = {"line_id": "line:IDFM:C01739", "line_code": "J", "line_name": "J",
+             "line_mode": "Train", "line_color": "CEC73D",
+             "from_id": "stop_area:IDFM:71370", "from_name": "Gare Saint-Lazare",
+             "to_id": "stop_area:IDFM:65063", "to_name": "Argenteuil",
+             "direction": "Ermont - Eaubonne (Eaubonne)", "minutes": 21, "at": "08:36"}
+
+
+def _plan(legs=None, **over) -> dict:
+    option = {"kind": "best", "minutes": 31, "walk_minutes": 10, "transfers": 0,
+              "departure": "08:31", "arrival": "09:02", "legs": legs or [dict(_PLAN_LEG)]}
+    option.update(over)
+    return option
+
+
+@pytest.mark.parametrize("entrada,sale", [
+    ("CEC73D", "CEC73D"), ("cec73d", "CEC73D"), ("#cec73d", "CEC73D"), (" #FFF ", "FFFFFF"),
+    ("f0a", "FF00AA"), ("", ""), (None, ""), ("12", ""), ("GGGGGG", ""), ("#12345", ""),
+    ("1234567", ""), ("rgb(0,0,0)", ""), ("##ABCDEF", ""),
+])
+def test_line_color_hex_6(api, fake_prim, entrada, sale):
+    """R12: line_color se guarda como hex de 6 cifras en mayusculas y sin
+    `#` («Hex sin #» en el contrato), o "" si no es un color. Por /routes y
+    por /routes/from-plan."""
+    r = api.post("/api/v1/routes", json=_tramo(line_color=entrada))
+    assert r.status_code == 201, r.text
+    assert r.json()["route"]["legs"][0]["line_color"] == sale
+    rid = r.json()["id"]
+    assert api.get(f"/api/v1/routes/{rid}").json()["legs"][0]["line_color"] == sale
+    r = api.post("/api/v1/routes/from-plan",
+                 json={"option": _plan(legs=[dict(_PLAN_LEG, line_color=entrada)])})
+    assert r.status_code == 201, r.text
+    assert r.json()["route"]["legs"][0]["line_color"] == sale
+
+
+@pytest.mark.parametrize("cuerpo,texto", [
+    # Tramos incompletos (antes KeyError): sin de donde sale no hay origen
+    ({"option": {"legs": [{}]}}, "origin_id"),
+    ({"option": {"legs": [{"line_id": "line:IDFM:C01739"}]}}, "origin_id"),
+    ({"option": {"legs": [{"from_id": "stop_area:IDFM:71370"}]}}, "dest_id"),
+    ({"option": {"legs": [{"from_id": "stop_area:IDFM:71370"}]},
+      "meta": {"dest_id": "stop_area:IDFM:65063"}}, "line_id"),
+    ({"option": _plan(), "meta": {"name": 5}}, "name"),
+    ({"option": _plan(), "meta": {"name": {"a": 1}}}, "name"),
+    ({"option": _plan(), "meta": {"origin_id": 5}}, "origin_id"),
+    ({"option": _plan(), "meta": {"days": ["lunes"]}}, "days"),
+    ({"option": _plan(), "meta": {"time_at": 900}}, "time_at"),
+    ({"option": _plan(minutes="abc")}, "minutes"),
+    ({"option": _plan(minutes=1e30)}, "minutes"),
+    ({"option": _plan(minutes=-5)}, "minutes"),
+    ({"option": _plan(legs=[dict(_PLAN_LEG, from_id=71370)])}, "from_id"),
+    ({"option": _plan(legs=[dict(_PLAN_LEG, direction=["x"])])}, "direction"),
+    ({"option": _plan(legs=[dict(_PLAN_LEG, line_id=None)])}, "line_id"),
+    ({"option": _plan(legs=[dict(_PLAN_LEG, line_color=12)])}, "line_color"),
+    ({"option": _plan(), "meta": "Al curro"}, "itinerario"),
+    ({"option": []}, "itinerario"),
+])
+def test_from_plan_400_nunca_500(api, fake_prim, cuerpo, texto):
+    """H2: /routes/from-plan con tramos incompletos, meta.name que no es
+    texto u option.minutes que no es un numero: 400 con motivo, nunca 500."""
+    fake_prim.add(S.SAINT_LAZARE[0], Dep("C01739", "Ermont - Eaubonne", 4))
+    r = api.post("/api/v1/routes/from-plan", json=cuerpo)
+    assert r.status_code == 400, r.text
+    err = r.json()["error"]
+    assert err["code"] == "bad_request" and texto in err["message"], err
+
+
+def test_from_plan_tramo_sin_nombres(api, fake_prim):
+    """Un tramo sin from_name/to_name (y sin meta) ya no es un KeyError: el
+    nombre de la ruta sale de lo que haya."""
+    fake_prim.add(S.SAINT_LAZARE[0], Dep("C01739", "Ermont - Eaubonne", 4))
+    leg = {k: v for k, v in _PLAN_LEG.items() if k not in ("from_name", "to_name")}
+    r = api.post("/api/v1/routes/from-plan", json={"option": _plan(legs=[leg], minutes=None)})
+    assert r.status_code == 201, r.text
+    ruta = r.json()["route"]
+    assert ruta["name"] == "→" and ruta["duration_min"] == 0
+    assert ruta["legs"][0]["directions"] == ["Ermont - Eaubonne"]
 
 
 def test_rutas_cuerpo_no_json_400(api):
@@ -369,6 +577,19 @@ def test_buscadores(api, fake_prim):
 def test_buscadores_400(api, url, params):
     r = api.get(url, params=params)
     assert r.status_code == 400 and r.json()["error"]["code"] == "bad_request"
+
+
+def test_buscador_caido_no_degrada_el_tablero(api, fake_prim):
+    """H10: con el buscador (navitia) caido, el tablero, fresco, no sale
+    como degradado."""
+    fake_prim.add(S.SAINT_LAZARE[0], Dep("C01739", "Ermont - Eaubonne", 6))
+    api.post("/api/v1/routes", json=ruta_j())
+    assert api.get("/api/v1/board").json()["server"]["degraded"] is False
+    fake_prim.fail["navitia"] = "timeout"
+    assert api.get("/api/v1/search/places", params={"q": "gare"}).status_code == 502
+    b = api.get("/api/v1/board").json()
+    assert b["errors"] == [] and b["stale"] is False
+    assert b["server"]["degraded"] is False
 
 
 def test_buscador_prim_caido(api, fake_prim):

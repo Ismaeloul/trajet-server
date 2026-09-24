@@ -108,43 +108,71 @@ def test_sin_numero_de_tren_cae_a_la_hora_y_normaliza_el_destino(bd):
     assert platform.predict(STOP, LINE, "Rouen Rive Droite", None, "09:40", weekday=otro) is None
 
 
-def test_prevision_umbral_niveles_tipo_dia(bd):
+# Una semana fija, de lunes a domingo, a las 08:12 de Paris. El test de abajo
+# se ejecuta como si «hoy» fuera cada uno de esos dias: antes dependia de
+# datetime.now() y fallaba todos los sabados (H1 de la verificacion), porque
+# las tres observaciones del tren 4444 sembradas en los tres dias anteriores
+# caian en miercoles, jueves y viernes, laborables, justo el tipo de dia
+# «contrario» que luego se consultaba.
+_SEMANA = [datetime(2026, 9, 21, 8, 12, tzinfo=settings.tz) + timedelta(days=i)
+           for i in range(7)]
+
+
+@pytest.mark.parametrize("hoy", _SEMANA, ids=["lun", "mar", "mie", "jue", "vie", "sab", "dom"])
+def test_prevision_umbral_niveles_tipo_dia(bd, hoy):
     """R75: >= 3 observaciones y mayoria ESTRICTA (> 50 %); mision > hora >
-    linea; laborable y fin de semana aparte en hora y linea."""
+    linea; laborable y fin de semana aparte en hora y linea.
+
+    Todo con fechas fijas y el dia de la semana pasado a predict: no depende
+    del dia en que se lance."""
+    wd = hoy.weekday()
+    otro = 0 if wd >= 5 else 5                  # un dia del otro tipo
+
+    def dia_(n: int) -> datetime:
+        return hoy - timedelta(days=n)
+
+    def semana_(n: int) -> datetime:            # mismo dia de la semana que «hoy»
+        return hoy - timedelta(days=7 * n)
+
+    def pred(dest, train, aimed, weekday=wd):
+        return platform.predict(STOP, LINE, dest, train, aimed, weekday=weekday)
+
     # Umbral: 2 no bastan; 3 si.
     for n in (1, 2):
-        _obs("Le Havre", "111", "10:00", "5", misma_semana(n))
-    assert platform.predict(STOP, LINE, "Le Havre", "111", "10:00") is None
-    _obs("Le Havre", "111", "10:00", "5", misma_semana(3))
-    assert platform.predict(STOP, LINE, "Le Havre", "111", "10:00")["samples"] == 3
+        _obs("Le Havre", "111", "10:00", "5", semana_(n))
+    assert pred("Le Havre", "111", "10:00") is None
+    _obs("Le Havre", "111", "10:00", "5", semana_(3))
+    assert pred("Le Havre", "111", "10:00")["samples"] == 3
     # Mayoria estricta: 2 de 4 (50 %) no; 3 de 5 (60 %) si.
     for n, via in ((1, "7"), (2, "7")):
-        _obs("Caen", "222", "", via, dia(n))
+        _obs("Caen", "222", "", via, dia_(n))
     for n, via in ((3, "8"), (4, "8")):
-        _obs("Caen", "222", "", via, dia(n))
-    assert platform.predict(STOP, LINE, "Caen", "222", None) is None
-    _obs("Caen", "222", "", "7", dia(5))
-    assert platform.predict(STOP, LINE, "Caen", "222", None)["share"] == 0.6
+        _obs("Caen", "222", "", via, dia_(n))
+    assert pred("Caen", "222", None) is None
+    _obs("Caen", "222", "", "7", dia_(5))
+    assert pred("Caen", "222", None)["share"] == 0.6
 
     # Niveles: un tren nuevo (sin historico por mision) usa la hora; sin hora
     # teorica conocida, la linea.
     for n in range(1, 4):
-        _obs("Vernon", f"9{n}", "07:05", "3", misma_semana(n))     # misiones distintas
+        _obs("Vernon", f"9{n}", "07:05", "3", semana_(n))     # misiones distintas
     for n in range(1, 3):
-        _obs("Vernon", f"8{n}", "18:30", "4", misma_semana(n))
-    g = platform.predict(STOP, LINE, "Vernon", "99999", "07:05")
+        _obs("Vernon", f"8{n}", "18:30", "4", semana_(n))
+    g = pred("Vernon", "99999", "07:05")
     assert g["basis"] == "hora" and g["platform"] == "3"
-    g = platform.predict(STOP, LINE, "Vernon", "99999", "12:00")
+    g = pred("Vernon", "99999", "12:00")
     assert g["basis"] == "linea" and g["platform"] == "3" and g["samples"] == 5
     assert g["share"] == 0.6 and g["why"] == "por la línea"
-    # La mision manda sobre la hora cuando tiene datos.
+    # La mision manda sobre la hora cuando tiene datos (y no mira el tipo de
+    # dia: un tren con numero es el mismo tren).
     for n in range(1, 4):
-        _obs("Vernon", "4444", "07:05", "9", dia(n))
-    assert platform.predict(STOP, LINE, "Vernon", "4444", "07:05")["platform"] == "9"
-    # Fin de semana: el historico de laborables no vale.
-    hoy = datetime.now(settings.tz)
-    otro = 0 if hoy.weekday() >= 5 else 5
-    assert platform.predict(STOP, LINE, "Vernon", "99999", "07:05", weekday=otro) is None
+        _obs("Vernon", "4444", "07:05", "9", semana_(n))
+    assert pred("Vernon", "4444", "07:05")["platform"] == "9"
+    assert pred("Vernon", "4444", "07:05", weekday=otro)["platform"] == "9"
+    # Del otro tipo de dia (fin de semana si hoy es laborable, y al reves),
+    # el historico de este no vale ni por la hora ni por la linea.
+    assert pred("Vernon", "99999", "07:05", weekday=otro) is None
+    assert pred("Vernon", "99999", "12:00", weekday=otro) is None
 
 
 def test_prevision_linea_sin_mayoria_no_se_pinta(bd):

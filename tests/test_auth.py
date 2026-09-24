@@ -599,6 +599,29 @@ def test_panel_origen_detras_del_proxy(env, route_file, monkeypatch):
     _forbidden(c.post("/api/admin/prueba", headers={"x-test-peer": "192.168.1.40", **h}))
 
 
+def test_x_forwarded_host_solo_cuenta_si_viene_del_proxy(env, route_file, monkeypatch):
+    """SEC-3: X-Forwarded-Host solo entra en los hosts validos del Origin si
+    la conexion viene del proxy de confianza (el conjunto «auto»), aunque
+    TRAJET_ADMIN_PEERS deje entrar a otros pares. De ellos es una cabecera
+    que escribe el cliente: con un Origin a juego no puede colar otra web.
+    Del proxy si cuenta, porque el app-gateway de umbreld la sobrescribe con
+    el Host real: el navegador de otra web manda SU Origin y llega el host
+    de Umbrel, que no casa."""
+    monkeypatch.setattr(auth.settings, "admin_peers", "10.21.0.0/16, 192.168.1.0/24")
+    c = _panel_app()
+    malo = {"X-Trajet-Panel": "1", "Origin": "http://evil.example",
+            "X-Forwarded-Host": "evil.example"}
+    for peer in ("10.21.0.7", "192.168.1.40"):        # entran al panel, pero no son el proxy
+        assert c.get("/api/admin/prueba", headers={"x-test-peer": peer}).status_code == 200
+        _forbidden(c.post("/api/admin/prueba", headers={"x-test-peer": peer, **malo}), "Origin")
+    # Desde el proxy, X-Forwarded-Host es el Host de verdad de la peticion.
+    real = {"X-Trajet-Panel": "1", "X-Forwarded-Host": "umbrel.local"}
+    _forbidden(c.post("/api/admin/prueba", headers={"x-test-peer": "10.21.0.1", **real,
+                                                    "Origin": "http://evil.example"}), "Origin")
+    assert c.post("/api/admin/prueba", headers={"x-test-peer": "10.21.0.1", **real,
+                                                "Origin": "http://umbrel.local"}).status_code == 200
+
+
 def test_tabla_pairing_y_devices_sin_secretos_en_claro(v1, env):
     """Repaso final: ni codigos ni tokens en claro en ninguna tabla."""
     s = auth.new_pairing()

@@ -335,6 +335,58 @@ async def test_borrar_sin_clave_de_entorno_se_queda_sin_clave(env, fake_prim, mo
         await prim.shutdown()
 
 
+async def test_set_key_lee_la_cuota_en_un_hilo(pc, fake_prim, monkeypatch):
+    """H4: al cambiar la clave desde el panel, lo que la clave lleva gastado
+    hoy se lee de SQLite fuera del bucle de eventos. Y se lee bien: volver a
+    una clave recupera su cuenta."""
+    import threading
+
+    from app import db
+    await pc.stop_monitoring(SL)
+    assert pc.quota_counter.used("stop-monitoring") == 1
+    bucle = threading.get_ident()
+    hilos: list[int] = []
+    real_conn = db.conn
+
+    def conn_apuntada():
+        hilos.append(threading.get_ident())
+        return real_conn()
+
+    monkeypatch.setattr(db, "conn", conn_apuntada)
+    await pc.set_key(NUEVA)
+    assert pc.quota_counter.used("stop-monitoring") == 0       # clave nueva: de cero
+    await pc.set_key(FAKE_KEY)
+    assert pc.quota_counter.used("stop-monitoring") == 1       # la de antes: su cuenta
+    assert hilos and bucle not in hilos
+
+
+async def test_degraded_solo_mira_el_tablero(pc, fake_prim):
+    """H10: ServerState.degraded va en cada tablero; que falle navitia (el
+    planificador o el buscador) no hace viejo el tablero. Una copia vieja o
+    una pausa de stop-monitoring o general-message, si."""
+    fake_prim.add("71370", Dep("C01739", "Ermont - Eaubonne", 6))
+    await pc.stop_monitoring(SL)
+    await pc.general_message()
+    await pc.places("gare")
+    assert pc.degraded() is False
+    fake_prim.fail["navitia"] = "timeout"
+    with pytest.raises(PrimError):
+        await pc.places("argenteuil")                           # sin copia: error
+    pc._cache["pl:stop_area:gare"].fetched_at -= 10 ** 6
+    await pc.places("gare")                                     # copia vieja de navitia
+    assert pc.paused("navitia") and pc._stale_at.get("navitia")
+    assert pc.degraded() is False
+    # El tablero con una copia vieja: eso si es degradado.
+    pc._cache[f"sm:{SL}"].fetched_at -= 90
+    fake_prim.fail["stop-monitoring"] = 500
+    _, age = await pc.stop_monitoring(SL)
+    assert age >= 89 and pc.degraded() is True
+    # Y pasada la ventana (y sin pausa), deja de serlo.
+    reloj = pc._clock
+    pc._clock = lambda: reloj() + 3600
+    assert pc.degraded() is False
+
+
 # ---------------- con el servidor arrancado ----------------
 
 def test_set_key_en_caliente_con_el_servidor_arrancado(client, fake_prim):

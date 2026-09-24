@@ -15,6 +15,7 @@ malo de alguien sin token recibe 401, no un 400 que le cuente algo.
 from __future__ import annotations
 
 import json
+import sqlite3
 from typing import Literal
 
 from fastapi import APIRouter, Depends, Query, Request
@@ -55,9 +56,15 @@ async def _json_body(request: Request, limit: int = _MAX_BODY):
     if not raw:
         raise ApiError("bad_request", "falta el cuerpo JSON")
     try:
-        return json.loads(bytes(raw))
+        return json.loads(bytes(raw), parse_constant=_no_constant)
     except (ValueError, UnicodeDecodeError) as e:
         raise ApiError("bad_request", "el cuerpo no es JSON válido") from e
+
+
+def _no_constant(name: str):
+    # json.loads acepta NaN, Infinity y -Infinity, que no son JSON (RFC 8259)
+    # y que acababan en SQLite o en un int() con un 500. Fuera al leer.
+    raise ValueError(f"{name} no es JSON")
 
 
 def _no_store(body: dict, status: int = 200) -> JSONResponse:
@@ -82,7 +89,13 @@ async def v1_ping(request: Request):
 
     Sin token no toca la BD; con token hace una sola lectura para decir si
     vale (sin apuntar el ultimo uso)."""
-    device = await auth.optional_device(request)
+    try:
+        device = await auth.optional_device(request)
+    except sqlite3.Error:
+        # BD a medio migrar (modo degradado, app/main.py): el ping tiene que
+        # seguir respondiendo, que es el HEALTHCHECK del contenedor. Sin
+        # poder leer los dispositivos no se puede decir que el token valga.
+        device = None
     return {"ok": True, "service": "trajet", "api": API_VERSION, "version": VERSION,
             "paired": device is not None}
 
@@ -184,10 +197,13 @@ async def v1_health():
 async def v1_board(route_id: int | None = None, log_history: bool = True):
     """Tablero de una ruta (la que toca si no se indica).
 
-    Nunca un tablero hueco (R9, R88): si no se pudo leer ninguna estacion ni
-    en cache, error con codigo (prim_key_missing, prim_unreachable…) para
-    que la app se quede con su ultimo tablero bueno y enseñe el estado
-    diseñado. Si falla solo una parte, 200 con esa parte en `errors`."""
+    Nunca un tablero hueco (R9, R88): si no se pudo traer NADA (ninguna
+    estacion ni los avisos, ni en cache), error con codigo
+    (prim_key_missing, prim_unreachable…) para que la app se quede con su
+    ultimo tablero bueno y enseñe el estado diseñado. Si falla solo una
+    parte, 200 con esa parte en `errors`: tambien si fallan todas las
+    estaciones pero llegan los avisos, que una linea cortada se tiene que
+    ver aunque stop-monitoring no responda."""
     data = await common.board(route_id, log_history)
     server = prim.server_state()             # solo memoria (prim.py)
     if data is None:

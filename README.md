@@ -63,7 +63,7 @@ Tres familias de rutas, con el contrato en `docs/openapi.yaml`:
 |---|---|---|
 | `/api/v1/*` | la app del iPhone | fuera del login de Umbrel; **token de dispositivo** obligatorio salvo `/api/v1/ping` y `/api/v1/pair` |
 | `/` y `/api/admin/*` | el panel, o sea tú | detrás del login de Umbrel, más la comprobación de origen de abajo |
-| `/api/*` | la API de la 0.3.0, por compatibilidad | detrás del login de Umbrel, igual que el panel |
+| `/api/*` | la API de la 0.3.0, por compatibilidad | detrás del login de Umbrel y, como el panel, solo desde el proxy de Umbrel (`TRAJET_ADMIN_PEERS`) |
 
 La v1 responde los errores siempre con el mismo sobre,
 `{"error": {"code": "...", "message": "..."}}`, con el mensaje en español;
@@ -104,7 +104,10 @@ cuadra.
   de Docker) o de `127.0.0.1`. Otra app de la red compartida de Umbrel que
   llamase directamente al contenedor se queda fuera. Lo que modifica pide
   además la cabecera `X-Trajet-Panel: 1` y el mismo origen, así que un
-  formulario de otra web no puede tocar nada.
+  formulario de otra web no puede tocar nada. La API de la 0.3.0 (`/api/*`)
+  pasa por la misma comprobación de conexión (sin la cabecera, que sus
+  clientes no mandan): tampoco tiene token y otra app de la red podría
+  leer o borrar las rutas.
 - **La clave de PRIM nunca sale del servidor.** Se pega en el panel, se prueba
   contra PRIM antes de guardarla y se guarda cifrada con AES-256-GCM, con la
   clave derivada (HKDF) de `APP_SEED`, el secreto que Umbrel da a cada app y
@@ -285,7 +288,8 @@ la App Store enseñará Trajet 0.4.0.
 - **Si ya tenías Trajet instalada desde la tienda**: App Store → Trajet →
   **Actualizar**. Al arrancar, la base de datos se migra sola y deja una copia
   `trajet.db.bak-v0` al lado. Tus rutas, el historial y los andenes
-  aprendidos se conservan.
+  aprendidos se conservan. Si la migración fallara, la app arranca igual en
+  modo degradado (el iPhone recibe 503) y el panel dice por qué.
 - **Si vienes del stack de pruebas de `~/trajet`** (el `docker compose` que
   sirve hoy el 7796), hay que pasarle su base de datos a la app:
 
@@ -336,9 +340,9 @@ con tu login de Umbrel:
 
 | lo que ves | qué pasa y qué hacer |
 |---|---|
-| El contenedor se reinicia y el log dice `unable to open database file` | la carpeta de datos no es del uid 1000 (típico si la escribió la 0.3.0, que corría como root): `sudo chown -R 1000:1000 ~/umbrel/app-data/ismaeloul-trajet/data` |
+| El panel avisa «La base de datos no se pudo migrar al arrancar (…)» y el iPhone recibe 503 | la app arranca en modo degradado para que se vea el motivo. Si es `unable to open database file`, la carpeta de datos no es del uid 1000 (típico si la escribió la 0.3.0, que corría como root): `sudo chown -R 1000:1000 ~/umbrel/app-data/ismaeloul-trajet/data` y reinicia la app. Si es otro, mira «Errores recientes» |
 | Umbrel no instala: no puede descargar la imagen | el registro local está parado o no tiene esa versión: vuelve a lanzar `sudo bash scripts/publish.sh 0.4.0` |
-| El panel da 403 «solo acepta conexiones del proxy de Umbrel» | entras por un camino que no es el proxy. Con `TRAJET_ADMIN_PEERS` puedes abrirlo a una red (`192.168.1.0/24`) o a todo (`any`) |
+| El panel (o `/api/*`) da 403 «solo acepta conexiones del proxy de Umbrel» | entras por un camino que no es el proxy. Con `TRAJET_ADMIN_PEERS` puedes abrirlo a una red (`192.168.1.0/24`) o a todo (`any`) |
 | El iPhone no conecta | `curl http://<dirección del QR>/api/v1/ping` desde otro equipo tiene que responder sin login; si pide login, falta la lista blanca en la tienda |
 | El panel avisa de que la clave no se puede descifrar | ha cambiado la semilla (`APP_SEED`) o falta `secrets/master.key`: vuelve a pegar la clave |
 
@@ -398,7 +402,7 @@ tienda; en este PC, el `.env` (ver `.env.example`).
 | `APP_SEED` | la pone Umbrel | Se usa si no hay `TRAJET_SECRET_SEED`. |
 | `TRAJET_DB` | `./data/trajet.db` (en la imagen, `/data/trajet.db`) | Ruta de la base de datos SQLite. |
 | `TRAJET_DATA_DIR` | la carpeta de `TRAJET_DB` | Dónde van `secrets/` y las copias de las migraciones. |
-| `TRAJET_ADMIN_PEERS` | `auto` | Quién puede hablar con el panel: `auto` (el proxy de Umbrel o `127.0.0.1`), `any`, o una lista de redes separadas por comas (`192.168.1.0/24,10.21.0.1`). |
+| `TRAJET_ADMIN_PEERS` | `auto` | Quién puede hablar con el panel y con la API de la 0.3.0 (`/api/*`): `auto` (el proxy de Umbrel o `127.0.0.1`), `any`, o una lista de redes separadas por comas (`192.168.1.0/24,10.21.0.1`). |
 | `APP_PROXY_HOSTNAME` | vacía | Nombre del contenedor del proxy de Umbrel, en las versiones que lo tienen aparte; lo que resuelva se suma a los pares de confianza de `auto`. En umbreld 2.0 no hace falta. |
 | `TRAJET_LAN_URL` | vacía | Dirección de casa que va en el QR. Solo el valor inicial: lo guardado en el panel manda. |
 | `TRAJET_TAILSCALE_URL` | vacía | Igual, la de Tailscale. |

@@ -1,5 +1,6 @@
 """Persistencia en SQLite: rutas, tramos e historial."""
 import json
+import math
 import os
 import sqlite3
 from contextlib import contextmanager
@@ -12,6 +13,12 @@ from .config import settings
 # Columnas de la v2 que no forman parte del contrato de la 0.3.0: se leen
 # aparte (el mapa las usa) para que /api/routes siga devolviendo lo mismo.
 _LEG_V2_COLUMNS = ("from_lat", "from_lon", "to_lat", "to_lon")
+
+# Motivo por el que init() fallo al arrancar, o None. Lo pone app/main.py:
+# con la BD a medio migrar el servidor arranca igual, en modo degradado (las
+# APIs de datos responden 503 y el panel ensena el motivo), en vez de caerse
+# y entrar en un bucle de reinicios en el que nadie ve que ha pasado.
+init_error: str | None = None
 
 
 def _connect() -> sqlite3.Connection:
@@ -165,9 +172,11 @@ def save_route(data: dict, route_id: int | None = None) -> int:
 
 def _coord(value) -> float | None:
     try:
-        return float(value) if value is not None else None
-    except (TypeError, ValueError):
+        v = float(value) if value is not None else None
+    except (TypeError, ValueError, OverflowError):
         return None
+    # NaN o infinito no son una coordenada: el mapa se liaria con ellos.
+    return v if v is not None and math.isfinite(v) else None
 
 
 def delete_route(route_id: int) -> bool:

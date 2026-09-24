@@ -52,6 +52,17 @@ _TOKEN_RE = re.compile(r"^trj_[A-Za-z0-9_-]{43}$")
 # Rate limit del canje (en memoria: si se reinicia el contenedor se pierde, y
 # lo unico que pasa es que el atacante gana una ventana; los codigos siguen
 # caducando a los 5 min).
+#
+# Compromiso aceptado (SEC-4 de la verificacion de la FASE 1): el cupo global
+# y la anulacion tras MAX_CONSECUTIVE_FAILS fallos seguidos los puede disparar
+# cualquiera que llegue a /api/v1/pair sin token (otra app de la red Docker o
+# alguien de la LAN). Con eso puede ESTORBAR el emparejamiento del dueno (su
+# canje recibe 429 unos minutos, o el QR que acaba de generar queda anulado y
+# hay que sacar otro), pero no puede robar nada ni conseguir un token. Se
+# prefiere asi: un cupo por codigo o por IP dejaria probar mucho mas con IPs
+# cambiantes, y el global es justo lo que hace inutil la fuerza bruta contra
+# 2^40 codigos que caducan a los 5 min. Si el dueno ve «demasiados intentos»,
+# basta con esperar y generar otro QR.
 RATE_PER_IP = 5
 RATE_PER_IP_WINDOW = 60
 RATE_GLOBAL = 20
@@ -736,6 +747,41 @@ async def optional_device(request: Request) -> dict | None:
 _UNSAFE = {"POST", "PUT", "PATCH", "DELETE"}
 
 
+async def _require_peer(request: Request, what: str) -> str:
+    """La conexion (no X-Forwarded-For) viene de un par permitido por
+    TRAJET_ADMIN_PEERS, o ApiError forbidden. Devuelve el par.
+
+    En Umbrel eso es el proxy (app-gateway de umbreld) o 127.0.0.1: lo que
+    llega por el proxy ya ha pasado el login de Umbrel. Cualquier otra app de
+    la red Docker compartida (umbrel_main_network) llega DIRECTA a web:8000 y
+    se saltaria ese login; por eso se mira la conexion y no una cabecera."""
+    peer = _peer(request)
+    allowed = await run_in_threadpool(peer_allowed_for_panel, peer)
+    if not allowed:
+        raise ApiError(
+            "forbidden",
+            f"{what} solo acepta conexiones del proxy de Umbrel y esta llega de "
+            f"{peer or 'origen desconocido'}; si entras por otro camino, ajusta "
+            f"TRAJET_ADMIN_PEERS (any, o la red de la que vienes, p. ej. 192.168.1.0/24)")
+    return peer
+
+
+async def require_proxy_peer(request: Request) -> None:
+    """Dependencia de la API de la 0.3.0 (/api/*): solo la comprobacion del
+    par, la misma que la del panel.
+
+    Esa API no tiene token: se apoya en el login de Umbrel
+    (PROXY_AUTH_ADD), igual que el panel, y tiene el mismo agujero si no se
+    mira de donde viene la conexion: otra app de la red Docker podria leer
+    las rutas (con la direccion de casa en origin_id/origin_name), borrarlas
+    o gastar cuota de PRIM (SEC-1 de la verificacion de la FASE 1).
+
+    SIN la cabecera anti-CSRF X-Trajet-Panel del panel: los clientes de la
+    0.3.0 (la app del iPhone de antes) no la mandan y tienen que seguir
+    funcionando. Frente a otras webs queda igual que en la 0.3.0."""
+    await _require_peer(request, "la API de la 0.3.0")
+
+
 async def require_panel(request: Request) -> None:
     """Dependencia de /api/admin: de donde viene la conexion y anti-CSRF.
 
@@ -745,14 +791,7 @@ async def require_panel(request: Request) -> None:
     2) En lo que modifica: cabecera `X-Trajet-Panel: 1` (un formulario de
        otra web no puede ponerla) y, si llega `Origin`, que sea este mismo
        servidor."""
-    peer = _peer(request)
-    allowed = await run_in_threadpool(peer_allowed_for_panel, peer)
-    if not allowed:
-        raise ApiError(
-            "forbidden",
-            f"el panel solo acepta conexiones del proxy de Umbrel y esta llega de "
-            f"{peer or 'origen desconocido'}; si entras por otro camino, ajusta "
-            f"TRAJET_ADMIN_PEERS (any, o la red de la que vienes, p. ej. 192.168.1.0/24)")
+    peer = await _require_peer(request, "el panel")
     if request.method.upper() not in _UNSAFE:
         return None
     if request.headers.get("x-trajet-panel", "").strip() != "1":
@@ -762,6 +801,15 @@ async def require_panel(request: Request) -> None:
     if origin is not None:
         origin_host = (urlsplit(origin.strip()).netloc or "").lower()
         hosts = {(request.headers.get("host") or "").strip().lower()}
+        # X-Forwarded-Host solo cuenta si la conexion viene del proxy de
+        # confianza (is_trusted_proxy: siempre el conjunto «auto», sea cual
+        # sea TRAJET_ADMIN_PEERS). De cualquier otro par es una cabecera que
+        # escribe el cliente, y con ella y un Origin a juego se colaria
+        # cualquier origen (SEC-3). Del proxy si vale: el app-gateway de
+        # umbreld 2.0 la SOBRESCRIBE con el Host real de la peticion del
+        # navegador (`proxyRequest.setHeader('x-forwarded-host',
+        # request.headers.host)`), asi que el navegador de otra web no la
+        # puede elegir: llega el host de Umbrel y su Origin no casa.
         fwd = request.headers.get("x-forwarded-host")
         if fwd and await run_in_threadpool(is_trusted_proxy, peer):
             hosts.add(fwd.split(",")[0].strip().lower())

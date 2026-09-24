@@ -203,6 +203,22 @@ def test_css_y_js_sin_recursos_de_fuera_ni_codigo_peligroso():
     assert "'X-Trajet-Panel'" in js and "'X-Trajet-Confirm': 'borrar'" in js
 
 
+def test_css_las_casillas_no_recortan_el_valor():
+    """En un iPhone (390 px) las tres casillas de «Salud del servidor» y de
+    «Andenes» van justas: «2 h 53 min» o «sin previsiones aún» tienen que
+    saltar de línea, no recortarse con puntos suspensivos (se perdía el dato;
+    visto en la FASE 4 al probar el panel en el navegador)."""
+    css = _read("panel.css")
+    for selector in (".tile .num", ".tile-sub"):
+        reglas = re.findall(re.escape(selector) + r"\s*\{([^}]*)\}", css)
+        assert reglas, selector
+        for cuerpo in reglas:
+            assert "ellipsis" not in cuerpo and "nowrap" not in cuerpo, (selector, cuerpo)
+    # Y en pantallas estrechas el valor se hace un poco mas pequeno para que
+    # quepa en una linea las mas de las veces.
+    assert re.search(r"@media \(max-width: 430px\)\s*\{[^}]*\.tile \.num", css)
+
+
 def test_svg_de_los_iconos_sin_scripts():
     for nombre in ("iconos.svg", "icono.svg"):
         svg = _read(nombre).lower()

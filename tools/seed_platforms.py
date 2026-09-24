@@ -71,7 +71,9 @@ def main(path):
             line_id = f"line:IDFM:{code}"
 
             visto = parse(r.get("t"))
-            aimed = parse(r.get("aimed")) or parse(r.get("exp"))
+            # Solo la hora TEORICA identifica al tren: la prevista se mueve con
+            # el retraso y duplicaria filas (fallo 18.3.12).
+            aimed = parse(r.get("aimed"))
             if not visto:
                 continue
             visto_local = visto.astimezone(settings.tz)

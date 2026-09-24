@@ -14,6 +14,10 @@ solo. Si sobra cuota, se acerca. Y si se acaba, se calla hasta el reinicio.
 
 Dentro de la franja de una ruta se muestrea PRIORIDAD veces mas a menudo,
 porque ahi si importa pillar el momento exacto en que aparece la via.
+
+Cada via que ve el recolector se apunta y, si es la primera vez que se ve la
+de ese tren hoy, tambien se puntua la prevision (platform.learn): da igual
+quien la vea primero, el recolector o la pantalla.
 """
 from __future__ import annotations
 
@@ -64,15 +68,23 @@ def _hhmm(value: str) -> tuple[int, int]:
 def _in_window(route: dict, now: datetime) -> bool:
     """La ruta esta 'en horas' ahora mismo, con margen.
 
-    Ya no decide SI se aprende, solo con cuanta frecuencia.
+    Ya no decide SI se aprende, solo con cuanta frecuencia. Una franja que
+    cruza medianoche (23:00-01:00) es del dia en que empieza, igual que en
+    board.pick_active_route: por eso se mira la de hoy y la que empezo ayer.
     """
-    if now.weekday() not in (route.get("days") or []):
-        return False
+    days = route.get("days") or []
     h0, m0 = _hhmm(route.get("time_from") or "00:00")
     h1, m1 = _hhmm(route.get("time_to") or "23:59")
-    start = now.replace(hour=h0, minute=m0, second=0, microsecond=0) - MARGIN
-    end = now.replace(hour=h1, minute=m1, second=0, microsecond=0) + MARGIN
-    return start <= now <= end
+    start = now.replace(hour=h0, minute=m0, second=0, microsecond=0)
+    end = now.replace(hour=h1, minute=m1, second=0, microsecond=0)
+    if end < start:
+        end += timedelta(days=1)
+    for dias_atras in (0, 1):
+        ini = start - timedelta(days=dias_atras)
+        fin = end - timedelta(days=dias_atras)
+        if ini.weekday() in days and ini - MARGIN <= now <= fin + MARGIN:
+            return True
+    return False
 
 
 def is_quiet(now: datetime) -> bool:
@@ -156,12 +168,25 @@ def plan_interval(remaining: int | None, stations: int, now: datetime,
     return interval, motivo
 
 
+def _routes_and_targets() -> tuple[list[dict], dict[str, list[dict]]]:
+    """Rutas guardadas y estaciones que estudiar. Lee SQLite: va a un hilo.
+
+    list_routes ya trae los tramos de cada ruta; en la 0.3.0 se volvia a pedir
+    cada ruta con get_route, una consulta de mas por ruta en cada pasada.
+    """
+    routes = db.list_routes()
+    return routes, targets(routes)
+
+
 async def sample_once(now: datetime | None = None) -> dict:
-    """Una pasada. Devuelve un resumen para poder verlo desde /api/health."""
+    """Una pasada. Devuelve un resumen para poder verlo desde /api/health.
+
+    Todo lo que toca SQLite (leer rutas y uso, apuntar andenes) va a un hilo
+    aparte con asyncio.to_thread: el recolector corre en el mismo bucle de
+    eventos que las peticiones del iPhone y no las puede frenar.
+    """
     now = now or datetime.now(settings.tz)
-    routes = [db.get_route(r["id"]) for r in db.list_routes()]
-    routes = [r for r in routes if r]
-    plan = targets(routes)
+    routes, plan = await asyncio.to_thread(_routes_and_targets)
     priority = any(_in_window(r, now) for r in routes)
 
     client = prim.get_client()
@@ -193,21 +218,21 @@ async def sample_once(now: datetime | None = None) -> dict:
         # Un tramo por linea: si dos rutas comparten linea y parada, no se
         # recorre dos veces lo mismo.
         vistas = set()
+        con_via: list[tuple[str, dict]] = []
         for leg in legs:
             if leg["line_id"] in vistas:
                 continue
             vistas.add(leg["line_id"])
             # Sin filtro de direccion: para aprender el anden interesan todos
-            # los trenes de la linea, no solo los de mi sentido.
+            # los trenes de la linea, no solo los de mi sentido. Y sin tocar la
+            # memoria de «via recien aparecida», que es de la pantalla: si el
+            # recolector la apuntase, el tablero ya no la cantaria.
             sin_filtro = dict(leg, directions=[])
-            for d in extract_departures(payload, sin_filtro, limit=60):
-                if not d.get("platform"):
-                    continue
-                if platform.record(stop_id, leg["line_id"],
-                                   d.get("destination", ""), d.get("train"),
-                                   d.get("aimed_at") or d.get("at"),
-                                   d["platform"], when=now):
-                    grabadas += 1
+            for d in extract_departures(payload, sin_filtro, limit=60, remember=False):
+                if d.get("platform"):
+                    con_via.append((leg["line_id"], d))
+        if con_via:
+            grabadas += await asyncio.to_thread(platform.learn_many, stop_id, con_via, now)
 
     base["recorded"] = grabadas
     return base

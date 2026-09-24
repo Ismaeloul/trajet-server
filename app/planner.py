@@ -12,6 +12,7 @@ se contrasta con los destinos que circulan de verdad ahora mismo.
 from __future__ import annotations
 
 import asyncio
+from collections import OrderedDict
 from datetime import datetime, timedelta
 
 from . import prim
@@ -38,6 +39,68 @@ def _stop_area(end: dict) -> tuple[str, str]:
     if sa.get("id"):
         return sa["id"], sa.get("name") or sp.get("name") or ""
     return end.get("id", ""), end.get("name", "")
+
+
+# ---------------- coordenadas de las paradas ----------------
+
+# El mapa de la ruta usa las coordenadas de subida y bajada de cada tramo como
+# ultimo recurso (si el portal de datos abiertos no tiene la parada). Navitia
+# las trae en cada seccion del itinerario, pero la opcion que se devuelve a la
+# app (PlanLeg en docs/openapi.yaml) es cerrada: no admite campos nuevos. Asi
+# que se apuntan aqui al leer los itinerarios y route_from_option las recupera
+# al guardar la opcion elegida. Solo en memoria y acotado: si el servidor se
+# reinicia entre planificar y guardar, la ruta se guarda sin ellas y el mapa
+# tira de los datos abiertos, como con cualquier ruta hecha a mano.
+_COORDS_MAX = 2000
+_coords: OrderedDict[tuple[str, str], tuple[float, float]] = OrderedDict()
+
+
+def _coord_of(end: dict) -> tuple[float, float] | None:
+    """(lat, lon) de un extremo de seccion de Navitia.
+
+    Primero la del punto de parada exacto (el anden de ESA linea: en
+    Saint-Lazare el tren y el bus paran en sitios distintos), luego la de la
+    zona de parada y por ultimo la del propio extremo (una direccion).
+    """
+    def obj(value) -> dict:
+        return value if isinstance(value, dict) else {}
+
+    end = obj(end)
+    sp = obj(end.get("stop_point"))
+    kind = end.get("embedded_type")
+    body = obj(end.get(kind)) if isinstance(kind, str) else {}
+    for c in (body.get("coord"), sp.get("coord"), obj(sp.get("stop_area")).get("coord"),
+              obj(end.get("stop_area")).get("coord"), end.get("coord")):
+        if not isinstance(c, dict):
+            continue
+        try:
+            lat, lon = float(c["lat"]), float(c["lon"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if -90 <= lat <= 90 and -180 <= lon <= 180 and (lat or lon):
+            return lat, lon
+    return None
+
+
+def _remember_coord(line_id: str, stop_id: str, coord: tuple[float, float] | None) -> None:
+    if not (stop_id and coord):
+        return
+    # Por (linea, parada) y, de reserva, por parada sola.
+    for key in ((line_id, stop_id), ("", stop_id)):
+        _coords[key] = coord
+        _coords.move_to_end(key)
+    while len(_coords) > _COORDS_MAX:
+        _coords.popitem(last=False)
+
+
+def leg_coords(line_id: str, from_id: str, to_id: str) -> dict:
+    """from_lat/from_lon/to_lat/to_lon conocidos de un tramo (solo los que haya)."""
+    out: dict[str, float] = {}
+    for prefix, stop in (("from", from_id), ("to", to_id)):
+        c = _coords.get((line_id, stop)) or _coords.get(("", stop))
+        if c:
+            out[f"{prefix}_lat"], out[f"{prefix}_lon"] = c
+    return out
 
 
 def _hhmm(value: str | None) -> str:
@@ -71,8 +134,11 @@ def parse_journeys(payload: dict, prefer_latest: bool = False) -> list[dict]:
             di = s.get("display_informations") or {}
             frm_id, frm_name = _stop_area(s.get("from") or {})
             to_id, to_name = _stop_area(s.get("to") or {})
+            line_id = _link(s, "line")
+            _remember_coord(line_id, frm_id, _coord_of(s.get("from") or {}))
+            _remember_coord(line_id, to_id, _coord_of(s.get("to") or {}))
             legs.append({
-                "line_id": _link(s, "line"),
+                "line_id": line_id,
                 "line_code": di.get("code") or di.get("label") or "",
                 "line_name": di.get("name") or di.get("label") or "",
                 "line_mode": di.get("commercial_mode") or di.get("physical_mode") or "",
@@ -163,7 +229,7 @@ async def route_from_option(option: dict, meta: dict) -> dict:
 
     out_legs = []
     for leg, resolved in zip(legs, dirs):
-        out_legs.append({
+        out = {
             "line_id": leg.get("line_id", ""),
             "line_code": leg.get("line_code", ""),
             "line_name": leg.get("line_name", ""),
@@ -174,7 +240,15 @@ async def route_from_option(option: dict, meta: dict) -> dict:
             "to_id": leg.get("to_id", ""),
             "to_name": leg.get("to_name", ""),
             "directions": resolved,
-        })
+        }
+        # Coordenadas de subida y bajada para el mapa (db.save_route las
+        # guarda si vienen): las del itinerario de Navitia que se acaba de
+        # ensenar; si el tramo ya las trae, mandan las suyas.
+        out.update(leg_coords(out["line_id"], out["from_id"], out["to_id"]))
+        for k in ("from_lat", "from_lon", "to_lat", "to_lon"):
+            if isinstance(leg.get(k), (int, float)) and not isinstance(leg.get(k), bool):
+                out[k] = float(leg[k])
+        out_legs.append(out)
 
     first = legs[0]
     last = legs[-1]
@@ -211,9 +285,11 @@ def when_param(when: str | None, now: datetime | None = None) -> str | None:
     now = now or datetime.now(settings.tz)
     try:
         hh, mm = (int(x) for x in when.split(":", 1))
+        # Dentro del try: "25:00" tambien es una hora que no existe (en la
+        # 0.3.0 reventaba aqui con un 500; la API ya lo para antes con 400).
+        target = now.replace(hour=hh, minute=mm, second=0, microsecond=0)
     except ValueError:
         return None
-    target = now.replace(hour=hh, minute=mm, second=0, microsecond=0)
     if target < now:
         target += timedelta(days=1)
     return target.strftime("%Y%m%dT%H%M%S")

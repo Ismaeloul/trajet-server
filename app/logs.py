@@ -113,6 +113,10 @@ class RedactingFilter(logging.Filter):
     """Tacha los secretos del registro en el sitio. Nunca descarta nada."""
 
     def filter(self, record: logging.LogRecord) -> bool:
+        if _is_healthcheck(record):
+            # El HEALTHCHECK de Docker llama a /api/v1/ping cada 30 s desde
+            # dentro del contenedor: 2880 lineas al dia que no dicen nada.
+            return False
         try:
             if not getattr(record, "_trajet_redacted", False):
                 _redact_record(record)
@@ -129,6 +133,15 @@ class RedactingFilter(logging.Filter):
             _hide(record)
         record._trajet_redacted = True
         return True
+
+
+def _is_healthcheck(record: logging.LogRecord) -> bool:
+    args = record.args
+    if record.name != "uvicorn.access" or not (isinstance(args, tuple) and len(args) == 5):
+        return False
+    client, _method, path, _version, _status = args
+    return (str(client).startswith(("127.0.0.1", "::1"))
+            and strip_query(path) == "/api/v1/ping")
 
 
 def _hide(record: logging.LogRecord) -> None:

@@ -65,13 +65,42 @@ def train_length(feature) -> str | None:
     return None
 
 
-def _parse(ts: str | None) -> datetime | None:
-    if not ts:
+def _parse(ts) -> datetime | None:
+    """Hora ISO de SIRI. Una hora sin zona se toma como UTC (SIRI siempre
+    manda UTC) para no comparar una hora con zona con otra sin ella."""
+    if not ts or not isinstance(ts, str):
         return None
     try:
-        return datetime.fromisoformat(ts.replace("Z", "+00:00"))
+        dt = datetime.fromisoformat(ts.replace("Z", "+00:00"))
     except ValueError:
         return None
+    return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
+
+
+# SIRI no siempre manda lo que promete: un campo puede llegar null, suelto en
+# vez de en lista o con otro tipo. Estas tres ayudas hacen que un dato raro
+# degrade (ese campo vacio, esa visita fuera) en vez de tumbar el tablero con
+# un 500 (fallo 18.3.18 de docs/servidor.md: `TrainNumbers: null`).
+
+def _obj(value) -> dict:
+    """El objeto de un campo SIRI, o {} si no es un objeto."""
+    return value if isinstance(value, dict) else {}
+
+
+def _objs(value) -> list[dict]:
+    """Los objetos de un campo SIRI que deberia ser una lista de objetos."""
+    if isinstance(value, dict):
+        return [value]
+    if isinstance(value, list):
+        return [v for v in value if isinstance(v, dict)]
+    return []
+
+
+def _text(value) -> str:
+    """Texto de un valor SIRI ya desenvuelto (first_value), o "" si no hay."""
+    if value is None or isinstance(value, (dict, list, bool)):
+        return ""
+    return str(value).strip()
 
 
 def now_paris() -> datetime:
@@ -122,54 +151,104 @@ def derive_window(route: dict) -> tuple[str, str]:
     return _to_hhmm(t - dur - ANTES), _to_hhmm(t + DESPUES // 2)
 
 
-def pick_active_route(routes: list[dict], when: datetime | None = None) -> dict | None:
-    """Que ruta toca ahora mismo, segun dia de la semana y franja horaria.
+_DIA = 24 * 60
 
-    Si ninguna encaja exactamente, devuelve la primera del dia de hoy, y si
-    tampoco hay, la primera de la lista. Nunca deja la pantalla vacia.
+
+def _window_min(route: dict) -> tuple[int, int]:
+    """Franja de la ruta en minutos desde medianoche."""
+    return (_to_min(route.get("time_from") or "00:00"),
+            _to_min(route.get("time_to") or "23:59", _DIA - 1))
+
+
+def _width(route: dict) -> int:
+    """Minutos que abarca la franja (una que cruza medianoche tambien)."""
+    ini, fin = _window_min(route)
+    return (fin - ini) % _DIA
+
+
+def _covers(route: dict, weekday: int, minute: int) -> bool:
+    """La ruta esta en su franja en ese dia y minuto.
+
+    Admite franjas que cruzan medianoche (23:00-01:00). La parte de despues de
+    medianoche pertenece al dia en que empezo: la vuelta del viernes por la
+    noche sigue siendo del viernes a la 00:30 del sabado.
+    """
+    days = route.get("days") or []
+    ini, fin = _window_min(route)
+    if ini <= fin:
+        return weekday in days and ini <= minute <= fin
+    if minute >= ini:
+        return weekday in days
+    if minute <= fin:
+        return (weekday - 1) % 7 in days
+    return False
+
+
+def pick_active_route(routes: list[dict], when: datetime | None = None) -> dict | None:
+    """Que ruta toca ahora mismo, segun dia de la semana y franja horaria (R37).
+
+    1. Si alguna esta en su franja, gana la mas concreta.
+    2. Si no, la proxima de hoy DE VERDAD: la que empieza antes a partir de
+       ahora, no la primera de la lista (en la 0.3.0 se cogia la primera de la
+       lista con la franja por delante, aunque hubiera otra mas cercana).
+    3. Si hoy ya no queda ninguna, la que acabo hace menos.
+    4. Si hoy no hay ninguna, la primera de la lista.
+
+    Nunca deja la pantalla vacia. Las horas se comparan en minutos, no como
+    cadenas: asi funcionan las franjas que cruzan medianoche.
     """
     if not routes:
         return None
     when = when or now_paris()
     weekday = when.weekday()          # 0 = lunes
-    hhmm = when.strftime("%H:%M")
+    minute = when.hour * 60 + when.minute
 
-    today = [r for r in routes if weekday in r["days"]]
+    def orden(r: dict) -> tuple:
+        return (r.get("position", 0) or 0, r.get("id", 0) or 0)
 
     # Si encajan varias, gana la mas concreta: una ruta de "llego a las 09:00"
     # abarca dos horas, y una franja de "07:00 a 22:00" abarca el dia entero.
     # Sin esto, la generica tapaba a la buena solo por estar antes en la lista.
-    encajan = [r for r in today if r["time_from"] <= hhmm <= r["time_to"]]
+    encajan = [r for r in routes if _covers(r, weekday, minute)]
     if encajan:
-        return min(encajan, key=lambda r: (
-            _to_min(r["time_to"], 24 * 60) - _to_min(r["time_from"]),
-            r.get("position", 0), r["id"]))
+        return min(encajan, key=lambda r: (_width(r), *orden(r)))
+
+    today = [r for r in routes if weekday in (r.get("days") or [])]
     if today:
-        # Nada en franja: la siguiente que venga hoy, si no la ultima
-        upcoming = [r for r in today if r["time_from"] >= hhmm]
-        return upcoming[0] if upcoming else today[-1]
+        por_delante = [r for r in today if _window_min(r)[0] > minute]
+        if por_delante:
+            return min(por_delante, key=lambda r: (_window_min(r)[0] - minute,
+                                                   _width(r), *orden(r)))
+        return min(today, key=lambda r: ((minute - _window_min(r)[1]) % _DIA, *orden(r)))
     return routes[0]
 
 
 # ---------------- perturbaciones ----------------
 
-def index_disruptions(payload: dict) -> dict[str, list[dict]]:
-    """Agrupa los avisos activos por codigo de linea."""
+def index_disruptions(payload: dict, now: datetime | None = None) -> dict[str, list[dict]]:
+    """Agrupa los avisos activos por codigo de linea.
+
+    `now` (UTC) se puede fijar para probar; por defecto, ahora. El "hoy" con
+    el que se decide si un aviso es de obras futuras es la fecha de PARIS: con
+    la fecha UTC, entre las 00:00 y las 02:00 de Paris un aviso para hoy
+    salia como planificado (fallo 18.3.19).
+    """
     out: dict[str, list[dict]] = {}
     try:
         deliveries = payload["Siri"]["ServiceDelivery"]["GeneralMessageDelivery"]
     except (KeyError, TypeError):
         return out
 
-    now = datetime.now(timezone.utc)
-    for delivery in deliveries:
-        for msg in delivery.get("InfoMessage", []) or []:
+    now = now or datetime.now(timezone.utc)
+    hoy = now.astimezone(settings.tz).date()
+    for delivery in _objs(deliveries):
+        for msg in _objs(delivery.get("InfoMessage")):
             valid_until = _parse(msg.get("ValidUntilTime"))
             if valid_until and valid_until < now:
                 continue
             texts = []
-            for m in msg.get("Content", {}).get("Message", []) or []:
-                t = (m.get("MessageText") or {}).get("value")
+            for m in _objs(_obj(msg.get("Content")).get("Message")):
+                t = _text(first_value(m.get("MessageText")))
                 if t and t not in texts:
                     texts.append(t)
             if not texts:
@@ -179,7 +258,7 @@ def index_disruptions(payload: dict) -> dict[str, list[dict]]:
 
             # Un aviso de obras para dentro de un mes NO es una perturbacion
             # de hoy. Sin este filtro casi todas las lineas salian en rojo.
-            planned_from = starts_later(" ".join(texts), now.date())
+            planned_from = starts_later(" ".join(texts), hoy)
 
             entry = {
                 "text": text,
@@ -216,10 +295,17 @@ def line_status(code: str, disruptions: dict[str, list[dict]]) -> dict:
 
 # ---------------- proximos pasos ----------------
 
-def extract_departures(payload: dict, leg: dict, limit: int = 4) -> list[dict]:
-    """Saca las proximas salidas de la linea y direccion de este tramo."""
+def extract_departures(payload: dict, leg: dict, limit: int = 4,
+                       remember: bool = True) -> list[dict]:
+    """Saca las proximas salidas de la linea y direccion de este tramo.
+
+    `remember=False` no toca la memoria de «via recien aparecida»: el
+    recolector lee las mismas estaciones y, si la apuntase el, el tablero ya
+    no veria aparecer la via y no la cantaria (fallo 18.3.11).
+    """
     want_line = line_code(leg["line_id"])
-    wanted_dirs = {norm_text(d) for d in (leg.get("directions") or []) if d.strip()}
+    wanted_dirs = {norm_text(d) for d in (leg.get("directions") or [])
+                   if isinstance(d, str) and d.strip()}
 
     try:
         deliveries = payload["Siri"]["ServiceDelivery"]["StopMonitoringDelivery"]
@@ -228,74 +314,83 @@ def extract_departures(payload: dict, leg: dict, limit: int = 4) -> list[dict]:
 
     now = datetime.now(timezone.utc)
     rows = []
-    for delivery in deliveries:
-        for visit in delivery.get("MonitoredStopVisit", []) or []:
-            mvj = visit.get("MonitoredVehicleJourney", {})
-            if line_code(first_value(mvj.get("LineRef")) or "") != want_line:
-                continue
-
-            mc = mvj.get("MonitoredCall", {})
-            dest = (first_value(mvj.get("DestinationName"))
-                    or first_value(mc.get("DestinationDisplay")) or "")
-            if wanted_dirs and norm_text(dest) not in wanted_dirs:
-                continue
-
-            expected = _parse(mc.get("ExpectedDepartureTime")
-                              or mc.get("ExpectedArrivalTime"))
-            aimed = _parse(mc.get("AimedDepartureTime")
-                           or mc.get("AimedArrivalTime"))
-            if not expected:
-                continue
-            minutes = (expected - now).total_seconds() / 60
-            if minutes < -1:          # ya se ha ido
-                continue
-
-            # El retraso solo se puede calcular si viene la hora teorica.
-            # En bus casi nunca viene: en ese caso nos fiamos del estado.
-            delay = None
-            if aimed:
-                delay = round((expected - aimed).total_seconds() / 60)
-
-            jid = ((mvj.get("FramedVehicleJourneyRef") or {})
-                   .get("DatedVehicleJourneyRef")
-                   or visit.get("ItemIdentifier") or "")
-            platform = real_platform(mc.get("DeparturePlatformName"))
-
-            # Aparece un anden donde antes no habia? Eso hay que cantarlo.
-            is_new = False
-            if jid:
-                before = _seen_platforms.get(jid)
-                if platform and before != platform:
-                    is_new = before is None or before == ""
-                    _remember_platform(jid, platform)
-                elif platform is None and jid not in _seen_platforms:
-                    _remember_platform(jid, "")
-
-            rows.append({
-                "jid": jid,
-                "minutes": int(max(0, round(minutes))),
-                "at": expected.astimezone(settings.tz).strftime("%H:%M"),
-                # La hora TEORICA es la que sirve para aprender el anden: la
-                # prevista se mueve con el retraso y no identifica al tren.
-                "aimed_at": (aimed.astimezone(settings.tz).strftime("%H:%M")
-                             if aimed else ""),
-                "destination": dest,
-                "platform": platform,
-                "platform_new": is_new,
-                "delay": delay,
-                "status": mc.get("DepartureStatus") or mc.get("ArrivalStatus") or "",
-                "at_stop": bool(mc.get("VehicleAtStop")),
-                "train": first_value(mvj.get("TrainNumbers", {}).get("TrainNumberRef")),
-                # La API no da ocupacion (comprobado: 211 salidas, ni un solo
-                # campo). Lo que si da, y en el 61 % de las salidas, es si el
-                # tren es corto o largo. En un tren corto vas mas apretado y
-                # ademas para en otra parte del anden, asi que es informacion
-                # que se usa de verdad.
-                "length": train_length(mvj.get("VehicleFeatureRef")),
-            })
+    for delivery in _objs(deliveries):
+        for visit in _objs(delivery.get("MonitoredStopVisit")):
+            row = _departure(visit, want_line, wanted_dirs, now, remember)
+            if row is not None:
+                rows.append(row)
 
     rows.sort(key=lambda r: r["minutes"])
     return rows[:limit]
+
+
+def _departure(visit: dict, want_line: str, wanted_dirs: set[str], now: datetime,
+               remember: bool) -> dict | None:
+    """Una visita de SIRI convertida en salida, o None si no es de este tramo."""
+    mvj = _obj(visit.get("MonitoredVehicleJourney"))
+    if line_code(_text(first_value(mvj.get("LineRef")))) != want_line:
+        return None
+
+    mc = _obj(mvj.get("MonitoredCall"))
+    dest = (_text(first_value(mvj.get("DestinationName")))
+            or _text(first_value(mc.get("DestinationDisplay"))))
+    if wanted_dirs and norm_text(dest) not in wanted_dirs:
+        return None
+
+    expected = _parse(mc.get("ExpectedDepartureTime")
+                      or mc.get("ExpectedArrivalTime"))
+    aimed = _parse(mc.get("AimedDepartureTime")
+                   or mc.get("AimedArrivalTime"))
+    if not expected:
+        return None
+    minutes = (expected - now).total_seconds() / 60
+    if minutes < -1:          # ya se ha ido
+        return None
+
+    # El retraso solo se puede calcular si viene la hora teorica.
+    # En bus casi nunca viene: en ese caso nos fiamos del estado.
+    delay = None
+    if aimed:
+        delay = round((expected - aimed).total_seconds() / 60)
+
+    jid = (_text(first_value(_obj(mvj.get("FramedVehicleJourneyRef"))
+                             .get("DatedVehicleJourneyRef")))
+           or _text(first_value(visit.get("ItemIdentifier"))))
+    platform = real_platform(mc.get("DeparturePlatformName"))
+
+    # Aparece un anden donde antes no habia? Eso hay que cantarlo.
+    is_new = False
+    if jid and remember:
+        before = _seen_platforms.get(jid)
+        if platform and before != platform:
+            is_new = before is None or before == ""
+            _remember_platform(jid, platform)
+        elif platform is None and jid not in _seen_platforms:
+            _remember_platform(jid, "")
+
+    at_stop = mc.get("VehicleAtStop")
+    return {
+        "jid": jid,
+        "minutes": int(max(0, round(minutes))),
+        "at": expected.astimezone(settings.tz).strftime("%H:%M"),
+        # La hora TEORICA es la que sirve para aprender el anden: la
+        # prevista se mueve con el retraso y no identifica al tren.
+        "aimed_at": (aimed.astimezone(settings.tz).strftime("%H:%M")
+                     if aimed else ""),
+        "destination": dest,
+        "platform": platform,
+        "platform_new": is_new,
+        "delay": delay,
+        "status": _text(mc.get("DepartureStatus")) or _text(mc.get("ArrivalStatus")),
+        "at_stop": at_stop is True or _text(at_stop).lower() == "true",
+        "train": _text(first_value(_obj(mvj.get("TrainNumbers")).get("TrainNumberRef"))) or None,
+        # La API no da ocupacion (comprobado: 211 salidas, ni un solo
+        # campo). Lo que si da, y en el 61 % de las salidas, es si el
+        # tren es corto o largo. En un tren corto vas mas apretado y
+        # ademas para en otra parte del anden, asi que es informacion
+        # que se usa de verdad.
+        "length": train_length(mvj.get("VehicleFeatureRef")),
+    }
 
 
 def observed_destinations(payload: dict, navitia_line_id: str) -> list[str]:
@@ -310,13 +405,13 @@ def observed_destinations(payload: dict, navitia_line_id: str) -> list[str]:
         deliveries = payload["Siri"]["ServiceDelivery"]["StopMonitoringDelivery"]
     except (KeyError, TypeError):
         return []
-    for delivery in deliveries:
-        for visit in delivery.get("MonitoredStopVisit", []) or []:
-            mvj = visit.get("MonitoredVehicleJourney", {})
-            if line_code(first_value(mvj.get("LineRef")) or "") != want:
+    for delivery in _objs(deliveries):
+        for visit in _objs(delivery.get("MonitoredStopVisit")):
+            mvj = _obj(visit.get("MonitoredVehicleJourney"))
+            if line_code(_text(first_value(mvj.get("LineRef")))) != want:
                 continue
-            dest = (first_value(mvj.get("DestinationName"))
-                    or first_value(mvj.get("MonitoredCall", {}).get("DestinationDisplay")))
+            dest = (_text(first_value(mvj.get("DestinationName")))
+                    or _text(first_value(_obj(mvj.get("MonitoredCall")).get("DestinationDisplay"))))
             if dest:
                 seen[dest] = seen.get(dest, 0) + 1
     return [d for d, _ in sorted(seen.items(), key=lambda kv: -kv[1])]

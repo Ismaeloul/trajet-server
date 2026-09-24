@@ -106,7 +106,9 @@ async def translate(text: str) -> str | None:
     text = (text or "").strip()
     if not text:
         return None
-    hit = cached(text)
+    # Corre como tarea de fondo en el bucle de eventos: la cache (SQLite) se
+    # lee y se escribe en un hilo para no frenar las peticiones del iPhone.
+    hit = await asyncio.to_thread(cached, text)
     if hit is not None:
         return hit
     if not settings.ollama_url:
@@ -137,7 +139,7 @@ async def translate(text: str) -> str | None:
 
     if not es:
         return None
-    store(text, es)
+    await asyncio.to_thread(store, text, es)
     return es
 
 

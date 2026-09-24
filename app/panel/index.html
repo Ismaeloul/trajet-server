@@ -1,3 +1,343 @@
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><title>Trajet · panel</title></head>
-<body><p>Panel de Trajet (en construccion).</p></body></html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Trajet · panel</title>
+<link rel="icon" href="/panel/static/icono.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/panel/static/panel.css">
+<script src="/panel/static/panel.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<div class="wrap">
+
+<header class="top glass" id="top">
+  <div class="brand">
+    <img class="mark" src="/panel/static/icono.svg" alt="" width="38" height="38">
+    <div class="brand-text">
+      <h1>Trajet <span class="sr">· panel del servidor</span></h1>
+      <p class="brand-sub"><span id="server-name">Servidor</span><span class="hide-narrow"> · <span id="version">versión —</span></span></p>
+    </div>
+  </div>
+  <div class="top-right">
+    <p class="pill" id="state-pill" data-tone="loading" role="status"><i class="dot" aria-hidden="true"></i><span id="state-text">Cargando…</span></p>
+    <button class="icon-btn" id="refresh" type="button" aria-label="Actualizar ahora" title="Actualizar ahora">
+      <svg class="ico" aria-hidden="true" focusable="false"><use href="/panel/static/iconos.svg#refresh"/></svg>
+    </button>
+  </div>
+</header>
+
+<noscript><p class="callout" data-tone="bad">El panel necesita JavaScript para funcionar.</p></noscript>
+
+<div class="net" id="net" role="alert" hidden>
+  <svg class="ico" aria-hidden="true" focusable="false"><use href="/panel/static/iconos.svg#wifi-off"/></svg>
+  <p id="net-text">Sin conexión con el servidor.</p>
+  <button class="btn btn-small btn-soft" id="net-retry" type="button">Reintentar</button>
+  <button class="btn btn-small btn-soft" id="net-reload" type="button" hidden>Recargar</button>
+</div>
+
+<section class="summary" aria-labelledby="h-summary">
+  <h2 class="sr" id="h-summary">Estado general</h2>
+  <a class="stat glass" href="#clave" id="sum-key" data-tone="loading">
+    <span class="stat-label">Clave PRIM</span>
+    <span class="stat-value"><i class="dot" aria-hidden="true"></i><b id="sum-key-v">—</b></span>
+    <span class="stat-sub" id="sum-key-s">&nbsp;</span>
+  </a>
+  <a class="stat glass" href="#cuota" id="sum-quota" data-tone="loading">
+    <span class="stat-label">Cuota de hoy</span>
+    <span class="stat-value"><i class="dot" aria-hidden="true"></i><b id="sum-quota-v">—</b></span>
+    <span class="stat-sub" id="sum-quota-s">&nbsp;</span>
+  </a>
+  <a class="stat glass" href="#dispositivos" id="sum-dev" data-tone="neutral">
+    <span class="stat-label">iPhones</span>
+    <span class="stat-value"><b class="num" id="sum-dev-v">—</b></span>
+    <span class="stat-sub" id="sum-dev-s">&nbsp;</span>
+  </a>
+  <a class="stat glass" href="#salud" id="sum-up" data-tone="neutral">
+    <span class="stat-label">En marcha</span>
+    <span class="stat-value"><b class="num" id="sum-up-v">—</b></span>
+    <span class="stat-sub" id="sum-up-s">&nbsp;</span>
+  </a>
+</section>
+
+<section class="warnings glass" id="warnings" aria-labelledby="h-warnings" hidden>
+  <h2 class="sr" id="h-warnings">Avisos</h2>
+  <ul id="warning-list"></ul>
+</section>
+
+<main id="main" class="cols" tabindex="-1">
+
+  <div class="col">
+
+    <!-- (2) Emparejar -->
+    <section class="card" id="emparejar" aria-labelledby="h-pair">
+      <header class="card-head">
+        <span class="card-ico"><svg class="ico" aria-hidden="true" focusable="false"><use href="/panel/static/iconos.svg#qr"/></svg></span>
+        <h2 id="h-pair">Emparejar un iPhone</h2>
+      </header>
+
+      <div id="pair-idle">
+        <p class="lead">Abre Trajet en el iPhone y escanea el código. Vale 5 minutos y una sola vez.</p>
+        <div class="callout" data-tone="warn" id="pair-nourl" hidden>
+          <p><b>El QR no llevaría ninguna dirección del servidor</b> y el iPhone no sabría dónde conectarse.</p>
+          <p id="pair-nourl-hint">Ponla en <a href="#ajustes">Ajustes del QR</a>.</p>
+          <button class="btn btn-soft" id="pair-use-origin" type="button" hidden>Usar <span id="pair-origin"></span></button>
+        </div>
+        <button class="btn btn-primary btn-wide" id="pair-start" type="button">
+          <svg class="ico" aria-hidden="true" focusable="false"><use href="/panel/static/iconos.svg#qr"/></svg><span>Emparejar un iPhone</span>
+        </button>
+        <p class="field-error" id="pair-error" role="alert" hidden></p>
+      </div>
+
+      <div class="pair-live" id="pair-live" hidden>
+        <figure class="qr-frame">
+          <img id="pair-qr" alt="Código QR para emparejar" width="264" height="264">
+        </figure>
+        <p class="pair-code"><span class="sr">Código: </span><span class="num" id="pair-code">—</span></p>
+        <div class="countdown" id="pair-countdown" data-tone="ok">
+          <svg class="ico" aria-hidden="true" focusable="false"><use href="/panel/static/iconos.svg#clock"/></svg>
+          <span class="num" id="pair-left" role="timer" aria-live="off">5:00</span>
+          <span class="track" aria-hidden="true"><i id="pair-bar"></i></span>
+        </div>
+        <p class="pair-status" id="pair-status" role="status">Esperando al iPhone…</p>
+        <p class="pair-urls" id="pair-urls"></p>
+        <div class="row">
+          <button class="btn btn-soft" id="pair-cancel" type="button">Anular</button>
+          <button class="btn btn-soft" id="pair-again" type="button">Otro código</button>
+        </div>
+      </div>
+
+      <div class="pair-end" id="pair-end" hidden>
+        <p class="pair-end-icon" id="pair-end-icon" data-tone="ok" aria-hidden="true"><svg class="ico"><use href="/panel/static/iconos.svg#check"/></svg></p>
+        <p class="pair-end-text" id="pair-end-text" role="status"></p>
+        <button class="btn btn-primary" id="pair-restart" type="button"><span id="pair-restart-lbl">Emparejar otro</span></button>
+      </div>
+    </section>
+
+    <!-- (3) Dispositivos -->
+    <section class="card" id="dispositivos" aria-labelledby="h-dev">
+      <header class="card-head">
+        <span class="card-ico"><svg class="ico" aria-hidden="true" focusable="false"><use href="/panel/static/iconos.svg#phone"/></svg></span>
+        <h2 id="h-dev">Dispositivos</h2>
+        <span class="chip" id="dev-count" data-tone="neutral">—</span>
+      </header>
+      <ul class="devs" id="dev-list">
+        <li class="empty">Cargando…</li>
+      </ul>
+    </section>
+
+    <!-- (10) Ajustes -->
+    <section class="card" id="ajustes" aria-labelledby="h-set">
+      <header class="card-head">
+        <span class="card-ico"><svg class="ico" aria-hidden="true" focusable="false"><use href="/panel/static/iconos.svg#gear"/></svg></span>
+        <h2 id="h-set">Ajustes del QR</h2>
+      </header>
+      <form id="set-form" class="form" novalidate autocomplete="off">
+        <fieldset id="set-fieldset" disabled>
+          <legend class="sr">Nombre y direcciones que van dentro del QR</legend>
+          <div class="field">
+            <label for="set-name">Nombre del servidor</label>
+            <input class="input" id="set-name" type="text" maxlength="40" spellcheck="false" aria-describedby="set-name-error">
+            <p class="field-error" id="set-name-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="set-lan">Dirección en casa (LAN)</label>
+            <div class="input-row">
+              <input class="input" id="set-lan" type="url" inputmode="url" spellcheck="false" autocapitalize="off" placeholder="http://192.168.1.10:7796" aria-describedby="set-help set-lan-error">
+              <button class="btn btn-soft" id="set-use-origin" type="button" hidden>Usar esta</button>
+            </div>
+            <p class="field-error" id="set-lan-error" hidden></p>
+          </div>
+          <div class="field">
+            <label for="set-ts">Dirección por Tailscale</label>
+            <input class="input" id="set-ts" type="url" inputmode="url" spellcheck="false" autocapitalize="off" placeholder="http://100.64.0.10:7796" aria-describedby="set-help set-ts-error">
+            <p class="field-error" id="set-ts-error" hidden></p>
+          </div>
+          <p class="help" id="set-help">Van dentro del QR para que el iPhone sepa dónde está el servidor: <span class="mono">http(s)://host:puerto</span>, sin ruta. Deja vacía la que no uses.</p>
+          <div class="row">
+            <button class="btn btn-primary" id="set-save" type="submit"><span>Guardar</span></button>
+            <p class="inline-status" id="set-status" role="status"></p>
+          </div>
+        </fieldset>
+      </form>
+    </section>
+
+  </div>
+
+  <div class="col">
+
+    <!-- (4) Clave PRIM -->
+    <section class="card" id="clave" aria-labelledby="h-key">
+      <header class="card-head">
+        <span class="card-ico"><svg class="ico" aria-hidden="true" focusable="false"><use href="/panel/static/iconos.svg#key"/></svg></span>
+        <h2 id="h-key">Clave de PRIM</h2>
+        <span class="chip" id="key-chip" data-tone="loading"><i class="dot" aria-hidden="true"></i><span>—</span></span>
+      </header>
+
+      <div class="callout" data-tone="bad" id="key-missing" hidden>
+        <p><b>No hay clave de PRIM.</b> Sin ella el iPhone no tiene horarios ni avisos.</p>
+        <p>Es gratis: en <a href="https://prim.iledefrance-mobilites.fr/" target="_blank" rel="noopener noreferrer">prim.iledefrance-mobilites.fr<svg class="ico ico-inline" aria-hidden="true" focusable="false"><use href="/panel/static/iconos.svg#external"/></svg></a>, «Mon compte» → «Mes jetons d’authentification». Pégala aquí debajo.</p>
+      </div>
+
+      <dl class="facts" id="key-facts">
+        <div><dt>Termina en</dt><dd class="mono" id="key-last4">—</dd></div>
+        <div><dt>De dónde sale</dt><dd id="key-source">—</dd></div>
+        <div><dt>Guardada</dt><dd id="key-saved">—</dd></div>
+        <div><dt>Comprobada</dt><dd id="key-checked">—</dd></div>
+        <div><dt>Cifrado</dt><dd id="key-enc">—</dd></div>
+      </dl>
+      <p class="detail" id="key-detail"></p>
+
+      <div class="row" id="key-actions">
+        <button class="btn btn-soft" id="key-replace" type="button"><svg class="ico" aria-hidden="true" focusable="false"><use href="/panel/static/iconos.svg#pencil"/></svg><span>Reemplazar</span></button>
+        <button class="btn btn-soft" id="key-check" type="button"><svg class="ico" aria-hidden="true" focusable="false"><use href="/panel/static/iconos.svg#refresh"/></svg><span id="key-check-lbl">Comprobar otra vez</span></button>
+        <button class="btn btn-danger-soft" id="key-delete" type="button" hidden><svg class="ico" aria-hidden="true" focusable="false"><use href="/panel/static/iconos.svg#trash"/></svg><span>Borrar</span></button>
+      </div>
+
+      <form class="form key-form" id="key-form" novalidate autocomplete="off" hidden>
+        <fieldset id="key-fieldset" disabled>
+          <legend class="sr">Probar y guardar una clave de PRIM</legend>
+          <div class="field">
+            <label for="key-input">Pega la clave de PRIM</label>
+            <div class="input-row">
+              <input class="input mono" id="key-input" type="password" autocomplete="off" spellcheck="false" autocapitalize="off" autocorrect="off" maxlength="300" data-1p-ignore data-lpignore="true" data-bwignore aria-describedby="key-help key-error">
+              <button class="icon-btn icon-btn-soft" id="key-show" type="button" aria-pressed="false" aria-label="Mostrar la clave">
+                <svg class="ico" aria-hidden="true" focusable="false"><use id="key-show-ico" href="/panel/static/iconos.svg#eye"/></svg>
+              </button>
+            </div>
+            <p class="field-error" id="key-error" role="alert" hidden></p>
+          </div>
+          <p class="help" id="key-help">Antes de guardarla se prueba con una llamada a cada API de PRIM, sin tocar la que está en uso. Se guarda cifrada y aquí solo se ven sus 4 últimos caracteres.</p>
+          <div class="row">
+            <button class="btn btn-primary" id="key-submit" type="submit"><span id="key-submit-lbl">Probar y guardar</span></button>
+            <button class="btn btn-soft" id="key-cancel" type="button">Cancelar</button>
+          </div>
+        </fieldset>
+      </form>
+
+      <div class="key-result" id="key-result" hidden>
+        <p class="result-head" id="key-result-head" data-tone="ok"></p>
+        <ul class="checks" id="key-checks"></ul>
+      </div>
+    </section>
+
+    <!-- (5) Cuota -->
+    <section class="card" id="cuota" aria-labelledby="h-quota">
+      <header class="card-head">
+        <span class="card-ico"><svg class="ico" aria-hidden="true" focusable="false"><use href="/panel/static/iconos.svg#gauge"/></svg></span>
+        <h2 id="h-quota">Cuota de PRIM</h2>
+        <span class="chip" id="quota-chip" data-tone="loading"><i class="dot" aria-hidden="true"></i><span>—</span></span>
+      </header>
+      <p class="lead" id="quota-reset">Se reinicia a medianoche UTC.</p>
+      <ul class="meters" id="quota-meters"></ul>
+      <div class="history">
+        <table class="spark-table" id="quota-history">
+          <caption>Últimos 7 días (día UTC). La altura es la parte del tope diario que se gastó.</caption>
+          <thead><tr><td></td></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="col">
+
+    <!-- (8) Salud -->
+    <section class="card" id="salud" aria-labelledby="h-health">
+      <header class="card-head">
+        <span class="card-ico"><svg class="ico" aria-hidden="true" focusable="false"><use href="/panel/static/iconos.svg#pulse"/></svg></span>
+        <h2 id="h-health">Salud del servidor</h2>
+      </header>
+      <div class="tiles">
+        <div class="tile"><span class="tile-label">Versión</span><b class="num" id="h-version">—</b></div>
+        <div class="tile"><span class="tile-label">En marcha</span><b class="num" id="h-uptime">—</b></div>
+        <div class="tile"><span class="tile-label">Hora en París</span><b class="num" id="h-paris">—</b></div>
+      </div>
+      <div class="meter meter-mem" id="h-mem" data-level="ok">
+        <div class="meter-top"><span class="meter-name">Memoria</span><span class="meter-val" id="h-mem-v">—</span></div>
+        <span class="track" aria-hidden="true"><i id="h-mem-bar"></i></span>
+      </div>
+      <dl class="facts">
+        <div><dt>Base de datos</dt><dd id="h-db">—</dd></div>
+        <div><dt>Contenido</dt><dd id="h-rows">—</dd></div>
+        <div><dt>Datos del mapa</dt><dd id="h-map">—</dd></div>
+      </dl>
+    </section>
+
+    <!-- (6) Ollama -->
+    <section class="card" id="traduccion" aria-labelledby="h-tr">
+      <header class="card-head">
+        <span class="card-ico"><svg class="ico" aria-hidden="true" focusable="false"><use href="/panel/static/iconos.svg#brain"/></svg></span>
+        <h2 id="h-tr">Traducción de avisos</h2>
+        <span class="chip" id="tr-chip" data-tone="loading"><i class="dot" aria-hidden="true"></i><span>—</span></span>
+      </header>
+      <p class="lead" id="tr-text">Ollama traduce del francés los avisos de tráfico. Si no está, el iPhone los enseña en francés.</p>
+      <dl class="facts">
+        <div><dt>Modelo</dt><dd class="mono" id="tr-model">—</dd></div>
+        <div><dt>Instalados</dt><dd id="tr-models">—</dd></div>
+      </dl>
+    </section>
+
+    <!-- (7) Colector de andenes y previsión -->
+    <section class="card" id="andenes" aria-labelledby="h-plat">
+      <header class="card-head">
+        <span class="via-tag" aria-hidden="true">vía</span>
+        <h2 id="h-plat">Andenes y previsión de vía</h2>
+        <span class="chip" id="col-chip" data-tone="loading"><i class="dot" aria-hidden="true"></i><span>—</span></span>
+      </header>
+      <div class="tiles">
+        <div class="tile"><span class="tile-label">Acierto</span><b class="num" id="p-rate">—</b><span class="tile-sub" id="p-rate-s">&nbsp;</span></div>
+        <div class="tile"><span class="tile-label">Observados</span><b class="num" id="p-obs">—</b><span class="tile-sub" id="p-days">&nbsp;</span></div>
+        <div class="tile"><span class="tile-label">Estaciones</span><b class="num" id="p-st">—</b><span class="tile-sub">última pasada</span></div>
+      </div>
+      <dl class="facts">
+        <div><dt>Última pasada</dt><dd id="c-last">—</dd></div>
+        <div><dt>Siguiente</dt><dd id="c-next">—</dd></div>
+        <div><dt>Ritmo</dt><dd id="c-reason">—</dd></div>
+        <div><dt>Desde el arranque</dt><dd id="c-total">—</dd></div>
+      </dl>
+    </section>
+
+    <!-- (9) Errores recientes -->
+    <section class="card" id="errores" aria-labelledby="h-err">
+      <details class="err-details" id="err-details">
+        <summary>
+          <span class="card-ico"><svg class="ico" aria-hidden="true" focusable="false"><use href="/panel/static/iconos.svg#alert"/></svg></span>
+          <span class="summary-text"><span class="h2" id="h-err">Errores recientes</span><span class="summary-sub" id="err-last">—</span></span>
+          <span class="chip" id="err-count" data-tone="neutral">—</span>
+        </summary>
+        <ol class="errs" id="err-list"></ol>
+      </details>
+    </section>
+
+  </div>
+</main>
+
+<footer class="foot">
+  <p>Solo para el dueño, detrás del login de Umbrel. Se actualiza cada 15 s mientras la pestaña está a la vista · <span id="updated">sin datos todavía</span></p>
+</footer>
+
+</div>
+
+<div class="toast glass" id="toast" role="status" aria-live="polite"></div>
+
+<dialog class="dialog" id="dlg" aria-labelledby="dlg-title" aria-describedby="dlg-text">
+  <h2 id="dlg-title">¿Seguro?</h2>
+  <p id="dlg-text"></p>
+  <div class="field" id="dlg-typed" hidden>
+    <label for="dlg-input">Escribe <b>borrar</b> para confirmar</label>
+    <input class="input" id="dlg-input" type="text" autocomplete="off" spellcheck="false" autocapitalize="off">
+  </div>
+  <div class="row row-end">
+    <button class="btn btn-soft" id="dlg-cancel" type="button">Cancelar</button>
+    <button class="btn btn-danger" id="dlg-ok" type="button">Confirmar</button>
+  </div>
+</dialog>
+</body>
+</html>

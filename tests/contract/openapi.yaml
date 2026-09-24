@@ -1481,7 +1481,7 @@ components:
       additionalProperties: false
       required: [predictions, hits, rate, observations, days]
       properties:
-        predictions: {type: integer, description: 'Filas en platform_score.'}
+        predictions: {type: integer, description: 'Trenes puntuados (platform_score_v2, uno por tren y día). Mientras la v2 no tenga datos, filas de la tabla vieja platform_score.'}
         hits: {type: integer}
         rate: {type: [number, 'null'], description: 'hits/predictions redondeado a 2 decimales; null si no hay.'}
         observations: {type: integer, description: 'Filas en platform_obs.'}

@@ -1,0 +1,92 @@
+# Servidor: lint, contrato, tests y que la imagen se construye y arranca.
+#
+# Nunca publica nada: la imagen de verdad se construye en el propio Umbrel con
+# scripts/publish.sh. Tampoco toca la API real de PRIM (tests/real va aparte,
+# con scripts/test-real.sh, porque gasta cuota) ni necesita ningun secreto.
+name: CI
+
+on:
+  push:
+    branches: [main, rewrite-v2]
+  pull_request:
+    branches: [main, rewrite-v2]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Un push nuevo a la misma rama cancela la ejecucion anterior, que ya no sirve.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    name: Lint, contrato y tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      - name: Instalar dependencias
+        run: python -m pip install -r requirements-dev.txt
+
+      - name: Lint (ruff)
+        run: ruff check app tests
+
+      # El contrato esta congelado (copia de trajet-ios/docs/openapi.yaml):
+      # si alguien lo toca y deja de ser OpenAPI 3.1 valido, se ve aqui.
+      - name: Contrato OpenAPI valido
+        run: python -m openapi_spec_validator tests/contract/openapi.yaml
+
+      # pyproject.toml ya deja fuera tests/real; se repite aqui para que un
+      # cambio en addopts no ponga a la CI a gastar cuota de PRIM.
+      - name: Tests (sin tests/real)
+        env:
+          PRIM_API_KEY: ""
+        run: python -m pytest -rfEs --ignore=tests/real -m "not real"
+
+  imagen:
+    name: Imagen Docker (sin publicar)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Construir
+        run: docker build --pull --tag trajet:ci .
+
+      # Lo mismo que la prueba de humo de scripts/publish.sh: arranca sin clave
+      # y sin red, responde a /api/v1/ping y corre como uid 1000.
+      - name: Arrancar y comprobar
+        run: |
+          set -euo pipefail
+          docker run -d --name trajet-ci --network none \
+            -e PRIM_API_KEY= -e TRAJET_COLLECT=0 -e TRAJET_MAP=0 trajet:ci
+          ok=""
+          for _ in $(seq 1 30); do
+            # Los primeros intentos fallan mientras arranca: sin traza.
+            if docker exec trajet-ci python -c "import urllib.request; print(urllib.request.urlopen('http://127.0.0.1:8000/api/v1/ping', timeout=2).read().decode())" 2>/dev/null; then
+              ok=1; break
+            fi
+            sleep 1
+          done
+          if [ -z "$ok" ]; then docker logs trajet-ci; exit 1; fi
+          test "$(docker exec trajet-ci id -u)" = 1000
+          docker exec trajet-ci test -f /data/trajet.db
+          docker image ls trajet:ci --format 'imagen: {{.Size}}'
+          docker stats --no-stream --format 'memoria en reposo: {{.MemUsage}}' trajet-ci
+
+      - name: Log del contenedor
+        if: always()
+        run: docker logs trajet-ci 2>&1 | tail -40 || true

@@ -1,0 +1,45 @@
+# Lo que NO entra en el contexto de `docker build`. La imagen solo copia
+# requirements.txt y app/, pero lo de aqui ni siquiera se manda al demonio:
+# secretos y datos no salen de la carpeta, y el contexto pesa lo justo.
+
+# Secretos: la clave de PRIM vive en .env y nunca va a una imagen.
+.env*
+**/.env*
+
+# Datos: la base de datos de produccion, sus copias y los secretos cifrados.
+data
+.local
+*.db
+**/*.db
+*.db-*
+**/*.db-*
+*.sqlite
+**/*.sqlite
+
+# Entorno y restos de Python.
+.venv
+venv
+__pycache__
+**/__pycache__
+**/*.pyc
+.pytest_cache
+.ruff_cache
+.coverage
+htmlcov
+
+# Pruebas, sondeos y herramientas: fuera de produccion.
+tests
+tools
+probe
+
+# Repo y ficheros que no hacen falta para construir.
+.git
+.github
+.gitattributes
+.gitignore
+.dockerignore
+Dockerfile
+docker-compose.yml
+scripts
+*.md
+node_modules

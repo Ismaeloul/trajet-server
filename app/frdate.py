@@ -9,7 +9,9 @@ ahi. Es una heuristica, no una ciencia, asi que ante la duda se considera ACTIVO
 mas vale un aviso de mas que callarse una interrupcion real.
 """
 import re
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
+
+from .config import settings
 
 MONTHS = {
     "janvier": 1, "fevrier": 2, "février": 2, "mars": 3, "avril": 4,
@@ -50,14 +52,25 @@ def _to_date(day: int, month: int, today: date) -> date | None:
     return None
 
 
+def today_paris() -> date:
+    """El "hoy" de los avisos es el de Paris, que es el que leen los textos.
+
+    Ni la fecha UTC ni la del sistema: entre las 00:00 y las 02:00 de Paris la
+    fecha UTC todavia es la de ayer, y un aviso "le 24 septembre" publicado
+    para hoy salia como obras de manana (fallo 18.3.19 de docs/servidor.md).
+    """
+    return datetime.now(settings.tz).date()
+
+
 def starts_later(text: str, today: date | None = None) -> date | None:
     """Devuelve la fecha de inicio si el aviso es para MAS ADELANTE.
 
     None significa "esto va ahora" (o no se puede saber, que se trata igual).
+    `today` es la fecha de Paris; si no se da, la de ahora mismo.
     """
     if not text:
         return None
-    today = today or date.today()
+    today = today or today_paris()
 
     if _NOW_RX.search(text):
         return None

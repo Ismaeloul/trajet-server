@@ -8,6 +8,7 @@ Guardamos siempre el de Navitia en la base de datos (es el que devuelve el
 buscador de paradas) y convertimos al vuelo cuando hablamos con SIRI.
 """
 import re
+import unicodedata
 
 _LINE_IN_ITEM = re.compile(r"IDFM[.:](C\d{5})")
 
@@ -49,11 +50,20 @@ def lines_in_message(msg: dict) -> set:
     Combinando ambos se identifica el 99,7% de los avisos.
     """
     out = set()
-    for ref in msg.get("Content", {}).get("LineRef", []) or []:
-        code = line_code(ref.get("value", ""))
+    # SIRI a veces manda `"Content": null` o un LineRef suelto en vez de una
+    # lista: un aviso raro no puede tumbar el indice de avisos entero.
+    content = msg.get("Content") or {}
+    refs = content.get("LineRef") if isinstance(content, dict) else None
+    if isinstance(refs, dict):
+        refs = [refs]
+    for ref in refs or []:
+        code = line_code(str(first_value(ref) or ""))
         if code:
             out.add(code)
-    out.update(_LINE_IN_ITEM.findall(msg.get("ItemIdentifier", "") or ""))
+    item = msg.get("ItemIdentifier")
+    if isinstance(item, dict):
+        item = item.get("value")
+    out.update(_LINE_IN_ITEM.findall(item if isinstance(item, str) else ""))
     return out
 
 
@@ -66,22 +76,34 @@ def first_value(node):
     return node
 
 
+# Nombres de estacion que PRIM manda en el campo de la via (sondeo del 30/08).
+_STATION_NAMES = {"PARIS NORD", "PARIS SAINT-LAZARE", "PARIS EST", "PARIS LYON",
+                  "PARIS MONTPARNASSE", "PARIS AUSTERLITZ", "PARIS BERCY"}
+
+# Una via es un numero ("21"), una letra ("A") o una mezcla corta ("3B").
+# Una palabra de mas de 3 letras sin ninguna cifra es el nombre de la
+# estacion: la captura real de Argenteuil (tests/fixtures/prim, 23/09) trae
+# 'ARGENTEUIL' como DeparturePlatformName en todos los trenes, y con solo la
+# lista de Paris eso salia en pantalla como «Vía ARGENTEUIL».
+_MAX_LETTERS_PLATFORM = 3
+
+
 def real_platform(value) -> str | None:
     """Devuelve el anden solo si es un anden de verdad.
 
     Observado en la API: el campo llega ausente (bus, metro), con el literal
     'unknown' (Transilien en Saint-Lazare) o con el nombre de la estacion
-    ('PARIS NORD' en el RER B). Ninguno de los tres es una via.
+    ('PARIS NORD' en el RER B, 'ARGENTEUIL' en Argenteuil). Ninguno es una via.
     """
     v = first_value(value)
-    if not v:
+    if v is None or isinstance(v, (dict, list, bool)):
         return None
-    v = str(v).strip()
+    v = " ".join(str(v).split())
     if not v or v.lower() in ("unknown", "none", "null"):
         return None
-    if v.upper() in ("PARIS NORD", "PARIS SAINT-LAZARE", "PARIS EST",
-                     "PARIS LYON", "PARIS MONTPARNASSE", "PARIS AUSTERLITZ",
-                     "PARIS BERCY"):
+    if v.upper() in _STATION_NAMES:
+        return None
+    if len(v) > _MAX_LETTERS_PLATFORM and not any(c.isdigit() for c in v):
         return None
     return v
 
@@ -97,7 +119,6 @@ def norm_text(value: str) -> str:
     """
     if not value:
         return ""
-    import unicodedata
     v = unicodedata.normalize("NFKD", str(value))
     v = "".join(c for c in v if not unicodedata.combining(c))
     for dash in ("‐", "‑", "‒", "–", "—", "―"):

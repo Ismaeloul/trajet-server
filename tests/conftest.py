@@ -47,11 +47,14 @@ def _reset_module_state():
     except Exception:
         pass
     # Limites de emparejamiento, errores en cola, clave y cuota en memoria.
-    from app import auth, keystore, logs, quota
+    from app import auth, keystore, logs, planner, quota
+    from app import platform as plat
     auth.reset_state()
     logs.reset_state()
     keystore.reset_store()
     quota.reset_quota()
+    planner._coords.clear()
+    plat._forget_accuracy()
 
 
 @pytest.fixture

@@ -127,6 +127,10 @@ class SecurityHeadersMiddleware:
                     headers.setdefault("Content-Security-Policy", self.CSP)
                 if path.startswith("/api/admin"):
                     headers["Cache-Control"] = "no-store"
+                elif path.startswith("/panel/static/"):
+                    # Tras actualizar la app, el navegador no debe quedarse con
+                    # el JS o el CSS viejos: revalida siempre (ETag de Starlette).
+                    headers["Cache-Control"] = "no-cache"
                 elif path.startswith("/api/v1/") and "cache-control" not in headers:
                     headers["Cache-Control"] = "no-cache"
                 message = dict(message)

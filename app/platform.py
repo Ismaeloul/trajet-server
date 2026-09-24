@@ -17,14 +17,21 @@ Que se aprende, en orden de fiabilidad:
 Solo se estudian las estaciones de las rutas guardadas. El sondeo del 30/08
 midio que la via solo aparece en el 17 % de los trenes y con 7,7 min de
 mediana; la prevision existe justo para cubrir el rato de antes.
+
+Si acierta se sabe cuando aparece la via de verdad: se le pregunta que habria
+dicho sin los datos de hoy y se apunta, una vez por tren y dia, en
+`platform_score_v2` (learn / score_departure). Lo hace el primero que vea la
+via, el tablero o el recolector.
 """
 from __future__ import annotations
 
+import sqlite3
+import time
 from datetime import datetime
 
 from . import db
 from .config import settings
-from .idfm import norm_text
+from .idfm import line_code, norm_text
 
 # Nivel minimo para ensenar algo. Por debajo la prevision engana mas que ayuda.
 # El umbral es ESTRICTO: con 4 y 4 no hay mayoria, hay una moneda al aire, y
@@ -57,11 +64,38 @@ def _hhmm(value: str | None) -> str:
     return v[:5]
 
 
+def train_key(line_id: str, dest: str, train: str | None, aimed: str | None,
+              jid: str = "") -> str:
+    """Identidad de un tren en un dia, para puntuar la prevision UNA vez por tren.
+
+    El numero de mision si lo hay; si no, linea + destino + hora TEORICA; si
+    tampoco hay hora teorica, el identificador del viaje de SIRI (estable
+    durante el dia). Nunca la hora prevista: se mueve con el retraso y el
+    mismo tren pareceria otro en cada refresco. "" = no se sabe que tren es y
+    no se puntua.
+    """
+    train = str(train or "").strip()
+    if train:
+        return f"m:{train}"
+    hora = _hhmm(aimed)
+    if hora:
+        return f"h:{line_code(line_id)}|{norm_text(dest)}|{hora}"
+    jid = str(jid or "").strip()
+    return f"j:{jid}" if jid else ""
+
+
 # ---------------- recoger ----------------
 
 def record(stop_id: str, line_id: str, dest: str, train: str | None,
            aimed: str | None, platform: str, when: datetime | None = None) -> bool:
-    """Apunta un anden observado. Devuelve True si era nuevo para hoy."""
+    """Apunta un anden observado. Devuelve True si era nuevo para hoy.
+
+    `aimed` es la hora TEORICA o nada. La prevista no vale: entra en el indice
+    unico (dia, parada, linea, tren, hora, destino) y, como cambia con el
+    retraso, el mismo tren sumaba una fila por cada minuto que se movia
+    (fallo 18.3.12). Sin hora teorica se guarda "" y el tren lo distingue su
+    numero de mision.
+    """
     if not (stop_id and line_id and platform):
         return False
     now = when or datetime.now(settings.tz)
@@ -73,36 +107,48 @@ def record(stop_id: str, line_id: str, dest: str, train: str | None,
             (now.date().isoformat(), now.isoformat(timespec="seconds"),
              stop_id, line_id, norm_text(dest), (train or "").strip(),
              _hhmm(aimed), now.weekday(), str(platform).strip()))
-        return cur.rowcount > 0
+        nuevo = cur.rowcount > 0
+    if nuevo:
+        _forget_accuracy()
+    return nuevo
+
+
+def learn(stop_id: str, line_id: str, dep: dict, when: datetime | None = None) -> bool:
+    """Una salida con via real: se apunta la via y se puntua la prevision.
+
+    Lo usan el tablero y el recolector por igual, asi que puntua el primero
+    que vea la via, sea quien sea (en la 0.3.0 solo puntuaba el tablero y
+    solo si la observacion era nueva: si el recolector la veia antes, ese
+    tren no se puntuaba nunca, fallo 18.3.10). Devuelve True si la
+    observacion era nueva para hoy.
+    """
+    if not dep.get("platform"):
+        return False
+    now = when or datetime.now(settings.tz)
+    nuevo = record(stop_id, line_id, dep.get("destination", ""), dep.get("train"),
+                   dep.get("aimed_at"), dep["platform"], when=now)
+    score_departure(stop_id, line_id, dep, when=now)
+    return nuevo
+
+
+def learn_many(stop_id: str, seen: list[tuple[str, dict]],
+               when: datetime | None = None) -> int:
+    """learn() de varias salidas de una estacion: [(line_id, salida), ...]."""
+    return sum(1 for line_id, dep in seen if learn(stop_id, line_id, dep, when=when))
 
 
 def record_board(board: dict, route: dict) -> int:
     """Recoge lo que se ve en un tablero ya construido. No gasta cuota extra."""
     by_seq = {leg["seq"]: leg for leg in route["legs"]}
+    now = datetime.now(settings.tz)
     n = 0
     for leg in board.get("legs", []):
         src = by_seq.get(leg["seq"])
         if not src:
             continue
         for d in leg.get("departures", []):
-            if not d.get("platform"):
-                continue
-            nuevo = record(src["from_id"], leg["line_id"],
-                           d.get("destination", ""), d.get("train"),
-                           d.get("aimed_at") or d.get("at"), d["platform"])
-            if not nuevo:
-                continue
-            n += 1
-            # Ya sabemos la via de verdad: se comprueba que habria dicho la
-            # prevision SIN los datos de hoy, y se apunta si acerto.
-            hoy = datetime.now(settings.tz).date().isoformat()
-            antes = predict(src["from_id"], leg["line_id"],
-                            d.get("destination", ""), d.get("train"),
-                            d.get("aimed_at") or d.get("at"),
-                            exclude_day=hoy)
-            if antes:
-                score(src["from_id"], leg["line_id"],
-                      antes["platform"], d["platform"])
+            if d.get("platform") and learn(src["from_id"], leg["line_id"], d, when=now):
+                n += 1
     return n
 
 
@@ -200,23 +246,107 @@ def annotate(board: dict, route: dict) -> None:
 
 # ---------------- saber si sirve ----------------
 
-def score(stop_id: str, line_id: str, predicted: str, actual: str,
-          when: datetime | None = None) -> None:
-    """Apunta si la prevision acerto, cuando aparece el anden de verdad."""
+def _scored(c: sqlite3.Connection, day: str, stop_id: str, line_id: str, key: str) -> bool:
+    return c.execute(
+        "SELECT 1 FROM platform_score_v2 WHERE day=? AND stop_id=? AND line_id=? "
+        "AND train_key=?", (day, stop_id, line_id, key)).fetchone() is not None
+
+
+def score_departure(stop_id: str, line_id: str, dep: dict,
+                    when: datetime | None = None) -> bool:
+    """Puntua la prevision de este tren si aun no se habia puntuado hoy.
+
+    Se pregunta a la prevision que habria dicho SIN los datos de hoy (R76):
+    los de hoy son justamente la respuesta. Si no se habria atrevido a decir
+    nada, no hay nada que puntuar. Devuelve True si apunto una puntuacion.
+    """
+    actual = dep.get("platform")
+    key = train_key(line_id, dep.get("destination", ""), dep.get("train"),
+                    dep.get("aimed_at"), dep.get("jid", ""))
+    if not (stop_id and line_id and actual and key):
+        return False
+    now = when or datetime.now(settings.tz)
+    hoy = now.date().isoformat()
+    with db.conn() as c:
+        if _scored(c, hoy, stop_id, line_id, key):
+            return False
+    # La misma pregunta que hace annotate() para pintar la via probable (con
+    # la prevista si no hay teorica), pero sin los datos de hoy.
+    antes = predict(stop_id, line_id, dep.get("destination", ""), dep.get("train"),
+                    dep.get("aimed_at") or dep.get("at"), weekday=now.weekday(),
+                    exclude_day=hoy)
+    if not antes:
+        return False
+    return score(stop_id, line_id, key, antes["platform"], actual,
+                 basis=antes["basis"], when=now)
+
+
+def score(stop_id: str, line_id: str, key: str, predicted: str, actual: str,
+          basis: str = "", when: datetime | None = None) -> bool:
+    """Apunta si la prevision acerto para UN tren (una fila por tren y dia).
+
+    La tabla de la 0.3.0 (`platform_score`) tenia como clave la combinacion
+    prevision/realidad: diez aciertos "21 -> 21" de la misma linea y dia eran
+    una sola fila y la tasa no contaba trenes (fallo 18.3.9). Se conserva
+    intacta como historico; lo nuevo va a `platform_score_v2`.
+    """
     now = when or datetime.now(settings.tz)
     with db.conn() as c:
-        c.execute(
-            "INSERT OR IGNORE INTO platform_score "
-            "(day, stop_id, line_id, predicted, actual, hit) VALUES (?,?,?,?,?,?)",
-            (now.date().isoformat(), stop_id, line_id, predicted, actual,
-             1 if predicted == actual else 0))
+        cur = c.execute(
+            "INSERT OR IGNORE INTO platform_score_v2 "
+            "(day, stop_id, line_id, train_key, predicted, actual, hit, basis) "
+            "VALUES (?,?,?,?,?,?,?,?)",
+            (now.date().isoformat(), stop_id, line_id, key,
+             str(predicted), str(actual), 1 if str(predicted) == str(actual) else 0,
+             basis or ""))
+        nuevo = cur.rowcount > 0
+    if nuevo:
+        _forget_accuracy()
+    return nuevo
+
+
+# /api/health la llama el HEALTHCHECK cada 30 s y la app al abrir Ajustes:
+# con decenas de miles de observaciones, contar en cada llamada es trabajo
+# tirado. Se guarda unos segundos y se olvida en cuanto se apunta algo nuevo.
+# La clave lleva la ruta de la BD: los tests (y un cambio de BD) no se pisan.
+ACCURACY_TTL = 30.0
+_accuracy_cache: tuple[str, float, dict] | None = None
+
+
+def _forget_accuracy() -> None:
+    global _accuracy_cache
+    _accuracy_cache = None
 
 
 def accuracy() -> dict:
-    """Cuantas veces acerto la prevision. Sin maquillaje."""
+    """Cuantas veces acerto la prevision. Sin maquillaje.
+
+    `predictions` son trenes puntuados (uno por tren y dia) y `hits`, los que
+    acerto. Hasta que la tabla nueva tenga algun tren se ensena la de la 0.3.0
+    para que el porcentaje no desaparezca al actualizar. La forma es la de
+    siempre (PlatformAccuracy en docs/openapi.yaml).
+    """
+    global _accuracy_cache
+    hit = _accuracy_cache
+    ahora = time.monotonic()
+    if hit and hit[0] == settings.db_path and ahora - hit[1] < ACCURACY_TTL:
+        return dict(hit[2])
+    res = _count_accuracy()
+    _accuracy_cache = (settings.db_path, ahora, res)
+    return dict(res)
+
+
+def _count_accuracy() -> dict:
     with db.conn() as c:
-        r = c.execute(
-            "SELECT COUNT(*) n, SUM(hit) ok FROM platform_score").fetchone()
+        r = None
+        try:
+            r = c.execute(
+                "SELECT COUNT(*) n, SUM(hit) ok FROM platform_score_v2").fetchone()
+        except sqlite3.OperationalError:     # BD sin migrar (modo degradado)
+            r = None
+        if not r or not r["n"]:
+            r = c.execute(
+                "SELECT COUNT(*) n, SUM(hit) ok FROM platform_score").fetchone()
         obs = c.execute("SELECT COUNT(*) n FROM platform_obs").fetchone()["n"]
         dias = c.execute(
             "SELECT COUNT(DISTINCT day) n FROM platform_obs").fetchone()["n"]
@@ -234,15 +364,15 @@ def accuracy() -> dict:
 def coverage(route: dict) -> list[dict]:
     """Cuanto sabe ya de cada tramo de una ruta, para poder decirlo en pantalla."""
     out = []
-    for leg in route["legs"]:
-        with db.conn() as c:
+    with db.conn() as c:                  # una conexion para todos los tramos
+        for leg in route["legs"]:
             r = c.execute(
                 "SELECT COUNT(*) n, COUNT(DISTINCT day) d, "
                 "       COUNT(DISTINCT platform) v "
                 "FROM platform_obs WHERE stop_id=? AND line_id=?",
                 (leg["from_id"], leg["line_id"])).fetchone()
-        out.append({
-            "seq": leg["seq"], "line_code": leg["line_code"],
-            "observations": r["n"], "days": r["d"], "platforms": r["v"],
-        })
+            out.append({
+                "seq": leg["seq"], "line_code": leg["line_code"],
+                "observations": r["n"], "days": r["d"], "platforms": r["v"],
+            })
     return out

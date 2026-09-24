@@ -1,21 +1,55 @@
+# Trajet en ESTE PC, para desarrollo, con Docker Desktop:
+#
+#   docker compose up --build        # y el panel en http://127.0.0.1:7796
+#
+# No es lo que corre en el Umbrel: alli la app se instala desde la tienda
+# (umbrel-app-store/ismaeloul-trajet) con la imagen que publica
+# scripts/publish.sh. Este fichero imita aquel entorno (usuario 1000, mismo
+# limite de memoria, panel con TRAJET_ADMIN_PEERS=auto) para que lo que
+# funcione aqui funcione alli.
+name: trajet-dev
+
 services:
   trajet:
     build: .
-    image: trajet:latest
-    container_name: trajet
-    restart: unless-stopped
+    image: trajet:dev
+    container_name: trajet-dev
+    restart: "no"
+    # tini como PID 1: reenvia las senales a uvicorn (se para al momento) y
+    # recoge procesos huerfanos. Igual que en el Umbrel.
+    init: true
+    # El mismo usuario sin privilegios que en el Umbrel (dueno de
+    # ${APP_DATA_DIR}). La imagen ya lo trae; se repite para que no dependa
+    # de ella.
+    user: "1000:1000"
+    # .env es opcional: sin el, arranca sin clave de PRIM (se pega en el
+    # panel) y sin direcciones en el QR. Ver .env.example.
+    env_file:
+      - path: .env
+        required: false
     environment:
-      # La clave se lee del .env que hay junto a este fichero.
-      PRIM_API_KEY: ${PRIM_API_KEY:?falta PRIM_API_KEY en el .env}
-      TZ: Europe/Paris
-      TRAJET_DB: /data/trajet.db
-      # LLM local para traducir los avisos del frances. Ollama corre en su
-      # propio stack de Umbrel, asi que se llega por la puerta de enlace del
-      # bridge. Vacio = sin traduccion, y la app funciona igual.
-      OLLAMA_URL: ${OLLAMA_URL:-http://172.18.0.1:11434}
-      OLLAMA_MODEL: ${OLLAMA_MODEL:-gemma3:4b}
-    volumes:
-      - ./data:/data
+      TZ: "Europe/Paris"
+      TRAJET_DB: "/data/trajet.db"
+      # Semilla para cifrar la clave de PRIM que se guarda en el panel (en el
+      # Umbrel es ${APP_SEED}). Se lee del .env; si no esta, el servidor crea
+      # data/secrets/master.key y el panel avisa de que es la opcion floja.
+      TRAJET_SECRET_SEED: "${TRAJET_SECRET_SEED:-}"
+      # Igual que en el Umbrel: el panel solo acepta conexiones de la puerta de
+      # enlace de la red de Docker (o de 127.0.0.1). Desde este PC funciona
+      # porque Docker Desktop entrega las conexiones al puerto publicado desde
+      # esa puerta de enlace (172.17.0.1 o la de la red del proyecto), que es
+      # justo lo que «auto» acepta. Otro contenedor que llamase directamente a
+      # este desde su propia IP se quedaria fuera del panel.
+      TRAJET_ADMIN_PEERS: "auto"
     ports:
-      # Solo en la red local / Tailscale. Nada expuesto a internet.
-      - "7796:8000"
+      # SOLO en 127.0.0.1: el servidor de desarrollo no se ve desde la red de
+      # casa (la API del iPhone pide token, pero el panel no tiene login de
+      # Umbrel delante aqui).
+      - "127.0.0.1:7796:8000"
+    volumes:
+      # BD, clave cifrada (secrets/) y copias de las migraciones. data/ esta en
+      # .gitignore y en .dockerignore: nunca va a git ni a la imagen.
+      - ./data:/data
+    # Los mismos limites que en el Umbrel.
+    mem_limit: 384m
+    pids_limit: 128

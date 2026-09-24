@@ -286,3 +286,21 @@ def test_filtro_falla_cerrado(monkeypatch):
     monkeypatch.setattr(logs, "redact", revienta)
     assert logs.RedactingFilter().filter(rec) is True
     assert FAKE_KEY not in rec.getMessage() and "oculto" in rec.getMessage()
+
+
+def test_healthcheck_no_llena_el_log_de_acceso():
+    """El ping del HEALTHCHECK (127.0.0.1 cada 30 s) no se apunta; el resto si."""
+    import logging
+
+    from app.logs import RedactingFilter
+
+    f = RedactingFilter()
+
+    def rec(client, path):
+        return logging.LogRecord("uvicorn.access", logging.INFO, __file__, 1,
+                                 '%s - "%s %s HTTP/%s" %d',
+                                 (client, "GET", path, "1.1", 200), None)
+
+    assert f.filter(rec("127.0.0.1:51234", "/api/v1/ping")) is False
+    assert f.filter(rec("10.21.0.1:40000", "/api/v1/ping")) is True
+    assert f.filter(rec("127.0.0.1:51234", "/api/v1/board")) is True

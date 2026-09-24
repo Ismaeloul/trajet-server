@@ -644,3 +644,12 @@ def test_health(api):
 def settings_version() -> str:
     from app.config import VERSION
     return VERSION
+
+
+def test_id_enorme_no_da_500(client):
+    """Un id mayor que 2^63-1 no cabe en SQLite: 404, nunca 500."""
+    enorme = 2 ** 70
+    for path in (f"/api/v1/routes/{enorme}", f"/api/v1/routes/{enorme}/map",
+                 f"/api/v1/board?route_id={enorme}", f"/api/v1/alternatives/{enorme}"):
+        r = client.get(path, headers={"Authorization": "Bearer trj_" + "x" * 43})
+        assert r.status_code in (401, 404), (path, r.status_code)

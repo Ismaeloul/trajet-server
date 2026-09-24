@@ -11,7 +11,9 @@ Corre en el Umbrel como la app `ismaeloul-trajet` de la tienda, en el puerto
 
 La web de la 0.3.0 ya no existe: la app es la del iPhone
 ([`trajet-ios`](https://github.com/Ismaeloul/trajet-ios)). Las rutas de la
-API de siempre (`/api/*`) siguen vivas por compatibilidad.
+API de siempre (`/api/*`) siguen vivas por compatibilidad, pero detrás del
+login de Umbrel y solo desde su proxy: un cliente viejo sin sesión (la web o
+una app sin emparejar) deja de ver el tablero.
 
 ---
 
@@ -284,6 +286,10 @@ en `main` en GitHub. Umbrel refresca las tiendas cada poco; cuando lo haga,
 la App Store enseñará Trajet 0.4.0.
 
 **5. Instala o actualiza.**
+
+> **Antes**: instala y empareja la app nueva del iPhone. Con la 0.4.0 la web
+> desaparece y `/api/*` queda detrás del login de Umbrel, así que hasta tener
+> el iPhone emparejado no verías el tablero en ningún sitio.
 
 - **Si ya tenías Trajet instalada desde la tienda**: App Store → Trajet →
   **Actualizar**. Al arrancar, la base de datos se migra sola y deja una copia

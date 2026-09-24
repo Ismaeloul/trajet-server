@@ -75,8 +75,8 @@ class DegradedMiddleware:
 
     /api/v1/* (salvo /ping, que es el HEALTHCHECK) responde ErrorV1 con
     `internal` y /api/* (0.3.0) `{"detail": ...}`, como el resto de sus
-    errores. El panel (/, /panel/static, /api/admin) sigue: es donde se ve el
-    motivo. Middleware y no dependencia: asi cubre tambien /api/v1/pair y lo
+    errores. El panel (/, /panel/static, /api/admin/overview y /errors)
+    sigue: es donde se ve el motivo; el resto de /api/admin da 503. Middleware y no dependencia: asi cubre tambien /api/v1/pair y lo
     que aun no tenga ruta, y ninguna ruta llega a tocar un esquema viejo."""
 
     def __init__(self, app):
@@ -88,8 +88,10 @@ class DegradedMiddleware:
             return None
         if path == "/api/v1" or path.startswith("/api/v1/"):
             return "v1"
+        if path in ("/api/admin/overview", "/api/admin/errors"):
+            return None                  # es donde se ve el motivo
         if path == "/api/admin" or path.startswith("/api/admin/"):
-            return None
+            return "v1"                  # el resto del panel toca la BD: 503
         if path == "/api" or path.startswith("/api/"):
             return "legacy"
         return None

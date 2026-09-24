@@ -111,7 +111,16 @@ async def unhandled_error_handler(request: Request, exc: Exception):
     return JSONResponse({"detail": "Internal Server Error"}, status_code=500)
 
 
+async def overflow_error_handler(request: Request, exc: OverflowError):
+    # Un id mayor que 2^63-1 no cabe en un entero de SQLite: no puede existir.
+    # Antes de esto daba 500 (verificacion de la FASE 1).
+    if is_v2_path(request.url.path):
+        return JSONResponse(error_body("not_found", "no encontrado"), status_code=404)
+    return JSONResponse({"detail": "no encontrado"}, status_code=404)
+
+
 def install(app) -> None:
+    app.add_exception_handler(OverflowError, overflow_error_handler)
     app.add_exception_handler(ApiError, api_error_handler)
     app.add_exception_handler(StarletteHTTPException, http_error_handler)
     app.add_exception_handler(RequestValidationError, validation_error_handler)

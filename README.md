@@ -10,10 +10,13 @@ Corre en el Umbrel como la app `ismaeloul-trajet` de la tienda, en el puerto
 **7796**. Python 3.12 + FastAPI + httpx + SQLite, en un solo proceso.
 
 La web de la 0.3.0 ya no existe: la app es la del iPhone
-([`trajet-ios`](https://github.com/Ismaeloul/trajet-ios)). Las rutas de la
-API de siempre (`/api/*`) siguen vivas por compatibilidad, pero detrás del
-login de Umbrel y solo desde su proxy: un cliente viejo sin sesión (la web o
-una app sin emparejar) deja de ver el tablero.
+([`trajet-ios`](https://github.com/Ismaeloul/trajet-ios); su
+[README](https://github.com/Ismaeloul/trajet-ios/blob/rewrite-v2/README.md)
+explica cómo se instala, qué IPA usar según cómo se firme y cómo se empareja
+con este servidor). Las rutas de la API de siempre (`/api/*`) siguen vivas
+por compatibilidad, pero detrás del login de Umbrel y solo desde su proxy: un
+cliente viejo sin sesión (la web o una app sin emparejar) deja de ver el
+tablero.
 
 ---
 
@@ -31,6 +34,9 @@ La documentación del proyecto entero vive en el repo de la app,
 | [`reglas.md`](https://github.com/Ismaeloul/trajet-ios/blob/rewrite-v2/docs/reglas.md) | las reglas que no se pueden romper (R63–R90 son del servidor) |
 | [`servidor.md`](https://github.com/Ismaeloul/trajet-ios/blob/rewrite-v2/docs/servidor.md) | cómo era la 0.3.0 y por qué cada constante vale lo que vale |
 | [`datos-idfm.md`](https://github.com/Ismaeloul/trajet-ios/blob/rewrite-v2/docs/datos-idfm.md) | los datos abiertos del mapa y sus licencias |
+| [`fase4-panel.md`](https://github.com/Ismaeloul/trajet-ios/blob/rewrite-v2/docs/fase4-panel.md) | el panel probado en el navegador, con capturas y GIF en `docs/capturas/panel-fase4/` |
+| [`pruebas-iphone.md`](https://github.com/Ismaeloul/trajet-ios/blob/rewrite-v2/docs/pruebas-iphone.md) | la lista de comprobación en el iPhone (emparejar con el panel de verdad, revocar, red local y Tailscale) |
+| [`PARADAS.md`](https://github.com/Ismaeloul/trajet-ios/blob/rewrite-v2/docs/PARADAS.md) · [`decisiones.md`](https://github.com/Ismaeloul/trajet-ios/blob/rewrite-v2/docs/decisiones.md) | el informe de cada fase y cada decisión con su porqué (las del servidor: Parada 2 y D1.x) |
 
 ```
 app/
@@ -48,6 +54,7 @@ app/
   panel/         el panel: HTML, CSS y JS sin compilar
 tests/           pytest con PRIM falso · tests/real contra la API de verdad
 scripts/         publish.sh · test-real.sh · sync-contract.sh
+tools/ probe/    el sondeo del andén de la 0.3.0 (30/08) y la siembra de la previsión con sus datos
 ```
 
 **Un solo proceso y un solo worker, a propósito.** La caché de PRIM, el
@@ -231,6 +238,50 @@ pull request a `main` y `rewrite-v2` (y a mano con **Run workflow**): ruff,
 que el contrato sea OpenAPI válido, pytest sin `tests/real` y que la imagen se
 construya y arranque (sin clave, sin red, como uid 1000). No publica nada ni
 necesita secretos.
+
+---
+
+## Cómo se probó
+
+- **620 tests** de pytest en verde (2 saltados: los permisos POSIX, que en
+  Windows no se pueden comprobar, y la migración contra la copia real de la
+  base de datos, que no existe). Van contra un PRIM falso que reproduce los
+  casos de `PreviewData` de la app (tramo vacío, línea cortada, aviso sin
+  traducir, vía que aparece, vía probable, bus a 106 min, tren en el andén,
+  destinos mezclados, errores y timeouts), más los tests de contrato contra
+  `openapi.yaml`, cuota, caché, migraciones, emparejamiento (código caducado,
+  reutilizado, fuerza bruta), tokens revocados, rutas sin token y que la clave
+  no sale nunca (ni en respuestas, ni en logs, ni en el HTML). Cada regla del
+  servidor (R63–R90) tiene apuntado el test que la cubre en `docs/reglas.md`.
+- **9 pruebas contra la API real** de PRIM (`scripts/test-real.sh`, aparte):
+  validar la clave (la real y una falsa), `stop-monitoring` en Saint-Lazare y
+  Argenteuil, `general-message`, lugares e itinerarios de Navitia, y la zona
+  de la clave del panel de principio a fin (pegar una falsa → rechazada; la
+  real → probada y guardada cifrada; reemplazar en caliente; borrar). Llevan
+  su propio tope de **800 llamadas por endpoint y día UTC** (unas 16 por
+  pasada), y las respuestas reales, recortadas y sin la clave, se guardaron
+  como casos nuevos del mock.
+- **Verificación independiente** al cerrar la FASE 1: tres verificadores
+  (tests y reglas; seguridad con peticiones reales; funcionalidad y contrato
+  frente al encargo) encontraron 2 fallos altos —el mismo, visto por dos: la
+  API de la 0.3.0 no comprobaba de dónde venía la conexión— y unos 14 medios
+  o bajos, todos corregidos con un test que falla antes y pasa después. Un
+  cuarto verificador reprodujo los 24 hallazgos: 18 arreglados, 2 parciales
+  (arreglados después) y 4 aceptados o fuera de alcance, sin regresiones.
+  Detalle en `docs/PARADAS.md` (Parada 2) y `docs/decisiones.md` (D1.8).
+- **El panel, en el navegador** (FASE 4): levantado en local con
+  `docker compose` y recorrido con clics en móvil (390 × 844) y PC
+  (1440 × 900), claro y oscuro, con `curl` haciendo de iPhone: QR con cuenta
+  atrás, último minuto, caducado y canjeado; renombrar y revocar (el token
+  revocado da 401 al momento); clave falsa rechazada con motivo; cuota, salud,
+  Ollama, andenes, errores, ajustes del QR con validación, corte de red y
+  recuperación. Cero excepciones de JavaScript, ninguna petición fallida que
+  no fuera de una prueba negativa y la clave nunca en el DOM ni en la red.
+  Salió una sola corrección, de CSS (las casillas de «Salud» y «Andenes»
+  recortaban el valor a 390 px), con su test. Informe y capturas:
+  [`docs/fase4-panel.md`](https://github.com/Ismaeloul/trajet-ios/blob/rewrite-v2/docs/fase4-panel.md).
+  Lo que no se pudo probar ahí: el login de Umbrel (no hay Umbrel en local) y
+  el camino con la clave real por el navegador (cubierto por el test real).
 
 ---
 

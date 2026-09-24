@@ -1,13 +1,15 @@
 # Servidor: lint, contrato, tests y que la imagen se construye y arranca.
 #
-# Nunca publica nada: la imagen de verdad se construye en el propio Umbrel con
-# scripts/publish.sh. Tampoco toca la API real de PRIM (tests/real va aparte,
+# Publica la imagen SOLO al empujar un tag de version (v0.4.0...), en
+# ghcr.io/ismaeloul/trajet-server:<version> (publica: la tienda de Umbrel la
+# descarga de ahi). Tampoco toca la API real de PRIM (tests/real va aparte,
 # con scripts/test-real.sh, porque gasta cuota) ni necesita ningun secreto.
 name: CI
 
 on:
   push:
     branches: [main, rewrite-v2]
+    tags: ["v*"]
   pull_request:
     branches: [main, rewrite-v2]
   workflow_dispatch:
@@ -90,3 +92,27 @@ jobs:
       - name: Log del contenedor
         if: always()
         run: docker logs trajet-ci 2>&1 | tail -40 || true
+
+  publicar:
+    name: Publicar la imagen en GHCR (tags v*)
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [tests, imagen]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Entrar en GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+      - name: Construir y publicar (linux/amd64, el Umbrel es x86_64)
+        run: |
+          set -euo pipefail
+          version="${GITHUB_REF_NAME#v}"
+          img="ghcr.io/ismaeloul/trajet-server"
+          docker build --pull --platform linux/amd64             --label "org.opencontainers.image.source=https://github.com/${GITHUB_REPOSITORY}"             --label "org.opencontainers.image.version=${version}"             -t "$img:$version" -t "$img:latest" .
+          docker push "$img:$version"
+          docker push "$img:latest"
+          echo "publicada $img:$version"
+
